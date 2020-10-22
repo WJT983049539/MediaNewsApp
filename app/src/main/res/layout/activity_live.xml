@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4B686363"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.ksyun.media.player.KSYTextureView
+        android:id="@+id/ksy_textureview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+    </com.ksyun.media.player.KSYTextureView>
+    <TextView
+        android:id="@+id/edit_livecomment"
+        android:layout_width="187.5dp"
+        android:layout_height="30.5dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:textColorHint="#ffffff"
+        android:textSize="20sp"
+        android:background="@drawable/edit_num3"
+        android:hint="说的什么..."></TextView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_barrage"
+        android:layout_width="202dp"
+        android:layout_height="300dp"
+        android:layout_above="@+id/edit_livecomment"
+        android:layout_marginStart="11dp"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+    
+    <LinearLayout
+        android:id="@+id/asda"
+        android:layout_width="143.5dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        android:background="@drawable/live_userbg"
+        android:padding="5dp"
+        >
+    <com.shehuan.niv.NiceImageView
+        android:id="@+id/user_pic"
+        android:layout_width="30.5dp"
+        android:layout_height="30.5dp"
+        app:border_width="3dp"
+        android:scaleType="fitXY"
+        app:is_circle="true"
+        android:src="@mipmap/icon"
+        >
+    </com.shehuan.niv.NiceImageView>
+
+        <TextView
+            android:id="@+id/living_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="这是直播间标题"
+            android:textSize="11sp"
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="5dp"
+            ></TextView>
+
+    </LinearLayout>
+
+
+    
+    
+    <RelativeLayout
+        android:layout_width="106dp"
+        android:layout_height="34dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/edit_num2"
+        >
+        <ImageView
+            android:id="@+id/head_1"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="2dp"
+            android:src="@mipmap/peop"
+            android:layout_marginStart="5dp"
+            ></ImageView>
+        <ImageView
+            android:id="@+id/head_2"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="2dp"
+            android:src="@mipmap/peop"
+            android:layout_marginStart="25dp"
+            ></ImageView>
+        <ImageView
+            android:id="@+id/head_3"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="2dp"
+            android:src="@mipmap/peop"
+            android:layout_marginStart="45dp"
+            ></ImageView>
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="0"
+            android:layout_marginStart="75dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:gravity="center"
+            ></TextView>
+    </RelativeLayout>
+
+    
+    <ImageView
+        android:id="@+id/living_close"
+        android:layout_width="34.5dp"
+        android:layout_height="34.5dp"
+        android:src="@mipmap/cha"
+        android:scaleType="fitXY"
+        android:layout_marginRight="7.5dp"
+        android:layout_marginBottom="7.5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        ></ImageView>
+    <ImageView
+        android:layout_width="34.5dp"
+        android:layout_height="34.5dp"
+        android:src="@mipmap/sgd"
+        android:scaleType="fitXY"
+        android:layout_alignBottom="@+id/living_close"
+        android:layout_toLeftOf="@+id/living_close"
+        android:layout_marginRight="20dp"
+        ></ImageView>
+</RelativeLayout>

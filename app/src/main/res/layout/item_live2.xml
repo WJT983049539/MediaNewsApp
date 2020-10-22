@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="280dp"
+    android:layout_margin="5dp">
+
+
+    <ImageView
+        android:id="@+id/living_head"
+        android:layout_width="34.5dp"
+        android:layout_height="34.5dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/hotimag" />
+
+
+    <TextView
+        android:id="@+id/living_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="用户名"
+        android:textColor="#010101"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/living_head"
+        app:layout_constraintStart_toEndOf="@+id/living_head"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/live_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="标题"
+        android:textColor="#272727"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/living_head"
+        app:layout_constraintTop_toBottomOf="@+id/living_head" />
+
+    <com.shehuan.niv.NiceImageView
+        android:id="@+id/live_Preview"
+        android:layout_width="match_parent"
+        android:layout_height="193.5dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@+id/live_title"
+        app:srcCompat="@mipmap/default_image"
+        tools:layout_editor_absoluteX="0dp"
+        app:corner_top_left_radius="10dp"
+        app:corner_top_right_radius="10dp"
+        app:corner_bottom_left_radius="10dp"
+        app:corner_bottom_right_radius="10dp"
+        app:border_width="4dp"
+        app:is_circle="false"/>
+
+    <TextView
+        android:id="@+id/living_people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="16dp"
+        android:text=""
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/live_Preview"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/live_status"
+        android:layout_width="50.5dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/live_Preview"
+        app:layout_constraintTop_toTopOf="@+id/live_Preview"
+        app:srcCompat="@mipmap/liveing" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

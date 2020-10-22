@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_99">
+
+    <ImageView
+        android:id="@+id/leave_image"
+        android:layout_width="@dimen/dp_29"
+        android:layout_height="@dimen/dp_29"
+        android:layout_marginStart="12.5dp"
+        android:layout_marginTop="18.5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/icon" />
+
+    <TextView
+        android:id="@+id/tv_leave_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="22dp"
+        android:text="闻喜新闻"
+        android:textColor="#1E1E1E"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_leave_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10.5dp"
+        android:text="ad fsdfsfsfsf s"
+        android:textColor="#1E1E1E"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_leave_title"
+        app:layout_constraintTop_toBottomOf="@+id/tv_leave_title" />
+
+    <TextView
+        android:id="@+id/tv_leave_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:text="2020-10-19"
+        app:layout_constraintStart_toStartOf="@+id/tv_leave_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_leave_content" />
+</androidx.constraintlayout.widget.ConstraintLayout>

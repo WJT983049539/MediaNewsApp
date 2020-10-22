@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_height="@dimen/dp_100">
+
+    <ImageView
+        android:id="@+id/tv_img"
+        android:layout_width="125dp"
+        android:layout_height="75.5dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/default_image" />
+
+    <TextView
+        android:id="@+id/tv_titletext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="测试节目"
+        android:textColor="#383838"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_img"
+        app:layout_constraintTop_toTopOf="@+id/tv_img" />
+
+    <TextView
+        android:id="@+id/tv_descript"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10.5dp"
+        android:text=""
+        android:textColor="#606060"
+        android:textSize="13sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_titletext"
+        app:layout_constraintTop_toBottomOf="@+id/tv_titletext" />
+</androidx.constraintlayout.widget.ConstraintLayout>

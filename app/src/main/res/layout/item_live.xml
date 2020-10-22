@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="34dp"
+                        android:layout_height="34dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_launcher"
+                        ></ImageView>
+                    <TextView
+                        android:id="@+id/live_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="我是标题"
+                        android:gravity="center|left"
+                        android:textColor="#000"
+                        android:textSize="12sp"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="8"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    >
+                    <com.shehuan.niv.NiceImageView
+                        android:id="@+id/live_Preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:src="@mipmap/default_image"
+                        app:corner_top_left_radius="10dp"
+                        app:corner_top_right_radius="10dp"
+                        app:corner_bottom_left_radius="10dp"
+                        app:corner_bottom_right_radius="10dp"
+                        app:border_width="4dp"
+                        android:scaleType="fitXY"
+                        app:is_circle="false" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/live_status"
+        android:layout_width="60dp"
+        android:layout_height="16dp"
+        android:src="@mipmap/liveing"
+        android:stateListAnimator="@null"
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="25dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100人"
+        android:layout_marginTop="220dp"
+        android:layout_marginStart="25dp"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        ></TextView>
+<!--    <ImageView-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:src="@mipmap/livepic"-->
+<!--        android:layout_centerVertical="true"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        ></ImageView>-->
+</RelativeLayout>

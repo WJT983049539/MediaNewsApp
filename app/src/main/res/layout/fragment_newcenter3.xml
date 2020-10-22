@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:background="#ffffff"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="131dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/img_head"
+            android:layout_width="57dp"
+            android:layout_height="57dp"
+            android:layout_marginStart="@dimen/dp_14"
+            android:layout_marginTop="56dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@mipmap/peop"
+             />
+
+        <TextView
+            android:id="@+id/tv_sign"
+            android:layout_width="65dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/sign_shape_bg"
+            android:gravity="center"
+            android:text="签到"
+            android:textColor="#fff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="60dp"
+            android:text="未登录"
+            android:textColor="#292929"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_remake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="82dp"
+            android:text="还没想好的自己的签名"
+            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="97dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/center_bg">
+
+        </ImageView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_14"
+        android:layout_marginTop="30dp"
+        android:text="常用功能"
+        android:textColor="#181818"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+    <LinearLayout
+        android:id="@+id/lin_message"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_34"
+        android:layout_marginTop="23dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+
+        <ImageView
+            android:id="@+id/imageView17"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/message" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="消息"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_collect"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_60"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_message"
+        app:layout_constraintStart_toEndOf="@+id/lin_message">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/xingxing" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="收藏"
+            android:gravity="center"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/lin_history"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_60"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_collect"
+        app:layout_constraintStart_toEndOf="@+id/lin_collect">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/history" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="历史"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_suggest"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_45"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_history"
+        app:layout_constraintStart_toEndOf="@+id/lin_history">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/suggest" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="意见与反馈"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_jifen"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_34"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin_message">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/jifen" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="积分管理"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lin_yuyue"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_jifen"
+        app:layout_constraintStart_toStartOf="@+id/lin_collect">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/yuyue" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="预约"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_version"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_52"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_yuyue"
+        app:layout_constraintStart_toEndOf="@+id/lin_yuyue">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/versionupdate" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="版本更新"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_set"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_42"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_version"
+        app:layout_constraintStart_toEndOf="@+id/lin_version">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/seticon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="系统设置"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_clearcache"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_26"
+        android:layout_marginTop="32dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin_jifen">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/clearcache" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="清除缓存"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_faimlily"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_clearcache"
+        app:layout_constraintStart_toStartOf="@+id/lin_yuyue">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/family" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="家庭"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="活动推广"
+        android:textColor="#181818"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/lin_clearcache" />
+
+    <LinearLayout
+        android:id="@+id/lin_share"
+        android:layout_width="45dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/dp_26"
+        android:layout_marginTop="@dimen/dp_34"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/shareion" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="推荐好友"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_guanyu"
+        android:layout_width="25dp"
+        android:layout_height="40dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/lin_share"
+        app:layout_constraintStart_toStartOf="@+id/lin_faimlily">
+
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/guanyu" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:gravity="center"
+            android:text="关于"
+            android:textSize="10sp"
+            android:textStyle="bold"></TextView>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

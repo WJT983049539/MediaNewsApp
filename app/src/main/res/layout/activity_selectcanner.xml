@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="8.5"
+            android:layout_height="match_parent"
+            android:text="我的频道"
+            android:textStyle="bold"
+            android:gravity="left|center"
+            android:layout_marginStart="20dp"
+            android:textSize="16sp"
+            android:textColor="#232323"
+            ></TextView>
+        <TextView
+            android:id="@+id/tv_edit_mycannel"
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:text="完成"
+            android:gravity="center"
+            android:layout_margin="5dp"
+            android:textColor="#E6F60909"
+            android:textSize="12sp"
+            android:background="@drawable/button_bg3"
+            >
+
+        </TextView>
+
+    </LinearLayout>
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/mycannel"
+    android:layout_width="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_height="wrap_content">
+
+</androidx.recyclerview.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="8.5"
+            android:layout_height="match_parent"
+            android:text="添加频道"
+            android:textStyle="bold"
+            android:gravity="left|center"
+            android:layout_marginStart="20dp"
+            android:textSize="16sp"
+            android:textColor="#232323"
+            >
+
+        </TextView>
+
+
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/allcannel"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>

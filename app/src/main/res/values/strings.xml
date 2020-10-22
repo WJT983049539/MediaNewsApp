@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">闻喜新闻</string>
+    <string name="guide_star" translatable="false">开始体验</string>
+    <string name="tab_one" translatable="false">新闻</string>
+    <string name="tab_two" translatable="false">频道</string>
+    <string name="tab_three" translatable="false">智慧圈</string>
+    <string name="tab_four" translatable="false">民声</string>
+    <string name="tab_five" translatable="false">我的</string>
+    <string name="listview_header_hint_normal">下拉刷新</string>
+    <string name="listview_header_hint_release">松开刷新</string>
+    <string name="listview_loading">正在加载...</string>
+    <string name="nomore_loading">没有更多了</string>
+    <string name="refreshing">加载中...</string>
+    <string name="refresh_done">刷新完成</string>
+    <string name="loading_done">加载完成</string>
+    <string name="listview_header_last_time">last update：</string>
+</resources>

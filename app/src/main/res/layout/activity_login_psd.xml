@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+        <EditText
+            android:id="@+id/login_psd_pwd"
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:hint="   密码"
+            android:inputType="textPassword"
+            android:maxLength="20"
+            android:maxLines="1"
+            android:text="123456"
+            android:textColorHint="#c3c3c3"
+            app:layout_constraintStart_toStartOf="@+id/login_phone_user"
+            app:layout_constraintTop_toBottomOf="@+id/login_phone_user" />
+
+    <EditText
+        android:id="@+id/login_phone_user"
+        android:layout_width="319dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="72dp"
+        android:background="@null"
+        android:hint=" 请输入账号"
+        android:text="ccaaa"
+        android:maxLength="20"
+        android:maxLines="1"
+        android:textColorHint="#c3c3c3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+            android:id="@+id/forgetpsd"
+            android:layout_width="54dp"
+            android:layout_height="16dp"
+            android:layout_marginBottom="16dp"
+            android:lines="1"
+            android:text="忘记密码？"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@+id/login_psd_pwd"
+            app:layout_constraintEnd_toEndOf="@+id/view2"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/login_psd_pwd" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#000"
+            app:layout_constraintBottom_toBottomOf="@+id/login_phone_user"
+            app:layout_constraintStart_toStartOf="parent"></View>
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#000"
+            app:layout_constraintBottom_toBottomOf="@+id/login_psd_pwd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_psd_pwd"></View>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="登录"
+        android:textColor="#fff"
+        android:background="@drawable/button_bg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_psd_pwd" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

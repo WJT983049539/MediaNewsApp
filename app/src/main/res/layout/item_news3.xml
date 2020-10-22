@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/dp_15"
+    android:layout_height="@dimen/dp_250">
+
+    <TextView
+        android:id="@+id/news3_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_37"
+        android:text="文字标题"
+        android:textColor="#4A4A4A"
+        android:textSize="15sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="55dp" />
+
+    <ImageView
+        android:id="@+id/news3_hubm"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_180"
+        android:layout_marginTop="@dimen/dp_5"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="@+id/news3_title"
+        app:layout_constraintTop_toBottomOf="@+id/news3_title"
+        app:srcCompat="@mipmap/default_image" />
+
+
+    <TextView
+        android:id="@+id/news3_createedit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="作者"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/news3_hubm" />
+
+    <TextView
+        android:id="@+id/news3_commentcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="评论"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/news3_createedit"
+        app:layout_constraintStart_toEndOf="@+id/news3_createedit" />
+
+    <TextView
+        android:id="@+id/news3_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:text="日期"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/news3_commentcount"
+        app:layout_constraintStart_toEndOf="@+id/news3_commentcount" />
+</androidx.constraintlayout.widget.ConstraintLayout>

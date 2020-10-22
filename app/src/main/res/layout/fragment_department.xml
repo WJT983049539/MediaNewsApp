@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:orientation="horizontal"
+>
+
+            <ImageButton
+                android:id="@+id/search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/sousuo"
+            />
+
+            <com.rcdz.medianewsapp.view.customview.ClearEditText
+                android:id="@+id/search_Org"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="请输入部门名称"
+                android:layout_marginRight="5dp"
+                android:textColor="#4f4f4f"
+                android:textColorHint="#c3c3c3"
+                android:textSize="16.0sp"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/searchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:text="搜索"
+                android:textColor="@color/colorCommon"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_gravity="bottom"
+            android:background="@color/DividLine"></View>
+
+        <com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView
+            android:id="@+id/organizeListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>
