@@ -42,5 +42,12 @@ public class LoginApi {
     public static String ReplaceToken(){
         return String.format("api/User/replaceToken");
     }
+    /**
+     * 忘记密码
+     * @return
+     */
+    public static String ForgetPsd(){
+        return String.format("api/Sys_User/ForgetPwd");
+    }
 
 }

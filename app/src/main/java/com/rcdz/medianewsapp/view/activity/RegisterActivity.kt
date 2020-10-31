@@ -171,7 +171,7 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
     //注册成功 跳转到登录页面
     override fun showRegister(baseBean: BaseBean?) {
         if(baseBean!!.code==200){
-            GlobalToast.show("注册成功",5000);
+            GlobalToast.show(baseBean.message,5000);
             openActivityAndDestoryme(LoginActivity::class.java,null)
         }
     }

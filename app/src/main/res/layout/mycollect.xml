@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_100">
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="19dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/back2" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="收藏"
+        android:textColor="#111111"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view13"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="20dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        tools:layout_editor_absoluteX="0dp"></View>
+
+    <TextView
+        android:id="@+id/collect_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="管理"
+        android:textColor="#1D8ED5"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+
+    <com.rcdz.medianewsapp.view.customview.ClearEditText
+        android:id="@+id/collect_sousuo"
+        android:layout_width="@dimen/dp_330"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_5"
+        android:background="@drawable/edit_bg2"
+        android:hint="    搜索自己的收藏"
+        android:maxLines="1"
+        android:imeOptions="actionSearch"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view13" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="560dp">
+        <com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView
+            android:id="@+id/collect_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/dp_12"
+            app:layout_constraintTop_toBottomOf="@+id/collect_sousuo"
+            tools:layout_editor_absoluteX="0dp">
+        </com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/delete_cllect"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45"
+            android:text="删除"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textColor="#000"
+            ></TextView>
+    </LinearLayout>
+
+</LinearLayout>

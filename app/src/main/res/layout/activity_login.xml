@@ -35,7 +35,7 @@
         android:layout_marginTop="180dp"
         android:text="登录即代表您已阅读并同意"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.272"
+        app:layout_constraintHorizontal_bias="0.169"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register" />
 
@@ -46,6 +46,8 @@
         android:layout_marginStart="4dp"
         android:text="用户协议和隐私策略"
         app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toEndOf="@+id/textView6" />
 
     <View

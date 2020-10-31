@@ -19,8 +19,10 @@ import androidx.fragment.app.Fragment;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.BaseBean;
 import com.rcdz.medianewsapp.model.bean.LoginBean;
+import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
+import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowLogin;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.Comment;
@@ -41,7 +43,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/12 12:04
  */
-public class Login_PhoneFragment extends Fragment implements GetPhoneCode, IshowLogin {
+public class Login_PhoneFragment extends Fragment implements GetPhoneCode, IshowLogin , GetUserInfo {
     @BindView(R.id.login_psd_pwd)
     EditText loginPsdPwd;
     @BindView(R.id.login_phone_user)
@@ -104,7 +106,6 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                     if(PhoneFormatCheckUtils.isChinaPhoneLegal(phone1)){
                         newNetWorkPersenter.GetPhoneCode(phone1,Login_PhoneFragment.this);
 
-
                     }else{
                         GlobalToast.show("请输入正确手机号码",5000);
                     }
@@ -119,7 +120,7 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
     public void getPhoneCode(BaseBean value) {
         if(value.getCode()==200){
             GlobalToast.show(value.getMessage(),5000);
-            changeSmsCodeStyle();//发送成功
+            changeSmsCodeStyle();  //发送成功
         }
     }
 
@@ -171,6 +172,8 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                     GlobalToast.show("Token获取失败",2000);
                     Log.i("Token","Token获取失败");
                 }else{
+                    NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                    newNetWorkPersenter.GetUserInfo("",this);
                     SharedPreferenceTools.putValuetoSP(getActivity(),"token",token);//保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"loginStru",true);//登录状态保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"isFirstStart",false);//不是第一次登录了
@@ -178,6 +181,8 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                     ACache aCache=ACache.get(getActivity());
                     aCache.put("loginInfo",loginBean);//储存到缓存 ，，用户变更需要改变
                     startActivity(new Intent(getActivity(), MainActivity.class));
+                    //获取个人信息
+
                 }
             }else{
                 GlobalToast.show("登录成功,但token为空",2000);
@@ -185,5 +190,11 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
         }else{
             GlobalToast.show(loginBean.getMessage(),2000);
         }
+    }
+
+    @Override
+    public void getUserInfo(UserInfoBean userInfoBean) {
+        ACache aCache=ACache.get(getActivity());
+        aCache.put("userinfo",userInfoBean);
     }
 }

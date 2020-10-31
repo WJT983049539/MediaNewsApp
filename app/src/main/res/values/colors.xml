@@ -7,4 +7,7 @@
     <color name="colorCommon">#EE2F2D</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="color333">#0A0A0A</color>
+    <color name="colordd">#dddddd</color>
+    <color name="my_color">#BBBBBB</color>
+    <color name="my_color2">#3D3D3D</color>
 </resources>

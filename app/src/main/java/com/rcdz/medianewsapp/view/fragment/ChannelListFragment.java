@@ -58,9 +58,8 @@ public class ChannelListFragment extends androidx.fragment.app.Fragment implemen
             @Override
             public void onitemclik(int position, Object object) {
                 if(object!=null){
-                    String url=object.toString();
                     Intent intent = new Intent(getContext(), VideoPlayerActivity.class);
-                    intent.putExtra("videoUrl",url);
+                    intent.putExtra("tvinfo",list.get(position));
                     startActivity(intent);
                 }
             }

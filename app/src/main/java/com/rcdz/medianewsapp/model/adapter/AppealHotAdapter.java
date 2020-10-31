@@ -81,7 +81,7 @@ public class AppealHotAdapter extends RecyclerView.Adapter<AppealHotAdapter.View
             tv_subject=itemView.findViewById(R.id.tv_subject);
             tv_content=itemView.findViewById(R.id.tv_content);
             tv_suggest=itemView.findViewById(R.id.tv_suggest);
-            tv_date=itemView.findViewById(R.id.tv_date);
+            tv_date=itemView.findViewById(R.id.tv_cz);
             tv_OrganizationName=itemView.findViewById(R.id.tv_OrganizationName);
 
 

@@ -47,6 +47,13 @@ public class MainApi {
     }
     /**
      *
+     * 获取用户积分
+     * */
+    public static String GetJifen(){
+        return String.format("api/Sys_UserScore/getPageData");
+    }
+    /**
+     *
      * 获得直播间列表
      * */
     public static String GetLiving(){
@@ -68,7 +75,7 @@ public class MainApi {
     }
     /**
      *
-     * 用户信息
+     * 个人用户信息
      * */
     public static String GetInfo(){
         return String.format("api/User/getCurrentUserInfo");
@@ -142,6 +149,41 @@ public class MainApi {
      * */
     public static String GetDemandDetailsList(){
         return String.format("api/VideoDemand_Source/GetAllVideoDemand/");
+    }
+    /**
+     *
+     * 获取该节目的预约日期
+     * */
+    public static String GetCannelDate(){
+        return String.format("api/Program_List/GetProgramDate/");
+    }
+    /**
+     *
+     * 获取该节目的某天的节目单
+     * */
+    public static String GetCannelYuyueProgerssList(){
+        return String.format("api/Program_List/GetProgramList/");
+    }
+    /**
+     *
+     * 添加预约
+     * */
+    public static String ADDYuyue(){
+        return String.format("api/Sys_UserReserve/AddReserve");
+    }
+    /**
+     *
+     * 删除预约
+     * */
+    public static String DeleteYuyue(){
+        return String.format("api/Sys_UserReserve/DeleteReserve");
+    }
+    /**
+     *
+     * 留言上传
+     * */
+    public static String UpLeavseMsg(){
+        return String.format("api/Livelihood_Feedback/Upload");
     }
 
 }

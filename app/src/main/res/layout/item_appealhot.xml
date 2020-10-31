@@ -139,7 +139,7 @@
         />
 
     <TextView
-        android:id="@+id/tv_date"
+        android:id="@+id/tv_cz"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -156,7 +156,7 @@
         android:layout_height="@dimen/dp_27"
         android:layout_marginStart="25dp"
         app:layout_constraintBottom_toBottomOf="@+id/view6"
-        app:layout_constraintStart_toEndOf="@+id/tv_date">
+        app:layout_constraintStart_toEndOf="@+id/tv_cz">
 
     </View>
 
@@ -179,6 +179,6 @@
         android:text="企划部"
         android:textColor="#4D4D4D"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_date"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_cz"
         app:layout_constraintStart_toEndOf="@+id/view8" />
 </androidx.constraintlayout.widget.ConstraintLayout>

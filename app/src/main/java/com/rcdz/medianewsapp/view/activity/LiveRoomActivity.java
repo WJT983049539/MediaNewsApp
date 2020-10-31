@@ -209,7 +209,6 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
         rcBarrage.setLayoutManager(new LinearLayoutManager(this));
         rcBarrage.setAdapter(liveBarrageAdapter);
 
-
         jfSockSDK = new JfSocketSdk(this); //初始化聊天服务器
         if (jfSockSDK.start(AppConfig.LiveService, 9899, true)) {
             Log.i("live", "开始连接聊天室服务器");

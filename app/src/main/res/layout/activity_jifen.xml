@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#70E4E2E2"
+   >
+
+    <include layout="@layout/toolbar_layout" />
+
+
+          <com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView
+              android:id="@+id/jifen_list"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+             >
+          </com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView>
+
+
+
+</LinearLayout>

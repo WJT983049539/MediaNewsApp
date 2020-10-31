@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.rcdz.medianewsapp">
     <permission
         android:name="${applicationId}.permission.JPUSH_MESSAGE"
@@ -33,31 +34,57 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:replace="android:theme"
+        >
         <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity android:name=".view.activity.WelcomeActivity"
-            android:theme="@style/SplashTheme"
-            >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.StretchViewActivity"/>
         <activity android:name=".view.activity.testActivity"/>
-        <activity android:name=".view.activity.MainActivity"
-            />
+        <activity android:name=".view.activity.MainActivity"/>
+        <activity android:name="com.donkingliang.imageselector.ImageSelectorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+       <!--图片预览Activity-->
+        <activity android:name="com.donkingliang.imageselector.PreviewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+
         <activity android:name=".view.activity.GuideActivity"/>
+        <activity android:name=".view.activity.RetrievePsdActivity"/>
         <activity android:name=".view.activity.LoginActivity"
             android:launchMode="singleTask"
             ></activity>
         <activity android:name=".view.activity.RegisterActivity"/>
+        <activity android:name=".view.activity.updatePsdActivity"/>
         <activity android:name=".view.activity.NewsSearchActivity"/>
         <activity android:name=".view.activity.SelectCannerListActivity"/>
         <activity android:name=".view.activity.DemandDetailsActivity"/>
         <activity android:name=".view.activity.WriteMessageActivity"/>
         <activity android:name=".view.activity.LiveRoomActivity"/>
+        <activity android:name=".view.activity.MyJifenActivity"/>
+        <activity android:name=".view.activity.PersonalInformationActivity"/>
+        <activity android:name=".view.activity.SexEditActivity"/>
+        <activity android:name=".view.activity.NiieEditActivity"/>
+        <activity android:name=".view.activity.RemakeEditActivity"/>
+        <activity android:name=".view.activity.AddressActivity"/>
+        <activity android:name=".view.activity.MyFaililyActivity"/>
+        <activity android:name=".view.activity.PersonInfoActivity"/>
+        <activity android:name=".view.activity.MyCollectActivity"/>
+        <activity android:name=".view.activity.MyHistoryActivity"/>
+        <activity android:name=".view.activity.MyYuYueActivity"/>
+        <activity android:name=".view.activity.SettingActivity"/>
+        <activity android:name=".view.activity.CommentActivity"/>
+        <activity android:name=".view.activity.SuggestActivity"/>
+        <activity android:name=".view.activity.VideoPlayerActivity"/>
+        <activity android:name=".view.activity.ModelNetWebActivity"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.rcdz.medianewsapp.fileprovider"
@@ -67,6 +94,109 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+
+
+        <service
+            android:name="cn.jpush.android.service.PushService"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTER" />
+                <action android:name="cn.jpush.android.intent.REPORT" />
+                <action android:name="cn.jpush.android.intent.PushService" />
+                <action android:name="cn.jpush.android.intent.PUSH_TIME" />
+            </intent-filter>
+        </service>
+        <!-- since 3.0.9 Required SDK 核心功能-->
+        <provider
+            android:authorities="${applicationId}.DataProvider"
+            android:name="cn.jpush.android.service.DataProvider"
+            android:process=":pushcore"
+            android:exported="false"
+            />
+
+
+        <!-- Required SDK核心功能-->
+        <receiver
+            android:name="cn.jpush.android.service.PushReceiver"
+            android:enabled="true">
+            <intent-filter android:priority="1000">
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />   <!--Required  显示通知栏 -->
+                <category android:name="${applicationId}" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <!-- Optional -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+
+        <!-- Required SDK核心功能-->
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver" android:exported="false"/>
+
+        <!-- 3.5.0新增，用于定时展示功能 -->
+        <receiver android:name="cn.jpush.android.service.SchedulerReceiver" android:exported="false"/>
+
+        <!-- 3.6.7 新增，用于负反馈组件 -->
+        <service android:name="cn.jpush.android.service.MessagingIntentService" />
+        <receiver
+            android:name=".service.MyReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.CONNECTION" /><!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver android:name=".service.PushMessageReceiver">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.RECEIVE_MESSAGE" />
+                <category android:name="${applicationId}"></category>
+            </intent-filter>
+        </receiver>
+        <service android:name=".service.PopService"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jiguang.user.service.action" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name="cn.jpush.android.ui.PushActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="cn.jpush.android.ui.PushActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="cn.jpush.android.service.JNotifyActivity"
+            android:exported="false"
+            android:taskAffinity="jpush.custom"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.JNotifyActivity" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </activity>
+
+        <meta-data android:name="JPUSH_CHANNEL" android:value="${JPUSH_CHANNEL}"/>
+        <meta-data android:name="JPUSH_APPKEY" android:value="${JPUSH_APPKEY}" /> <!--  </>值来自开发者平台取得的AppKey-->
     </application>
 
 </manifest>

@@ -9,6 +9,7 @@ import com.lzy.okgo.request.PutRequest;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.GsonUtil;
+import com.rcdz.medianewsapp.tools.Platform;
 
 import java.util.Map;
 
@@ -49,6 +50,12 @@ public class CommApi {
         }
         return  OkGo.post(AppConfig.BASE_URL+uri).headers("Authorization", "Bearer " + Constant.token).upJson(sb);
     }
+    public static PostRequest postAddJson(String uri,String json) {
+        return  OkGo.post(AppConfig.BASE_URL+uri).headers("Authorization", "Bearer " + Constant.token).upJson(json);
+
+    }
+
+
     /**
      * 有入参、需要user_token的put方法
      * @param uri
@@ -110,7 +117,11 @@ public class CommApi {
     public static PostRequest postNoToken(String uri, Map map) {
         HttpParams httpParams = new HttpParams();
         httpParams.put(map);
-        return  OkGo.post(AppConfig.BASE_URL+uri).params(httpParams);
+        String sb="";
+        if (map!=null && !map.isEmpty()){
+            sb = GsonUtil.BeanToJson(map);
+        }
+        return  OkGo.post(AppConfig.BASE_URL+uri).upJson(sb);
     }
     /**
      * 无参数 需要user_token 并且指定 强制使用 multipart/form-data 表单上传
@@ -171,5 +182,6 @@ public class CommApi {
        String userToken = Constant.token;
         return  OkGo.patch(AppConfig.BASE_URL+uri).headers("user-token",userToken);
     }
+
 
 }

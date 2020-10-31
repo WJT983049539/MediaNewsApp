@@ -21,9 +21,12 @@ import com.ksyun.media.player.IMediaPlayer;
 import com.ksyun.media.player.KSYMediaPlayer;
 import com.ksyun.media.player.KSYTextureView;
 import com.rcdz.medianewsapp.R;
+import com.rcdz.medianewsapp.model.adapter.CommentListAdapter;
 import com.rcdz.medianewsapp.model.adapter.JishuAdapter;
+import com.rcdz.medianewsapp.model.bean.CommentInfoBean;
 import com.rcdz.medianewsapp.model.bean.DemandEpisodeBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
+import com.rcdz.medianewsapp.persenter.interfaces.GetComment;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandJiNumDetails;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GlobalToast;
@@ -44,7 +47,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/19 17:49
  */
-public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNumDetails {
+public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNumDetails, GetComment {
 
 
     String demandId;
@@ -88,6 +91,8 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     ImageView thum;
     @BindView(R.id.thum)
     ImageView pause; //暂停按钮
+    @BindView(R.id.commentlist)
+    RecyclerView commentlist; //暂停按钮
     boolean is_play = true;//是否播放/暂停
     private int mVideoWidth = 0;
     private int mVideoHeight = 0;
@@ -147,6 +152,8 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         content = getIntent().getStringExtra("content");
         list.clear();
         initVideoView();//初始化播放器
+
+
     }
 
     private void initVideoView() {
@@ -169,12 +176,12 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         mVideoView.setTimeout(5, 30);
 
         //设置播放地址并准备
-        try {
-            mVideoView.setDataSource(liveUrl);
-            mVideoView.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+////            mVideoView.setDataSource(liveUrl);
+////            mVideoView.prepareAsync();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -192,6 +199,8 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         //获取集数
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(this);
         newNetWorkPersenter.GetDemandDetails(demandId, this);
+        newNetWorkPersenter.GeCommentList(demandId,this);
+
     }
 
     //拿到剧情集数
@@ -210,7 +219,8 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             demand_details_num.setText("共" + demandEpisodeBean.getData().size() + "集");
             try {
                 mVideoView.setDataSource(liveUrl);
-                mVideoView.start();
+                mVideoView.setBufferTimeMax(10);
+                mVideoView.prepareAsync();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -515,5 +525,12 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             mVideoView.stop();
             mVideoView.release();
         }
+    }
+    //得到评论列表
+    @Override
+    public void getcomment(CommentInfoBean commentInfoBean) {
+        commentlist.setLayoutManager(new LinearLayoutManager(this));
+        CommentListAdapter commentAdapter=new CommentListAdapter(this,commentInfoBean.getRows(),R.layout.item_commentlist);
+        commentlist.setAdapter(commentAdapter);
     }
 }

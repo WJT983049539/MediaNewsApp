@@ -1,0 +1,1160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar_zhq_layout"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_232"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_20"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="智慧服务"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView19"
+                app:layout_constraintTop_toBottomOf="@+id/textView19"
+                app:srcCompat="@mipmap/gzh2" />
+
+            <TextView
+                android:id="@+id/tv_gzh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="21dp"
+                android:text="公众号"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                app:layout_constraintStart_toEndOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/textView19"
+                app:layout_constraintVertical_bias="0.777" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/jgdw" />
+
+            <TextView
+                android:id="@+id/tv_jgdw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="机构单位"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toTopOf="@+id/imageView11" />
+
+            <ImageView
+                android:id="@+id/imageView50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/imageView6"
+                app:srcCompat="@mipmap/xzsp" />
+
+            <TextView
+                android:id="@+id/tv_xzsp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="行政审批"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView50"
+                app:layout_constraintStart_toStartOf="@+id/tv_gzh"
+                app:layout_constraintTop_toTopOf="@+id/imageView50"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView59"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView50"
+                app:layout_constraintStart_toStartOf="@+id/imageView11"
+                app:srcCompat="@mipmap/xswz" />
+
+            <TextView
+                android:id="@+id/tv_xswz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线上问政"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_xzsp"
+                app:layout_constraintStart_toStartOf="@+id/tv_jgdw" />
+
+            <ImageView
+                android:id="@+id/imageView51"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView50"
+                app:layout_constraintTop_toBottomOf="@+id/imageView50"
+                app:srcCompat="@mipmap/zhdj" />
+
+            <TextView
+                android:id="@+id/tv_zhdj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="智慧党建"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView51"
+                app:layout_constraintStart_toStartOf="@+id/tv_xzsp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/dp_340"
+                android:layout_height="@dimen/dp_175"
+                app:cardElevation="5dp"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginBottom="@dimen/dp_7"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:layout_marginTop="@dimen/dp_7"
+                app:cardCornerRadius="16dp"
+
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/textView60"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginTop="22dp"
+                        android:text="融媒在线"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView100"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="35dp"
+                        app:layout_constraintStart_toStartOf="@+id/textView60"
+                        app:layout_constraintTop_toBottomOf="@+id/textView60"
+                        app:srcCompat="@mipmap/kds" />
+
+                    <TextView
+                        android:id="@+id/tv_kds"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="21dp"
+                        android:text="看电视"
+                        android:textColor="#3E3B3F"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView100"
+                        app:layout_constraintStart_toEndOf="@+id/imageView100"
+                        app:layout_constraintTop_toBottomOf="@+id/textView60"
+                        app:layout_constraintVertical_bias="0.777" />
+
+                    <ImageView
+                        android:id="@+id/imageView102"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="136dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView100"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:srcCompat="@mipmap/tgb" />
+
+                    <TextView
+                        android:id="@+id/tv_tgb"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="听广播"
+                        android:textColor="#3E3B3F"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView102"
+                        app:layout_constraintStart_toEndOf="@+id/imageView102"
+                        app:layout_constraintTop_toTopOf="@+id/imageView102" />
+
+                    <ImageView
+                        android:id="@+id/imageView103"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        app:layout_constraintStart_toStartOf="@+id/imageView100"
+                        app:layout_constraintTop_toBottomOf="@+id/imageView100"
+                        app:srcCompat="@mipmap/dbz" />
+
+                    <ImageView
+                        android:id="@+id/imageView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView103"
+                        app:layout_constraintStart_toStartOf="@+id/imageView102"
+                        app:srcCompat="@mipmap/swz" />
+
+                    <TextView
+                        android:id="@+id/tv_dbz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="读报纸"
+                        android:textColor="#3E3B3F"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView103"
+                        app:layout_constraintStart_toStartOf="@+id/tv_kds"
+                        app:layout_constraintTop_toTopOf="@+id/imageView103" />
+
+                    <TextView
+                        android:id="@+id/tv_swz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="上网站"
+                        android:textColor="#3E3B3F"
+                        android:textSize="13sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_dbz"
+                        app:layout_constraintStart_toStartOf="@+id/tv_tgb" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_275"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_7"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView156"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="智慧交通"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView170"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView156"
+                app:layout_constraintTop_toBottomOf="@+id/textView156"
+                app:srcCompat="@mipmap/cgj" />
+
+            <TextView
+                android:id="@+id/tv_cgj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="21dp"
+                android:text="查公交"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView170"
+                app:layout_constraintStart_toEndOf="@+id/imageView170"
+                app:layout_constraintTop_toBottomOf="@+id/textView156"
+                app:layout_constraintVertical_bias="0.777" />
+
+            <ImageView
+                android:id="@+id/imageView171"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView170"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/ggzxc" />
+
+            <TextView
+                android:id="@+id/tv_ggzxc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="公共自行车"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView171"
+                app:layout_constraintStart_toEndOf="@+id/imageView171"
+                app:layout_constraintTop_toTopOf="@+id/imageView171" />
+
+            <ImageView
+                android:id="@+id/imageView173"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView170"
+                app:layout_constraintTop_toBottomOf="@+id/imageView170"
+                app:srcCompat="@mipmap/cstcw" />
+
+            <TextView
+                android:id="@+id/tv_cstcw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="城市停车位"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView173"
+                app:layout_constraintStart_toStartOf="@+id/tv_cgj"
+                app:layout_constraintTop_toTopOf="@+id/imageView173"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView175"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView173"
+                app:layout_constraintStart_toStartOf="@+id/imageView171"
+                app:srcCompat="@mipmap/cwz" />
+
+            <TextView
+                android:id="@+id/tv_cwz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查违章"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_cstcw"
+                app:layout_constraintStart_toStartOf="@+id/tv_ggzxc" />
+
+            <ImageView
+                android:id="@+id/imageView176"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView173"
+                app:layout_constraintTop_toBottomOf="@+id/imageView173"
+                app:srcCompat="@mipmap/cky" />
+
+            <TextView
+                android:id="@+id/tv_cky"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="查客运"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView176"
+                app:layout_constraintStart_toStartOf="@+id/tv_cstcw" />
+
+            <ImageView
+                android:id="@+id/imageView178"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView176"
+                app:layout_constraintStart_toStartOf="@+id/imageView175"
+                app:srcCompat="@mipmap/hcp" />
+
+            <TextView
+                android:id="@+id/tv_hcp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="火车票"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_cky"
+                app:layout_constraintStart_toStartOf="@+id/tv_cwz" />
+
+            <ImageView
+                android:id="@+id/imageView115"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView176"
+                app:layout_constraintTop_toBottomOf="@+id/imageView176"
+                app:srcCompat="@mipmap/clk" />
+
+            <TextView
+                android:id="@+id/tv_clk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查路况"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView115"
+                app:layout_constraintStart_toStartOf="@+id/tv_cky"
+                app:layout_constraintTop_toTopOf="@+id/imageView115"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_235"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_7"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView187"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="便民服务"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView193"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView187"
+                app:layout_constraintTop_toBottomOf="@+id/textView187"
+                app:srcCompat="@mipmap/csb" />
+
+            <TextView
+                android:id="@+id/tv_csb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="查社保"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView193"
+                app:layout_constraintStart_toEndOf="@+id/imageView193" />
+
+            <ImageView
+                android:id="@+id/imageView194"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView193"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/jdf" />
+
+            <TextView
+                android:id="@+id/tv_jdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="交电费"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView194"
+                app:layout_constraintStart_toEndOf="@+id/imageView194"
+                app:layout_constraintTop_toTopOf="@+id/imageView194" />
+
+            <ImageView
+                android:id="@+id/imageView195"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView193"
+                app:layout_constraintTop_toBottomOf="@+id/imageView193"
+                app:srcCompat="@mipmap/jsf" />
+
+            <TextView
+                android:id="@+id/tv_jsf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="交水费"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView195"
+                app:layout_constraintStart_toStartOf="@+id/tv_csb"
+                app:layout_constraintTop_toTopOf="@+id/imageView195"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView196"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView195"
+                app:layout_constraintStart_toStartOf="@+id/imageView194"
+                app:srcCompat="@mipmap/rqf" />
+
+            <TextView
+                android:id="@+id/tv_rqf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="燃气费"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_jsf"
+                app:layout_constraintStart_toStartOf="@+id/tv_jdf" />
+
+            <ImageView
+                android:id="@+id/imageView197"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView195"
+                app:layout_constraintTop_toBottomOf="@+id/imageView195"
+                app:srcCompat="@mipmap/jhf" />
+
+            <TextView
+                android:id="@+id/tv_jhf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="交话费"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView197"
+                app:layout_constraintStart_toStartOf="@+id/tv_jsf" />
+
+            <ImageView
+                android:id="@+id/imageView114"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView197"
+                app:layout_constraintStart_toStartOf="@+id/imageView196"
+                app:srcCompat="@mipmap/dsf" />
+
+            <TextView
+                android:id="@+id/tv_dsf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="电视费"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_jhf"
+                app:layout_constraintStart_toStartOf="@+id/tv_rqf" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_235"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_7"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView201"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="同城服务"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView198"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView201"
+                app:layout_constraintTop_toBottomOf="@+id/textView201"
+                app:srcCompat="@mipmap/tckd" />
+
+            <TextView
+                android:id="@+id/tv_tckd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="同城快递"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView198"
+                app:layout_constraintStart_toEndOf="@+id/imageView198" />
+
+            <ImageView
+                android:id="@+id/imageView199"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView198"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/tcsc" />
+
+            <TextView
+                android:id="@+id/tv_gcsc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="同城商超"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView199"
+                app:layout_constraintStart_toEndOf="@+id/imageView199"
+                app:layout_constraintTop_toTopOf="@+id/imageView199" />
+
+            <ImageView
+                android:id="@+id/imageView200"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView198"
+                app:layout_constraintTop_toBottomOf="@+id/imageView198"
+                app:srcCompat="@mipmap/tcfc" />
+
+            <TextView
+                android:id="@+id/tv_tcfc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="同城房产"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView200"
+                app:layout_constraintStart_toStartOf="@+id/tv_tckd"
+                app:layout_constraintTop_toTopOf="@+id/imageView200"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView129"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView200"
+                app:layout_constraintStart_toStartOf="@+id/imageView199"
+                app:srcCompat="@mipmap/tczp" />
+
+            <TextView
+                android:id="@+id/tv_tczp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="同城招聘"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_tcfc"
+                app:layout_constraintStart_toStartOf="@+id/tv_gcsc" />
+
+            <ImageView
+                android:id="@+id/imageView130"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView200"
+                app:layout_constraintTop_toBottomOf="@+id/imageView200"
+                app:srcCompat="@mipmap/jzfu" />
+
+            <TextView
+                android:id="@+id/tv_jzfw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:text="家政服务"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView130"
+                app:layout_constraintStart_toStartOf="@+id/tv_tcfc" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_175"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_7"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:id="@+id/textView205"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="智慧法律"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView209"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView205"
+                app:layout_constraintTop_toBottomOf="@+id/textView205"
+                app:srcCompat="@mipmap/fwzx" />
+
+            <TextView
+                android:id="@+id/tv_fwzx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="法务咨询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView209"
+                app:layout_constraintStart_toEndOf="@+id/imageView209" />
+
+            <ImageView
+                android:id="@+id/imageView210"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView209"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/fwpt" />
+
+            <TextView
+                android:id="@+id/tv_fwpt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="法网平台"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView210"
+                app:layout_constraintStart_toEndOf="@+id/imageView210"
+                app:layout_constraintTop_toTopOf="@+id/imageView210" />
+
+            <ImageView
+                android:id="@+id/imageView211"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView209"
+                app:layout_constraintTop_toBottomOf="@+id/imageView209"
+                app:srcCompat="@mipmap/lssws" />
+
+            <TextView
+                android:id="@+id/tv_lssws"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="律师事务所"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView211"
+                app:layout_constraintStart_toStartOf="@+id/tv_fwzx"
+                app:layout_constraintTop_toTopOf="@+id/imageView211"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_175"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_7"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView212"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="智慧医疗"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView156"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView212"
+                app:layout_constraintTop_toBottomOf="@+id/textView212"
+                app:srcCompat="@mipmap/ylcx" />
+
+            <TextView
+                android:id="@+id/tv_ylcx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="医疗查询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView156"
+                app:layout_constraintStart_toEndOf="@+id/imageView156" />
+
+            <ImageView
+                android:id="@+id/imageView217"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView156"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/ydcx" />
+
+            <TextView
+                android:id="@+id/tv_ydcx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="药店查询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView217"
+                app:layout_constraintStart_toEndOf="@+id/imageView217"
+                app:layout_constraintTop_toTopOf="@+id/imageView217" />
+
+            <ImageView
+                android:id="@+id/imageView218"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView156"
+                app:layout_constraintTop_toBottomOf="@+id/imageView156"
+                app:srcCompat="@mipmap/yygh" />
+
+            <TextView
+                android:id="@+id/tv_yygh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预约挂号"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView218"
+                app:layout_constraintStart_toStartOf="@+id/tv_ylcx"
+                app:layout_constraintTop_toTopOf="@+id/imageView218"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView218"
+                app:layout_constraintStart_toStartOf="@+id/imageView217"
+                app:srcCompat="@mipmap/zhyb" />
+
+            <TextView
+                android:id="@+id/tv_zhyb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="智慧医保"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_yygh"
+                app:layout_constraintStart_toStartOf="@+id/tv_ydcx" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_175"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_7"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView180"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="智慧教育"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView181"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView180"
+                app:layout_constraintTop_toBottomOf="@+id/textView180"
+                app:srcCompat="@mipmap/zkcx" />
+
+            <TextView
+                android:id="@+id/tv_zkcx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="中考查询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView181"
+                app:layout_constraintStart_toEndOf="@+id/imageView181" />
+
+            <ImageView
+                android:id="@+id/imageView185"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView181"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/gkcx" />
+
+            <TextView
+                android:id="@+id/tv_ggcx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="高考查询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView185"
+                app:layout_constraintStart_toEndOf="@+id/imageView185"
+                app:layout_constraintTop_toTopOf="@+id/imageView185" />
+
+            <ImageView
+                android:id="@+id/imageView186"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView181"
+                app:layout_constraintTop_toBottomOf="@+id/imageView181"
+                app:srcCompat="@mipmap/xxcx" />
+
+            <TextView
+                android:id="@+id/tv_xxcx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="学校查询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView186"
+                app:layout_constraintStart_toStartOf="@+id/tv_zkcx"
+                app:layout_constraintTop_toTopOf="@+id/imageView186"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_340"
+        android:layout_height="@dimen/dp_175"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="5dp"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_7"
+        app:cardCornerRadius="16dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView152"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="22dp"
+                android:text="智慧公安"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView216"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                app:layout_constraintStart_toStartOf="@+id/textView152"
+                app:layout_constraintTop_toBottomOf="@+id/textView152"
+                app:srcCompat="@mipmap/pcscx" />
+
+            <TextView
+                android:id="@+id/tv_pcscx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="派出所查询"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView216"
+                app:layout_constraintStart_toEndOf="@+id/imageView216" />
+
+            <ImageView
+                android:id="@+id/imageView150"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="136dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView216"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@mipmap/bszn" />
+
+            <TextView
+                android:id="@+id/tv_bszn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="办事指南"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView150"
+                app:layout_constraintStart_toEndOf="@+id/imageView150"
+                app:layout_constraintTop_toTopOf="@+id/imageView150" />
+
+            <ImageView
+                android:id="@+id/imageView158"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:layout_constraintStart_toStartOf="@+id/imageView216"
+                app:layout_constraintTop_toBottomOf="@+id/imageView216"
+                app:srcCompat="@mipmap/sfyz" />
+
+            <TextView
+                android:id="@+id/tv_sfyz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份验证"
+                android:textColor="#3E3B3F"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView158"
+                app:layout_constraintStart_toStartOf="@+id/tv_pcscx"
+                app:layout_constraintTop_toTopOf="@+id/imageView158"
+                app:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

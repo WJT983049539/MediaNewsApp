@@ -8,8 +8,8 @@ package com.rcdz.medianewsapp.tools;
  * time 2020/10/12 16:57
  */
 public class AppConfig {
-//    public final static String BASE_URL ="http://192.168.1.59:9992/";
-    public final static String BASE_URL ="http://192.168.1.190:9992/";
+    public final static String BASE_URL ="http://192.168.1.59:9992/";
+//    public final static String BASE_URL ="http://192.168.1.190:9992/";
     public final static String BASE_PICTURE_URL ="http://192.168.1.190:9992/";//图片服务器
     public final static String BASE_VIDEO_URL ="http://192.168.1.190:9992/";//视频服务器
     public final static String BASE_LIVE_URL ="http://192.168.1.190:9992/";//视频服务器

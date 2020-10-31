@@ -22,6 +22,7 @@ import com.qw.soul.permission.callbcak.GoAppDetailCallBack;
 import com.rcdz.medianewsapp.MAppaction;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.adapter.MainViewPageAdapter;
+import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.view.customview.NoSlideViewPage;
 import com.rcdz.medianewsapp.view.fragment.MainAllFragment;
 import com.rcdz.medianewsapp.view.fragment.MainCenterFragmentTest;
@@ -65,7 +66,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public void inintView() {
         ButterKnife.bind(this);
-
+        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
+        newNetWorkPersenter.GetUserInfo("",null);
         /**
          * 初始化页面控件
          */

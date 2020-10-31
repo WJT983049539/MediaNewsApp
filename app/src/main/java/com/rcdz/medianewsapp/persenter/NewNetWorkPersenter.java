@@ -2,19 +2,27 @@ package com.rcdz.medianewsapp.persenter;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.rcdz.medianewsapp.call.CustomStringCallback;
 import com.rcdz.medianewsapp.call.JsonCallback;
+import com.rcdz.medianewsapp.model.bean.BannerInfoBean;
 import com.rcdz.medianewsapp.model.bean.BaseBean;
 import com.rcdz.medianewsapp.model.bean.CannalSationBean;
+import com.rcdz.medianewsapp.model.bean.CannelProgeressDateListBean;
+import com.rcdz.medianewsapp.model.bean.CollectListInfoBean;
+import com.rcdz.medianewsapp.model.bean.CommentInfoBean;
 import com.rcdz.medianewsapp.model.bean.DemandEpisodeBean;
 import com.rcdz.medianewsapp.model.bean.DemandListBean;
 import com.rcdz.medianewsapp.model.bean.DepartmnetInfoBean;
 import com.rcdz.medianewsapp.model.bean.FeedbackBean;
+import com.rcdz.medianewsapp.model.bean.HistoryListInfoBean;
+import com.rcdz.medianewsapp.model.bean.JiFenLogBean;
+import com.rcdz.medianewsapp.model.bean.JifenType;
 import com.rcdz.medianewsapp.model.bean.LeaveMegBean;
 import com.rcdz.medianewsapp.model.bean.LiveBean;
 import com.rcdz.medianewsapp.model.bean.LiveCoverInfo;
@@ -25,30 +33,54 @@ import com.rcdz.medianewsapp.model.bean.NewsListBean;
 import com.rcdz.medianewsapp.model.bean.NoSetionsBean;
 import com.rcdz.medianewsapp.model.bean.PliveLeaveInfo;
 import com.rcdz.medianewsapp.model.bean.SetionBean;
+import com.rcdz.medianewsapp.model.bean.TopNewsInfo;
+import com.rcdz.medianewsapp.model.bean.TopVideoNewBean;
 import com.rcdz.medianewsapp.model.bean.TvCannelBean;
 import com.rcdz.medianewsapp.model.bean.UserInfoBean;
+import com.rcdz.medianewsapp.model.bean.YuYueInfoBean;
+import com.rcdz.medianewsapp.model.bean.YuYueProgresListInfoBean;
 import com.rcdz.medianewsapp.model.bean.wherebean;
+import com.rcdz.medianewsapp.persenter.interfaces.AddCollect;
+import com.rcdz.medianewsapp.persenter.interfaces.AddReserve;
+import com.rcdz.medianewsapp.persenter.interfaces.Commentimpl;
+import com.rcdz.medianewsapp.persenter.interfaces.DeleteYuyue;
+import com.rcdz.medianewsapp.persenter.interfaces.DisCollect;
 import com.rcdz.medianewsapp.persenter.interfaces.GetAllNewsList;
+import com.rcdz.medianewsapp.persenter.interfaces.GetBanner;
+import com.rcdz.medianewsapp.persenter.interfaces.GetCannelDataInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetCannelInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetCannelSetion;
+import com.rcdz.medianewsapp.persenter.interfaces.GetCollectList;
+import com.rcdz.medianewsapp.persenter.interfaces.GetComment;
 import com.rcdz.medianewsapp.persenter.interfaces.GetCoverInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandJiNumDetails;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDepartmentInfo;
+import com.rcdz.medianewsapp.persenter.interfaces.GetForGet;
+import com.rcdz.medianewsapp.persenter.interfaces.GetHistory;
+import com.rcdz.medianewsapp.persenter.interfaces.GetJifenList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetLiveListInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetLivingMInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetMoHuNewTitle;
 import com.rcdz.medianewsapp.persenter.interfaces.GetNoSationList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPliveLeaveMsgInfo;
+import com.rcdz.medianewsapp.persenter.interfaces.GetProgerssListInfo;
+import com.rcdz.medianewsapp.persenter.interfaces.GetSignStatus;
+import com.rcdz.medianewsapp.persenter.interfaces.GetTopListInfo;
+import com.rcdz.medianewsapp.persenter.interfaces.GetTopNews;
+import com.rcdz.medianewsapp.persenter.interfaces.GetTopVideoNews;
+import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetUserSetion;
+import com.rcdz.medianewsapp.persenter.interfaces.GetYuyue;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowLogin;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowSearchOrganization;
 import com.rcdz.medianewsapp.persenter.interfaces.ShowRegister;
 import com.rcdz.medianewsapp.tools.ACache;
+import com.rcdz.medianewsapp.tools.AppConfig;
+import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.GsonUtil;
-import com.rcdz.medianewsapp.view.fragment.OrganizationListFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +106,6 @@ public class NewNetWorkPersenter {
         this.context = context;
     }
     private Context context;
-
     /**
      * 获取验证码
      * @param phone1
@@ -98,6 +129,31 @@ public class NewNetWorkPersenter {
             });
     }
     /**
+     * 忘记密码
+     * @param phone1
+     */
+    public void RequestGorgetPsd(String phone1, String ValidateCode,String NewPwd,GetForGet getForGet) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("PhoneNo",phone1);
+        areaMap.put("ValidateCode",ValidateCode);
+        areaMap.put("NewPwd",NewPwd);
+            CommApi.postNoToken(LoginApi.ForgetPsd(),areaMap).execute(new JsonCallback<BaseBean>() {
+                //{"status":false,"code":403,"message":"修改密码失败!","data":null}
+                @Override
+                public void onSuccess(Response<BaseBean> response) {
+                    BaseBean baseBean = response.body();
+                    Log.i(TAG,"忘记密码-->"+baseBean.toString());
+                    getForGet.forget(response.body());
+                }
+
+                @Override
+                public void onError(Response response) {
+                    super.onError(response);
+                    Log.i(TAG,"忘记密码失败-->");
+                }
+            });
+    }
+    /**
      * 密码登录
      */
     public void AppLogin(String userName,String passWord, IshowLogin login) {
@@ -106,7 +162,7 @@ public class NewNetWorkPersenter {
         areaMap.put("passWord",passWord);
         areaMap.put("verificationCode","string");
         areaMap.put("uuid","string");
-        CommApi.post(LoginApi.AppLogin(),areaMap).execute(new JsonCallback<LoginBean>() {
+        CommApi.postNoToken(LoginApi.AppLogin(),areaMap).execute(new JsonCallback<LoginBean>() {
             @Override
             public void onSuccess(Response<LoginBean> response) {
                 Log.i(TAG,"密码登录-->"+response.toString());
@@ -128,7 +184,7 @@ public class NewNetWorkPersenter {
         areaMap.put("phone",phone);
         areaMap.put("validateCode",validateCode);
         areaMap.put("isApp","1");
-        CommApi.post(LoginApi.getLoginForMes(),areaMap).execute(new JsonCallback<LoginBean>() {
+        CommApi.postNoToken(LoginApi.getLoginForMes(),areaMap).execute(new JsonCallback<LoginBean>() {
             @Override
             public void onSuccess(Response<LoginBean> response) {
                 Log.i(TAG,"验证码登录"+response.body().toString());
@@ -158,7 +214,7 @@ public class NewNetWorkPersenter {
         areaMap.put("validateCode",validateCode);
         areaMap.put("userPwd",userPwd);
         areaMap.put("appType","1");
-        CommApi.post(LoginApi.AppRegister(),areaMap).execute(new JsonCallback<BaseBean>() {
+        CommApi.postNoToken(LoginApi.AppRegister(),areaMap).execute(new JsonCallback<BaseBean>() {
             @Override
             public void onSuccess(Response<BaseBean> response) {
             //{"status":true,"code":200,"message":"注册成功！","data":null}
@@ -218,6 +274,34 @@ public class NewNetWorkPersenter {
         });
     }
     /**
+     * 获取轮播图
+     */
+    public void GetNewsBanner(GetBanner getBanner) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page","1");
+        areaMap.put("rows","10");
+        areaMap.put("sort","Orders");
+        areaMap.put("order","desc");
+        areaMap.put("wheres","[]");
+        CommApi.post("api/RepeatImages/getPageData",areaMap).execute(new JsonCallback<BannerInfoBean>() {
+            @Override
+            public void onSuccess(Response<BannerInfoBean> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"获取轮播图-->"+response.body().toString());
+                    if(getBanner!=null){
+                        getBanner.getbanner(response.body());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"获取轮播图失败-->"+response.message());
+            }
+        });
+    }
+    /**
      * 获取新闻列表
      * 条件 "[{\"name\":\"SectionId\",\"value\":2,\"displayType\":\"text\"}]"
      */
@@ -250,6 +334,146 @@ public class NewNetWorkPersenter {
             }
         });
     }
+    /**
+     * 获取置顶新闻
+     */
+    public void GetTopNews(GetTopNews getTopNews) {
+
+        CommApi.postNoParams("api/NewsView/GetTopNews/3").execute(new JsonCallback<TopNewsInfo>() {
+            @Override
+            public void onSuccess(Response<TopNewsInfo> response) {
+                Log.i(TAG,"获取置顶新闻-->"+response.toString());
+                if(response.body()!=null){
+                    getTopNews.getTopNews(response.body());
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"获取置顶新闻失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 获取评论
+     */
+    public void GeCommentList(String TargetId,GetComment getComment) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page","1");
+        areaMap.put("rows","100");
+        areaMap.put("sort","Id");
+        areaMap.put("order","desc");
+        List<wherebean>list=new ArrayList<>();
+        wherebean w=new wherebean();
+        w.setName("Type");
+        w.setValue("5");
+        w.setDisplayType("text");
+        wherebean w2=new wherebean();
+        w2.setName("Mode");
+        w2.setValue("1");
+        w2.setDisplayType("text");
+        wherebean w3=new wherebean();
+        w3.setName("TargetId");
+        w3.setValue(TargetId);
+        w3.setDisplayType("text");
+        list.add(w);
+        list.add(w2);
+        list.add(w3);
+        String Where=GsonUtil.BeanToJson(list);
+        areaMap.put("wheres",Where);
+        CommApi.post("api/Sys_UserCommentsView/GetPageData",areaMap).execute(new JsonCallback<CommentInfoBean>() {
+            @Override
+            public void onSuccess(Response<CommentInfoBean> response) {
+                Log.i(TAG,"获取获取评论-->"+response.toString());
+                if(response.body()!=null){
+                    getComment.getcomment(response.body());
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"获取评论失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 添加收藏
+     */
+    public void AddCollect(String type,String TargetId,String Title,String Url,AddCollect addCollect) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("Type",type);
+        areaMap.put("TargetId",TargetId);
+        areaMap.put("Title",Title);
+        areaMap.put("Url",Url);
+        CommApi.post("api/Sys_UserStores/add",areaMap).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Log.i(TAG,"添加收藏-->"+response.toString());
+                if(response.body()!=null){
+                    addCollect.addcollect();
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"添加收藏失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 取消收藏收藏
+     */
+    public void DeleteCollect(String id, DisCollect disCollect) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        String json="";
+        JsonArray jsonElements=new JsonArray();
+        jsonElements.add(id);
+        json=jsonElements.toString();
+
+        CommApi.postAddJson("api/Sys_UserStores/Del",json).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                Log.i(TAG,"取消收藏收藏-->"+response.toString());
+                if(response.body()!=null){
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        if(jsonObject.getInt("code")==317)
+                            disCollect.disCollect();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"取消收藏收藏失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 获取置顶新闻
+     */
+    public void GetTopVideoNews(GetTopVideoNews getTopVideoNews) {
+        CommApi.postNoParams("api/NewsView/GetTopVideo/3").execute(new JsonCallback<TopVideoNewBean>() {
+            @Override
+            public void onSuccess(Response<TopVideoNewBean> response) {
+                Log.i(TAG,"获取置顶新闻-->"+response.toString());
+                if(response.body()!=null){
+                    getTopVideoNews.getTopNews(response.body());
+                }
+            }
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"获取置顶新闻失败-->"+response.message());
+            }
+        });
+    }
 
     /**
      * 搜索新闻列表
@@ -263,14 +487,12 @@ public class NewNetWorkPersenter {
             areaMap.put("sort","PublishDate");
             areaMap.put("order","desc");
             List<wherebean> list=new ArrayList<>();
-            if(IsAll){
-
-                wherebean w=new wherebean();
-                w.setName("Title");
-                w.setValue(text);
-                w.setDisplayType("like");
-                list.add(w);
-            }else{
+            wherebean w=new wherebean();
+            w.setName("Title");
+            w.setValue(text);
+            w.setDisplayType("like");
+            list.add(w);
+            if(!IsAll){
                 wherebean w2=new wherebean();
                 w2.setName("Type");
                 w2.setValue("2");
@@ -486,17 +708,23 @@ public class NewNetWorkPersenter {
     /**
      * 查新当前用户信息
      */
-    public void GetUserInfo( ) {
-        CommApi.postNoParams(MainApi.GetInfo()).execute(new JsonCallback<UserInfoBean>() {
+    public void GetUserInfo(String userId, GetUserInfo getUserInfo) {
+        String uri=MainApi.GetInfo();
+        if(!userId.equals("")){
+            uri=uri+"/"+userId;
+        }
+        //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
+        CommApi.postNoParams(uri).execute(new JsonCallback<UserInfoBean>() {
             @Override
             public void onSuccess(Response<UserInfoBean> response) {
                 if(response.body()!=null){
                     Log.i(TAG,"当前用户信息-->"+response.message());
                     ACache aCache=ACache.get(context);
-                    UserInfoBean userInfoBean=response.body();
-                    aCache.put("userinfo",userInfoBean);
+                    aCache.put("userinfo",response.body());
+                    if(getUserInfo!=null){
+                        getUserInfo.getUserInfo(response.body());
+                    }
                 }
-
             }
 
             @Override
@@ -605,21 +833,257 @@ public class NewNetWorkPersenter {
         });
     }
     /**
+     * 查看收藏列表
+     * title 搜索关键字
+     */
+    public void GetCollectList(GetCollectList getCollectList,String title) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page","1");
+        areaMap.put("rows","30");
+        areaMap.put("sort","Id");
+        areaMap.put("order","desc");
+        if(title.equals("")){
+            areaMap.put("where","[]");
+        }else{
+            List<wherebean> list=new ArrayList<>();
+            wherebean w=new wherebean();
+            w.setName("Title");
+            w.setValue(title);
+            w.setDisplayType("like");
+            list.add(w);
+            String as=GsonUtil.BeanToJson(list);
+            areaMap.put("wheres",as);
+        }
+        CommApi.post("api/Sys_UserStores/getPageData",areaMap).execute(new JsonCallback<CollectListInfoBean>() {
+            @Override
+            public void onSuccess(Response<CollectListInfoBean> response) {
+                Log.i(TAG,"收藏列表-->"+response.message());
+                if(response.body()!=null){
+                    getCollectList.getCollect(response.body());
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"反馈单位失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 查看历史记录
+     */
+    public void GetHistoryList(GetHistory getHistory, String page) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page",page);
+        areaMap.put("rows","30");
+        areaMap.put("sort","Id");
+        areaMap.put("order","desc");
+        areaMap.put("where","[]");
+
+        CommApi.post("api/Sys_UserFootMark/GetPageData",areaMap).execute(new JsonCallback<HistoryListInfoBean>() {
+            @Override
+            public void onSuccess(Response<HistoryListInfoBean> response) {
+                Log.i(TAG,"历史记录-->"+response.message());
+                if(response.body()!=null){
+                    getHistory.getHistory(response.body());
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"历史记录失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 查看评论
+     */
+    public void GetCommentList(GetComment getComment, String page) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page",page);
+        areaMap.put("rows","30");
+        areaMap.put("sort","Id");
+        areaMap.put("order","desc");
+        areaMap.put("where","[]");
+
+        CommApi.post("api/Sys_UserCommentsView/GetPageData",areaMap).execute(new JsonCallback<CommentInfoBean>() {
+            @Override
+            public void onSuccess(Response<CommentInfoBean> response) {
+                Log.i(TAG,"评论-->"+response.message());
+                if(response.body()!=null){
+                    getComment.getcomment(response.body());
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"评论失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 查看预约记录
+     */
+    public void GetYuyueList(GetYuyue getYuyue) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page","1");
+        areaMap.put("rows","60");
+        areaMap.put("sort","Id");
+        areaMap.put("order","desc");
+        areaMap.put("where","[]");
+
+        CommApi.post("api/Sys_UserReserve/GetMyReserve",areaMap).execute(new JsonCallback<YuYueInfoBean>() {
+            @Override
+            public void onSuccess(Response<YuYueInfoBean> response) {
+                Log.i(TAG,"预约记录-->"+response.message());
+                if(response.body()!=null){
+                    getYuyue.getyuyue(response.body());
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"预约记录失败-->"+response.message());
+            }
+        });
+    }
+    /**
      *  添加留言
      */
-    public void AddLeaveMessage(  LeaveMegBean leaveMegBean ) {
+    public void AddLeaveMessage(LeaveMegBean leaveMegBean , Commentimpl commentimpl) {
         String gson=GsonUtil.BeanToJson(leaveMegBean);
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("MainData",gson);
-        CommApi.post(MainApi.AddLeaveMessag(),areaMap).execute(new StringCallback() {
+        OkGo.<String>post(AppConfig.BASE_URL+MainApi.AddLeaveMessag()).headers("Authorization", "Bearer " + Constant.token).upJson(gson).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"添加留言-->"+response.message());
+                if(response.body()!=null){
+                    Log.i(TAG,"留言成功-->"+response.message());
+                }
+
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                Log.i(TAG,"留言失败-->"+response.message());
+            }
+        });
+
+    }
+    /**
+     *  积分列表
+     */
+    public void jifenList(  String page,GetJifenList getJifenList ) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page",page);
+        areaMap.put("sort","Id");
+        areaMap.put("rows","30");
+        areaMap.put("order","desc");
+        List<wherebean> list=new ArrayList<>();
+        wherebean w=new wherebean();
+        w.setName("Mode");
+        w.setValue("1");
+        list.add(w);
+        String as=GsonUtil.BeanToJson(list);
+        areaMap.put("wheres",as);
+        CommApi.post("api/Sys_UserScore/getPageData",areaMap).execute(new JsonCallback<JiFenLogBean>() {
+            @Override
+            public void onSuccess(Response<JiFenLogBean> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"积分列表-->"+response.message());
+                    getJifenList.getJifenNum(response.body());
+                }
+
             }
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"添加留言失败-->"+response.message());
+                Log.i(TAG,"积分列表失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     *  添加积分
+     */
+    public void AddJifen( String Type ) {
+
+        JifenType jifenType=new JifenType();
+        JifenType.MainDataBean mainDataBean=new   JifenType.MainDataBean();
+        mainDataBean.setType(Type);
+        jifenType.setMainData(mainDataBean);
+       String sshabiwanyi= GsonUtil.BeanToJson(jifenType);
+        CommApi.postAddJson("api/Sys_UserScore/Add",sshabiwanyi).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"添加积分-->"+response.message());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        if(code==200){
+                            GlobalToast.show("添加积分成功",5000);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"添加积分失败-->"+response.message());
+            }
+        });
+    }
+
+
+    /**
+     *  添加积分
+     */
+    public void AddSignJifen(String Type, GetSignStatus getSignStatus) {
+
+        JifenType jifenType=new JifenType();
+        JifenType.MainDataBean mainDataBean=new   JifenType.MainDataBean();
+        mainDataBean.setType(Type);
+        jifenType.setMainData(mainDataBean);
+        String sshabiwanyi= GsonUtil.BeanToJson(jifenType);
+        CommApi.postAddJson("api/Sys_UserScore/Add",sshabiwanyi).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+
+                if(response.body()!=null){
+                    Log.i(TAG,"添加积分-->"+response.message());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        String message=jsonObject.getString("message");
+                        if(code==200){
+                            getSignStatus.ShowSignStatus(true);
+                        }else{
+                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                            getSignStatus.ShowSignStatus(false);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"添加积分失败-->"+response.message());
+                getSignStatus.ShowSignStatus(false);
             }
         });
     }
@@ -760,42 +1224,135 @@ public class NewNetWorkPersenter {
             }
         });
     }
+    /**
+     * 根据频道编号查询节目日期
+     */
+    public void GetCannelDateInfo(String Id, GetCannelDataInfo getCannelDataInfo) {
+
+        CommApi.postNoParams(MainApi.GetCannelDate()+Id).execute(new JsonCallback<CannelProgeressDateListBean>() {
+            @Override
+            public void onSuccess(Response<CannelProgeressDateListBean> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"请求频道日期成功-->");
+                    getCannelDataInfo.getCannelData(response.body());
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"请求频道日期失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 根据日期和频道查询节目列表和我的预约信息
+     */
+    public void GetProgressListForDate(String Id, String date,GetProgerssListInfo GetProgerssListInfo) {
+
+        CommApi.postNoParams(MainApi.GetCannelYuyueProgerssList()+date+"/"+Id).execute(new JsonCallback<YuYueProgresListInfoBean>() {
+            @Override
+            public void onSuccess(Response<YuYueProgresListInfoBean> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"请求频道节目列表成功-->");
+                    GetProgerssListInfo.getProgressList(response.body());
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"请求频道节目列表成功失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 预约
+     */
+    public void AddYuYue(String ProgramId,String ChannelId, String ProgramTime,String StartTime,String Name,String  LiveUrl, String registration_id,AddReserve addReserve) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("ProgramId",ProgramId);
+        areaMap.put("ChannelId",ChannelId);
+        areaMap.put("ProgramTime",ProgramTime);
+        areaMap.put("StartTime",StartTime);
+        areaMap.put("Name",Name);
+        areaMap.put("LiveUrl",LiveUrl);
+        areaMap.put("registration_id",registration_id);
+        areaMap.put("Platform","android");
+
+        CommApi.post(MainApi.ADDYuyue(),areaMap).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"添加预约成功-->");
+                    addReserve.addrever();
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"添加预约失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 删除预约
+     */
+    public void DeleteYuYue(String ProgramId,String ScheduleId, DeleteYuyue deleteYuyue) {
+
+        CommApi.postNoParams(MainApi.DeleteYuyue()+"/"+ProgramId+"/"+ScheduleId).execute(new StringCallback() {
+            //"{\"status\":true,\"code\":317,\"message\":\"删除成功\",\"data\":null}"
+            @Override
+            public void onSuccess(Response<String> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"删除预约成功-->");
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        if(jsonObject.getInt("code")==317)
+                            deleteYuyue.DeleteYuyue();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"删除预约失败-->"+response.message());
+            }
+        });
+    }
 
     //上传留言图片
-//    public void UppictureMessage(String path, GetPhonePath getPhonePath, boolean isfinish) {
-//        File file = new File(path);
-//        if (!file.exists()) {
-//            return;
-//        }
-//        String web_path = MainActivity.MG.IP_second_cloud + "api/Feedback/Uploads";
-//        OkGo.<String>post(web_path).headers("Authorization", "Bearer " + Constant.token).params("files", file)
-//                .isMultipart(true).execute(new StringCallback() {
-//            @Override
-//            public void onSuccess(Response<String> response) {
-//                MyLog.i("留言上传图片成功" + response.body());
-//
-//                try {
-//                    JSONObject jsonObject1 = new JSONObject(response.body());
-//                    int code = jsonObject1.getInt("code");
-//                    if (code == 200) {
-//                        String data = jsonObject1.getString("data");
-//                        getPhonePath.getPhotoPath(data, isfinish);
-//                    } else {
-//                        MyLog.i("留言图片上传失败！");
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onError(Response<String> response) {
-//                super.onError(response);
-//                MyLog.i("上传失败");
-//            }
-//        });
-//
-//    }
+    public void UppictureMessage(List<File> files) {
+        for(File file:files){
+            if (!file.exists()) {
+                GlobalToast.show("文件不存在！", Toast.LENGTH_LONG);
+                return;
+            }
+        }
+
+        String web_path = AppConfig.BASE_URL+MainApi.UpLeavseMsg();
+        OkGo.<String>post(web_path).headers("Authorization", "Bearer " + Constant.token).addFileParams("fileInput",files)
+                .isMultipart(true).execute(new StringCallback() {
+        //{"status":true,"code":200,"message":"文件上传成功","data":"Upload/Files/Livelihood_Feedback/3523cb85fcdc4d728b9194f4748fdb23/small"}
+            @Override
+            public void onSuccess(Response<String> response) {
+                Log.i(TAG,"留言上传图片成功" + response.body());
+
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+                super.onError(response);
+                Log.i(TAG,"上传失败");
+            }
+        });
+
+    }
+
 
 }

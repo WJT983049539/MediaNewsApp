@@ -31,14 +31,15 @@
             android:id="@+id/tv_sign"
             android:layout_width="65dp"
             android:layout_height="26dp"
-            android:layout_marginStart="300dp"
-            android:layout_marginTop="70dp"
-            android:background="@drawable/sign_shape_bg"
+            android:layout_marginTop="72dp"
+            android:layout_marginEnd="60dp"
+            android:background="@mipmap/sign_false"
             android:gravity="center"
-            android:text="签到"
             android:textColor="#fff"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/img_head"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.466" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -114,7 +115,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:gravity="center"
-            android:text="消息"
+            android:text="评论"
             android:textSize="10sp"
             android:textStyle="bold"></TextView>
     </LinearLayout>

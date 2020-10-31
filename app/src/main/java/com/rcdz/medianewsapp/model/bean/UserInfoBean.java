@@ -10,7 +10,6 @@ import java.io.Serializable;
  * time 2020/10/21 11:07
  */
 public class UserInfoBean implements Serializable{
-
     /**
      * status : true
      * code : 200
@@ -83,7 +82,7 @@ public class UserInfoBean implements Serializable{
         private String phoneNo;
         private Object email;
         private Object remark;
-        private Object gender;
+        private int gender;
         private Object roleName;
         private Object headImageUrl;
         private String createDate;
@@ -140,7 +139,7 @@ public class UserInfoBean implements Serializable{
             return gender;
         }
 
-        public void setGender(Object gender) {
+        public void setGender(int gender) {
             this.gender = gender;
         }
 

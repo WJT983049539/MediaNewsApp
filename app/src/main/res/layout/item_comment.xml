@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+android:layout_height="@dimen/dp_150">
+
+
+    <ImageView
+        android:id="@+id/com_img"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="21dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/peop" />
+
+    <TextView
+        android:id="@+id/com_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5.5dp"
+        android:layout_marginTop="24dp"
+        android:text="用户名"
+        android:textColor="#111111"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/com_img"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/com_date"
+        android:layout_width="wrap_content"
+        android:layout_height="12dp"
+        android:layout_marginTop="4dp"
+        android:text="2020-02-02"
+        android:textSize="10sp"
+        android:textColor="#929294"
+        app:layout_constraintStart_toStartOf="@+id/com_username"
+        app:layout_constraintTop_toBottomOf="@+id/com_username" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="@dimen/dp_21"
+        android:layout_height="@dimen/dp_21"
+        android:layout_marginEnd="28dp"
+        app:layout_constraintBottom_toBottomOf="@+id/com_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/comment_icon" />
+
+    <TextView
+        android:id="@+id/comment_content"
+        android:layout_width="@dimen/dp_326"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/com_img"
+        app:layout_constraintTop_toBottomOf="@+id/com_date" />
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_326"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@+id/comment_content"
+        app:layout_constraintTop_toBottomOf="@+id/comment_content">
+        
+        <ImageView
+            android:layout_width="@dimen/dp_14"
+            android:layout_height="@dimen/dp_16"
+            android:src="@mipmap/com"
+            ></ImageView>
+
+        <TextView
+            android:id="@+id/comment_title"
+            android:layout_width="@dimen/dp_308"
+            android:layout_height="match_parent"
+            android:textColor="#111111"
+            android:textSize="13sp"
+            android:paddingStart="@dimen/dp_10"
+            ></TextView>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

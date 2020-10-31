@@ -16,7 +16,9 @@ import androidx.fragment.app.Fragment;
 
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.LoginBean;
+import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
+import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowLogin;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.Comment;
@@ -25,6 +27,7 @@ import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.PhoneFormatCheckUtils;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.view.activity.MainActivity;
+import com.rcdz.medianewsapp.view.activity.RetrievePsdActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +40,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/12 11:39
  */
-public class Login_PwdFragment extends Fragment implements IshowLogin {
+public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserInfo {
 
     @BindView(R.id.login_psd_pwd)
     EditText loginPsdPwd;
@@ -84,7 +87,9 @@ public class Login_PwdFragment extends Fragment implements IshowLogin {
                 break;
             case R.id.login_phone_user:
                 break;
-            case R.id.forgetpsd:
+            case R.id.forgetpsd: //忘记密码
+                Intent intent=new Intent(getActivity(), RetrievePsdActivity.class);
+                startActivity(intent);
                 break;
             case R.id.button_login:
 
@@ -125,7 +130,7 @@ public class Login_PwdFragment extends Fragment implements IshowLogin {
 
                     //获取个人信息
                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
-                    newNetWorkPersenter.GetUserInfo();
+                    newNetWorkPersenter.GetUserInfo("",this);
 
                 }
             }else{
@@ -134,5 +139,17 @@ public class Login_PwdFragment extends Fragment implements IshowLogin {
         }else{
             GlobalToast.show(loginBean.getMessage(),2000);
         }
+    }
+
+    @Override
+    public void getUserInfo(UserInfoBean userInfoBean) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ACache aCache=ACache.get(getActivity());
+                aCache.put("userinfo",userInfoBean);
+            }
+        }).start();
+
     }
 }

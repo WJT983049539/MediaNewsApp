@@ -14,6 +14,13 @@ android {
         ndk {
             abiFilters 'armeabi-v7a','arm64-v8a'
         }
+
+        manifestPlaceholders = [
+                JPUSH_APPKEY : "a2ac25c3fedf39763a80a13d",//值来自开发者平台取得的AppKey
+                JPUSH_CHANNEL: "default_developer",
+                qqappid: "你的qq appid",
+        ]
+
     }
     buildTypes {
         release {
@@ -42,6 +49,10 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation files('libs\\jpush-android-3.7.0.jar')
+    implementation files('libs\\jcore-android-2.4.0.jar')
+    implementation files('libs\\jmimemagic-0.1.1.jar')
+    implementation files('libs\\tbs_sdk_thirdapp_v4.3.0.39_43939_sharewithdownloadwithfile_withoutGame_obfs_20200713_223411.jar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -76,6 +87,7 @@ dependencies {
     implementation 'com.bigkoo:convenientbanner:2.0.5'
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
     implementation 'com.github.SheHuan:NiceImageView:1.0.5'
+    implementation 'com.github.donkingliang:ImageSelector:2.2.0' //图片选择
 }
 repositories {
     mavenCentral()

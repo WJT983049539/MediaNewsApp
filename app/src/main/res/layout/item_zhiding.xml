@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/dp_10"
+    >
+    <TextView
+        android:id="@+id/long_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="如何理解中央政治局会议上的这句话"
+        android:textSize="15sp"
+        android:textColor="#4A4A4A"
+        android:gravity="center|left"
+        >
+    </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="置顶"
+            android:textColor="#F66E6F"
+            android:textSize="12sp"
+            >
+        </TextView>
+        <TextView
+            android:id="@+id/zuzhi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="新华社"
+            android:textColor="#BDBDBD"
+            android:textSize="12sp"
+            android:layout_marginStart="@dimen/dp_10"
+            />
+        <TextView
+            android:id="@+id/comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="评论"
+            android:textColor="#BDBDBD"
+            android:textSize="12sp"
+            android:layout_marginStart="@dimen/dp_10"
+            />
+
+    </LinearLayout>
+</LinearLayout>

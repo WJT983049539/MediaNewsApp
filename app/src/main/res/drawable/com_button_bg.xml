@@ -9,7 +9,7 @@
         <!--android:width="1px"-->
         <!--android:color="@color/color999"/>-->
 
-    <solid android:color="#ddd" />
+    <solid android:color="#EE2F2D" />
     <padding
         android:left="15dp"
         android:right="15dp"

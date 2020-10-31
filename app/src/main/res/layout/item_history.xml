@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_80"
+    android:layout_margin="@dimen/dp_10">
+
+    <LinearLayout
+        android:id="@+id/right_tab"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/history_title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:textColor="#4A4A4A"
+            android:textSize="14sp"
+            android:text="阿士大夫撒发"
+            android:padding="@dimen/dp_5"
+            android:gravity="center_vertical"
+            ></TextView>
+        <TextView
+            android:id="@+id/history_date"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:textColor="#BDBDBD"
+            android:textSize="11sp"
+            android:text="asda"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/dp_10"
+            ></TextView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        >
+        <com.shehuan.niv.NiceImageView
+            android:id="@+id/history_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/default_image"
+            android:scaleType="fitXY"
+            app:is_circle="false"
+            app:corner_top_left_radius="10dp"
+            app:corner_top_right_radius="10dp"
+            app:corner_bottom_left_radius="10dp"
+            app:corner_bottom_right_radius="10dp"
+            app:border_width="4dp"
+            ></com.shehuan.niv.NiceImageView>
+
+    </LinearLayout>
+
+
+</LinearLayout>

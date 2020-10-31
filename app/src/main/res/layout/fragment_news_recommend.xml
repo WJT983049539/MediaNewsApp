@@ -25,7 +25,7 @@
 
             <!--轮播图-->
             <com.youth.banner.Banner
-                android:id="@+id/roll_view_pager"
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:banner_radius="15dp"
@@ -236,9 +236,46 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.35"
-                    android:background="@mipmap/test1"
                     android:layout_margin="5dp"
-                    ></LinearLayout>
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+
+                        <ImageView
+                            android:id="@+id/topvideonew_img"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            >
+                        </ImageView>
+                        <ImageView
+                            android:id="@+id/topvideonew_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/zhibo"
+                            android:visibility="gone"
+                            ></ImageView>
+
+                        <TextView
+                            android:id="@+id/topvideonew_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/dp_30"
+                            android:layout_marginTop="@dimen/dp_50"
+                            android:textColor="#fff"
+                            android:textSize="15sp"
+                            android:gravity="center"
+                            >
+
+                        </TextView>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -267,6 +304,32 @@
 
 
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lin_zhiding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginStart="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_18"
+                >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/zhiding_rc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ></androidx.recyclerview.widget.RecyclerView>
+
+
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cannleview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:orientation="vertical"
+            android:background="#88F6F2F2"
+            ></LinearLayout>
 
 
 

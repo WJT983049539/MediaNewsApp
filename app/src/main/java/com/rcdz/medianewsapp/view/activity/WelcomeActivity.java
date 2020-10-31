@@ -49,9 +49,7 @@ public class WelcomeActivity extends BaseActivity{
     public void inintData() {
         //获取权限
         getPremission2();
-
     }
-
 
     public void getPremission2(){
         SoulPermission.getInstance().checkAndRequestPermissions(
@@ -75,10 +73,13 @@ public class WelcomeActivity extends BaseActivity{
                         boolean loginStru= (boolean) SharedPreferenceTools.getValueofSP(WelcomeActivity.this,"loginStru",false);
                         Constant.token = token;
 
-                        if(!isFirstStart){ //不是第一次登录
+                        if(!isFirstStart){   //不是第一次登录
 
                             if(loginStru){ //已经登录过了，直接进入主页
                                 openActivity(MainActivity.class);
+                                WelcomeActivity.this.finish();
+                            }else{
+                                openActivity(LoginActivity.class);
                                 WelcomeActivity.this.finish();
                             }
 

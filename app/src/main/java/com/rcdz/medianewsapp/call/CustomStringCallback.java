@@ -37,7 +37,12 @@ public abstract class CustomStringCallback extends AbsCallback<String> {
         if(code==401||code==202){
             Log.i("test","token 过时"+code);
             // token过时了
-            MAppaction.ActivityManager.getManager().getTopActivity().startActivity(new Intent(MAppaction.ActivityManager.getManager().getTopActivity(), LoginActivity.class));
+            if(MAppaction.ActivityManager.getManager().getTopActivity()instanceof LoginActivity){
+
+            }else{
+                MAppaction.ActivityManager.getManager().getTopActivity().startActivity(new Intent(MAppaction.ActivityManager.getManager().getTopActivity(), LoginActivity.class));
+            }
+
             return null;
         }
         response.close();

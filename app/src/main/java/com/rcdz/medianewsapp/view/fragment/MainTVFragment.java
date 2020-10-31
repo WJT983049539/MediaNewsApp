@@ -84,9 +84,7 @@ public class MainTVFragment extends Fragment implements GetCannelSetion {
             Fragment fragment = null;
             if(list.get(position).getName().equals("TV直播")){  //现在tv频道里面暂时只有3个频道
                 fragment= new ChannelListFragment();
-
             }else if(list.get(position).getName().equals("精品点播")){
-
                 fragment= new VodFragment(ChannelSectionId);
             }else if(list.get(position).getName().equals("直播间")){
                 fragment= new LivingFragment();
