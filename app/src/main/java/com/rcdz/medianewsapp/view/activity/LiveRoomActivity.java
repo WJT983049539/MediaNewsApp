@@ -4,8 +4,8 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.gson.JsonArray;
 import com.ksyun.media.player.IMediaPlayer;
 import com.ksyun.media.player.KSYMediaPlayer;
 import com.ksyun.media.player.KSYTextureView;
@@ -31,8 +30,11 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.adapter.LiveBarrageAdapter;
 import com.rcdz.medianewsapp.model.bean.BarrageInfobean;
 import com.rcdz.medianewsapp.model.bean.LiveMessage;
-import com.rcdz.medianewsapp.model.bean.LiveReciveMessage;
+import com.rcdz.medianewsapp.model.bean.LiveWoShouReciviceBean;
+import com.rcdz.medianewsapp.model.bean.LiveWoshouBean;
 import com.rcdz.medianewsapp.model.bean.LivingMasterBean;
+import com.rcdz.medianewsapp.model.bean.NormorReciviceBean;
+import com.rcdz.medianewsapp.model.bean.ReceiveMessage;
 import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.model.bean.litlemessagebean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
@@ -40,6 +42,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetLivingMInfo;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GsonUtil;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.view.customview.CommentDialog;
 import com.rckj.rcsocket.JfSocketEvent;
 import com.rckj.rcsocket.JfSocketSdk;
@@ -47,10 +50,10 @@ import com.shehuan.niv.NiceImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -60,6 +63,14 @@ import java.util.concurrent.Semaphore;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * 作用:直播间详情
@@ -96,87 +107,89 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     private LiveBarrageAdapter liveBarrageAdapter;
     private String videoUrl;
     private String name;
+    private int type;
     private String roomId;
     private int CreateID;
     String picture;
     private UserInfoBean userInfoBean;
+    private Boolean loginstatu=false;
 
     Handler myhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            try {
+            Log.i("live",msg.obj.toString());
             if(msg.what==0){
-                Log.i("live",msg.obj.toString());
-                LiveReciveMessage liveReciveMessage= (LiveReciveMessage) msg.obj;
-                tv_num2.setText(liveReciveMessage.getUserCount()+"");//人数
-                if(liveReciveMessage.getMessageType()!=0){ //头像
-                    try {
-                        JSONArray jsonArray=new JSONArray(liveReciveMessage.getMessage());
-
-                            if(jsonArray.length()==0){
-                                head_1.setVisibility(View.GONE);
-                                head_2.setVisibility(View.GONE);
-                                head_3.setVisibility(View.GONE);
-                            }else if(jsonArray.length()==1){
-                              String iimag=jsonArray.getJSONObject(0).getString("Img");
-
-                                head_1.setVisibility(View.VISIBLE);
-                                head_2.setVisibility(View.GONE);
-                                head_3.setVisibility(View.GONE);
-                                Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag).apply(options).into(head_1);
-                            }else if(jsonArray.length()==2){
-                                String iimag=jsonArray.getJSONObject(0).getString("Img");
-                                String iimag2=jsonArray.getJSONObject(1).getString("Img");
-
-                                head_1.setVisibility(View.VISIBLE);
-                                head_2.setVisibility(View.VISIBLE);
-                                head_3.setVisibility(View.GONE);
-
-                                Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag).apply(options).into(head_1);
-                                Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag2).apply(options).into(head_2);
-                            }else if(jsonArray.length()==3){
-                                String iimag=jsonArray.getJSONObject(0).getString("Img");
-                                String iimag2=jsonArray.getJSONObject(1).getString("Img");
-                                String iimag3=jsonArray.getJSONObject(2).getString("Img");
-                                head_1.setVisibility(View.VISIBLE);
-                                head_2.setVisibility(View.VISIBLE);
-                                head_3.setVisibility(View.VISIBLE);
-                                Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag).apply(options).into(head_1);
-                                Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag2).apply(options).into(head_2);
-                                Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag3).apply(options).into(head_3);
-                            }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }else{
-
-                    litlemessagebean SS=GsonUtil.GsonToBean(liveReciveMessage.getMessage(),litlemessagebean.class);
-                    String username=SS.getUserName();
-                    String type=SS.getType();
-                    String info=SS.getMessage();
-                    if(type.equals("1")){ //弹幕消息
-                        BarrageInfobean barrageInfobean=new BarrageInfobean();
-                        barrageInfobean.setInfo(username+":"+info);
-                        barrageInfobean.setHeadimage("");//没有头像了
+                ReceiveMessage SS= (ReceiveMessage) msg.obj;
+                    String UserCount= String.valueOf(SS.getUserCount());
+//                     tv_num2.setText(UserCount);//人数
+                         String meg=SS.getMessage();
+                        JSONObject jj = new JSONObject(meg);
+                        String UserName = jj.getString("UserName");
+                        String SendDate = jj.getString("SendDate");
+                        String Message = jj.getString("Message");
+                        BarrageInfobean barrageInfobean = new BarrageInfobean();
+                        barrageInfobean.setInfo(UserName + ":" + Message);
+                        barrageInfobean.setHeadimage("");//没有头像了 //弹幕消息
                         list.add(barrageInfobean);
-                        Log.i("live","共有"+list.size()+"条弹幕");
-                        if(liveBarrageAdapter!=null){
+                        Log.i("live", "共有" + list.size() + "条弹幕");
+                        if (liveBarrageAdapter != null) {
                             liveBarrageAdapter.notifyDataSetChanged();
                             this.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    rcBarrage.scrollToPosition(liveBarrageAdapter.getItemCount()-1);
+                                    rcBarrage.scrollToPosition(liveBarrageAdapter.getItemCount() - 1);
                                 }
-                            },50);
+                            }, 50);
                         }
-                    }
+
+                }else if(msg.what==1){//我收消息
+
+                LiveWoShouReciviceBean liveWoShouReciviceBean= (LiveWoShouReciviceBean) msg.obj;
+                int count=liveWoShouReciviceBean.getUserCount();
+                String UserCount= String.valueOf(count);
+                tv_num2.setText(UserCount);//人数
+                JSONArray jsonArray=new JSONArray(liveWoShouReciviceBean.getMessage());
+
+                if(jsonArray.length()==0){
+                    head_1.setVisibility(View.GONE);
+                    head_2.setVisibility(View.GONE);
+                    head_3.setVisibility(View.GONE);
+                }else if(jsonArray.length()==1){
+                    String iimag=jsonArray.getJSONObject(0).getString("Img");
+
+                    head_1.setVisibility(View.VISIBLE);
+                    head_2.setVisibility(View.GONE);
+                    head_3.setVisibility(View.GONE);
+                    Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag).apply(options).into(head_1);
+                }else if(jsonArray.length()==2){
+                    String iimag=jsonArray.getJSONObject(0).getString("Img");
+                    String iimag2=jsonArray.getJSONObject(1).getString("Img");
+
+                    head_1.setVisibility(View.VISIBLE);
+                    head_2.setVisibility(View.VISIBLE);
+                    head_3.setVisibility(View.GONE);
+
+                    Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag).apply(options).into(head_1);
+                    Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag2).apply(options).into(head_2);
+                }else if(jsonArray.length()==3){
+                    String iimag=jsonArray.getJSONObject(0).getString("Img");
+                    String iimag2=jsonArray.getJSONObject(1).getString("Img");
+                    String iimag3=jsonArray.getJSONObject(2).getString("Img");
+                    head_1.setVisibility(View.VISIBLE);
+                    head_2.setVisibility(View.VISIBLE);
+                    head_3.setVisibility(View.VISIBLE);
+                    Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag).apply(options).into(head_1);
+                    Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag2).apply(options).into(head_2);
+                    Glide.with(LiveRoomActivity.this).load(AppConfig.BASE_PICTURE_URL+iimag3).apply(options).into(head_3);
                 }
-
-
-
-
             }
-        }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            }
+
     };
     @Override
     public String setNowActivityName() {
@@ -191,14 +204,18 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     boolean bIsStart = false;
     @Override
     public void inintView() {
+        loginstatu = (boolean) SharedPreferenceTools.getValueofSP(LiveRoomActivity.this,"loginStru",false);
+
         ButterKnife.bind(this);
-        ACache aCache=ACache.get(this);
-        userInfoBean= (UserInfoBean) aCache.getAsObject("userinfo");
+            ACache aCache=ACache.get(this);
+            userInfoBean= (UserInfoBean) aCache.getAsObject("userinfo");
         videoUrl=getIntent().getStringExtra("videoUrl");
         name=getIntent().getStringExtra("name");
         roomId=getIntent().getStringExtra("roomId");
+        type= getIntent().getIntExtra("type",0);
         CreateID=getIntent().getIntExtra("CreateID",0);
         livingName.setText(name);
+
         getPremission2();
         initVideoView();
 
@@ -228,7 +245,7 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
 
         Player.setOnErrorListener(mOnErrorListener);// 发生错误时回调
         Player.setOnPreparedListener(mOnPreparedListener);//当装载流媒体完毕的时候回调。
-        Player.setVideoScalingMode(KSYMediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+
         //设置播放地址并准备
         try {
             Log.i("live","直播地址为"+videoUrl);
@@ -261,25 +278,44 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
                         } else {
                             //发送信息
                             if (jfSockSDK != null) {
-
                                 LiveMessage.AuthBean authBean = new LiveMessage.AuthBean();
                                 authBean.setPassword("qwer1234.0");
                                 LiveMessage liveMessage = new LiveMessage();
                                 liveMessage.setAuth(authBean);
-                                LiveMessage.DataBean dataBean = new LiveMessage.DataBean();
-                                dataBean.setRoomId(Integer.parseInt(roomId));
-                                dataBean.setUserId(CreateID);
-                                dataBean.setMessageType(0); //todo 暂时没有真实人数据
-                                String img= AppConfig.BASE_PICTURE_URL+userInfoBean.getData().getHeadImageUrl();
-                                dataBean.setImg(img);
-                                litlemessagebean SS=new litlemessagebean();
-                                SS.setType("1");//聊天信息
-                                String username=userInfoBean.getData().getUserTrueName();
-                                SS.setUserName(username);
-                                SS.setMessage(six);
-                                String message = GsonUtil.BeanToJson(SS);
-                                dataBean.setMessage(message);
-                                liveMessage.setData(dataBean);
+                                LiveMessage.SendMessageBean sendMessageBean=new   LiveMessage.SendMessageBean();
+                                if(loginstatu){
+                                    sendMessageBean.setRoomId(Integer.parseInt(roomId));
+                                    sendMessageBean.setUserId(CreateID);
+                                    sendMessageBean.setMessageType(0); //todo 暂时没有真实人数据
+                                    String img= AppConfig.BASE_PICTURE_URL+userInfoBean.getData().getHeadImageUrl();
+                                    sendMessageBean.setImg(img);
+                                    litlemessagebean SS=new litlemessagebean();
+                                    String username=userInfoBean.getData().getUserTrueName();
+                                    SS.setUserName(username);
+                                    SS.setMessage(six);
+                                    String time=simpleDateFormat.format(new Date());
+                                    SS.setSendDate(time);
+                                    String message = GsonUtil.BeanToJson(SS);
+                                    sendMessageBean.setMessage(message);
+
+                                }else{
+                                    sendMessageBean.setRoomId(Integer.parseInt(roomId));
+                                    sendMessageBean.setUserId(-1);
+                                    sendMessageBean.setMessageType(0); //todo 暂时没有真实人数据
+                                    String img= AppConfig.BASE_PICTURE_URL+"test.jpg";
+                                    sendMessageBean.setImg(img);
+                                    litlemessagebean SS=new litlemessagebean();
+                                    String username="游客";
+                                    SS.setUserName(username);
+                                    SS.setMessage(six);
+                                    String time=simpleDateFormat.format(new Date());
+                                    SS.setSendDate(time);
+                                    String message = GsonUtil.BeanToJson(SS);
+                                    sendMessageBean.setMessage(message);
+                                }
+
+                                liveMessage.setData(sendMessageBean);
+
                                 String message2 = GsonUtil.BeanToJson(liveMessage);
                                 String mm = new String(message2.getBytes(), StandardCharsets.UTF_8);
                                 Log.i("live", mm);
@@ -303,32 +339,40 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
 
     @Override
     public boolean OnHandShake(long dwConnID) {
+
         Log.i("live", "OnHandShake");
         Message msg = new Message();
         msg.what = 0;
         msg.obj = "  握手：" + dwConnID;//可以是基本类型，可以是对象，可以是List、map等；
-        LiveMessage.AuthBean authBean = new LiveMessage.AuthBean();
+        LiveWoshouBean liveWoshouBean=new LiveWoshouBean();
+        LiveWoshouBean.AuthBean authBean=new    LiveWoshouBean.AuthBean();
         authBean.setPassword("qwer1234.0");
-        LiveMessage liveMessage = new LiveMessage();
-        liveMessage.setAuth(authBean);
-        //发送主播头像
-        LiveMessage.DataBean dataBean = new LiveMessage.DataBean();
-        dataBean.setRoomId(Integer.parseInt(roomId));
-        dataBean.setMessageType(1);
-        dataBean.setUserId(CreateID);
-        String pic=AppConfig.BASE_PICTURE_URL+userInfoBean.getData().getHeadImageUrl();
-        dataBean.setImg(pic);
-//        litlemessagebean SS=new litlemessagebean();
-//        SS.setType("2");//1聊天信息 2图片  0测试内容
-//        userInfoBean.getData().getHeadImageUrl();
-//        String username=userInfoBean.getData().getUserTrueName();
-//        SS.setUserName(username);
-//        SS.setMessage(AppConfig.BASE_PICTURE_URL);
-//        String message = GsonUtil.BeanToJson(SS);
-        liveMessage.setData(dataBean);
-        String message2 = GsonUtil.BeanToJson(liveMessage);
+        liveWoshouBean.setAuth(authBean);
+        LiveWoshouBean.DataBean dataBean=new   LiveWoshouBean.DataBean();
+        if(loginstatu){
+            String pic=AppConfig.BASE_PICTURE_URL+userInfoBean.getData().getHeadImageUrl();
+            dataBean.setImg(pic);
+            dataBean.setMessage(null);
+            dataBean.setMessageType(1);
+            dataBean.setRoomId(Integer.parseInt(roomId));
+            dataBean.setUserId(CreateID);
+        }else{
+            String pic=AppConfig.BASE_PICTURE_URL+"test.jpg";
+            dataBean.setImg(pic);
+            dataBean.setMessage(null);
+            dataBean.setMessageType(1);
+            dataBean.setRoomId(Integer.parseInt(roomId));
+            dataBean.setUserId(-1);
+        }
+
+
+
+
+
+        liveWoshouBean.setData(dataBean);
+        String message2 = GsonUtil.BeanToJson(liveWoshouBean);
         String mm = new String(message2.getBytes(), StandardCharsets.UTF_8);
-        Log.i("live", mm);
+        Log.i("live", "发送消息"+mm);
         jfSockSDK.send(mm.getBytes());
         mLoginSemphore.release();
         return true;
@@ -341,17 +385,32 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
 
     @Override
     public boolean OnReceive(long dwConnID, byte[] buf, int len) {
-
+        //{"Message":"{\"UserName\":\"张三\",\"SendDate\":\"2020/11/1 12:02:58\",\"Message\":\"你好，你是谁？234234543123441234\"}","UserCount":5,"MessageType":0,"RoomId":1015,"Img":"http://www.a.com/users/123123.png"}
         //{"Message":"","UserCount":2,"MessageType":0,"RoomId":1010}
         String receiveJson = new String(buf, StandardCharsets.UTF_8);
-        LiveReciveMessage liveReciveMessage = GsonUtil.GsonToBean(receiveJson, LiveReciveMessage.class);
-        Log.i("test", "收到的消息" + liveReciveMessage.getMessage());
-        Message message = new Message();
-        message.obj = liveReciveMessage;
-        message.what = 0;
-        myhandler.sendMessage(message);
+        Log.i("test", "收到的消息" + receiveJson);
+        try {
+            Message message = new Message();
+            JSONObject jsonObject=new JSONObject(receiveJson);
+            int MessageType=jsonObject.getInt("MessageType");
+            if(MessageType==0){ //普通消息
+                ReceiveMessage receiveMessage = GsonUtil.GsonToBean(receiveJson, ReceiveMessage.class);
+                message.obj = receiveMessage;
+                message.what = 0;
+                myhandler.sendMessage(message);
+            }else{
+                LiveWoShouReciviceBean liveWoshouBean = GsonUtil.GsonToBean(receiveJson, LiveWoShouReciviceBean.class);
+                message.obj = liveWoshouBean;
+                message.what = 1;
+                myhandler.sendMessage(message);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return true;
-    }
+}
+
 
     @Override
     public boolean OnSend(long dwConnID, byte[] buf, int len) {
@@ -366,38 +425,51 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     @Override
     public void onDestroy() {
         super.onDestroy();
-        LiveMessage.AuthBean authBean = new LiveMessage.AuthBean();
-        authBean.setPassword("qwer1234.0");
-        LiveMessage liveMessage = new LiveMessage();
-        liveMessage.setAuth(authBean);
         //发送主播头像
-        LiveMessage.DataBean dataBean = new LiveMessage.DataBean();
-        dataBean.setRoomId(Integer.parseInt(roomId));
-        dataBean.setMessageType(2);
-        dataBean.setUserId(CreateID);
-        liveMessage.setData(dataBean);
-        String message2 = GsonUtil.BeanToJson(liveMessage);
-        String mm = new String(message2.getBytes(), StandardCharsets.UTF_8);
+
+        LiveWoshouBean liveWoshouBean=new LiveWoshouBean();
+        LiveWoshouBean.AuthBean authBean=new    LiveWoshouBean.AuthBean();
+        authBean.setPassword("qwer1234.0");
+        String mm="";
+        if(loginstatu){
+            LiveWoshouBean.DataBean dataBean=new   LiveWoshouBean.DataBean();
+            String pic=AppConfig.BASE_PICTURE_URL+userInfoBean.getData().getHeadImageUrl();
+            dataBean.setImg(pic);
+            dataBean.setMessage(null);
+            dataBean.setMessageType(2);
+            dataBean.setRoomId(Integer.parseInt(roomId));
+            dataBean.setUserId(CreateID);
+            liveWoshouBean.setAuth(authBean);
+            liveWoshouBean.setData(dataBean);
+            String message2 = GsonUtil.BeanToJson(liveWoshouBean);
+            mm= new String(message2.getBytes(), StandardCharsets.UTF_8);
+        }else{
+            LiveWoshouBean.DataBean dataBean=new   LiveWoshouBean.DataBean();
+            String pic=AppConfig.BASE_PICTURE_URL+"test.jpg";
+            dataBean.setImg(pic);
+            dataBean.setMessage(null);
+            dataBean.setMessageType(2);
+            dataBean.setRoomId(Integer.parseInt(roomId));
+            dataBean.setUserId(CreateID);
+            liveWoshouBean.setAuth(authBean);
+            liveWoshouBean.setData(dataBean);
+            String message2 = GsonUtil.BeanToJson(liveWoshouBean);
+            mm= new String(message2.getBytes(), StandardCharsets.UTF_8);
+        }
+
         Log.i("live", mm);
         jfSockSDK.send(mm.getBytes());
         mLoginSemphore.release();
-
-
-
         jfSockSDK.stop();
+        myhandler.removeCallbacksAndMessages(null);
     }
+
 
     @Override
-    public void getinfo(LivingMasterBean livingMasterBean) {
-        if(livingMasterBean.getData()!=null){
-            Object o=livingMasterBean.getData().getHeadImageUrl();
-            if(o!=null){
+    public void getinfo(String userName, String headImg) {
                 RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_image).error(R.mipmap.default_image).centerCrop();
-                Glide.with(this).load(AppConfig.BASE_PICTURE_URL+o.toString()).apply(options).into(userPic);
-            }
-        }
+                Glide.with(this).load(AppConfig.BASE_PICTURE_URL+headImg.toString()).apply(options).into(userPic);
     }
-
 
 
     //页面恢复 播放器的处理
@@ -508,9 +580,15 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
                 //mVideoView.setVideoScalingMode(KSYMediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
 //                ksyTextureview.setVideoScalingMode(KSYMediaPlayer.VIDEO_SCALING_MODE_NOSCALE_TO_FIT);
                 // 开始播放视频
+                if(type==0){ //公共
+                    Player.setVideoScalingMode(KSYMediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT);
+                }else if(type==1){ //私有
+                    Player.setVideoScalingMode(KSYMediaPlayer.VIDEO_SCALING_MODE_NOSCALE_TO_FIT);
+                }
                 Player.start();
-
             }
         }
     };
+
+
 }

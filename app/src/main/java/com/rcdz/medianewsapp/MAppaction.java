@@ -29,6 +29,7 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.github.moduth.blockcanary.BlockCanary;
+import com.liulishuo.filedownloader.FileDownloader;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -79,6 +80,7 @@ public class MAppaction extends Application implements Application.ActivityLifec
         this.registerActivityLifecycleCallbacks(this);//注册
         SoulPermission.init(this);//权限框架初始化
         GlobalToast.init(this);//全局Toast初始化
+        FileDownloader.init(getApplicationContext());
         BlockCanary.install(this, new AppBlockCanaryContext());//崩溃日志
         OkGo.getInstance().init(this);//初始化网络框架
         File cache = getExternalCacheDir();

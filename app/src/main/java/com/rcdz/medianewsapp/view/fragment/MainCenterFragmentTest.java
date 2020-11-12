@@ -22,17 +22,23 @@ import com.bumptech.glide.request.RequestOptions;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.rcdz.medianewsapp.R;
+import com.rcdz.medianewsapp.model.bean.AppVersionBean;
 import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.CommApi;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
+import com.rcdz.medianewsapp.persenter.interfaces.CheckAppVersion;
 import com.rcdz.medianewsapp.persenter.interfaces.GetSignStatus;
 import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.DataCleanManager;
 import com.rcdz.medianewsapp.tools.GlobalToast;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.rcdz.medianewsapp.tools.SystemAppUtils;
 import com.rcdz.medianewsapp.view.activity.CommentActivity;
+import com.rcdz.medianewsapp.view.activity.DownAPKService;
 import com.rcdz.medianewsapp.view.activity.LiveRoomActivity;
+import com.rcdz.medianewsapp.view.activity.LoginActivity;
 import com.rcdz.medianewsapp.view.activity.MyCollectActivity;
 import com.rcdz.medianewsapp.view.activity.MyFaililyActivity;
 import com.rcdz.medianewsapp.view.activity.MyHistoryActivity;
@@ -40,7 +46,9 @@ import com.rcdz.medianewsapp.view.activity.MyJifenActivity;
 import com.rcdz.medianewsapp.view.activity.MyYuYueActivity;
 import com.rcdz.medianewsapp.view.activity.PersonalInformationActivity;
 import com.rcdz.medianewsapp.view.activity.SettingActivity;
+import com.rcdz.medianewsapp.view.activity.ShareActivity;
 import com.rcdz.medianewsapp.view.activity.SuggestActivity;
+import com.rcdz.medianewsapp.view.customview.UpdateApkDialog;
 //import com.rcdz.medianewsapp.view.activity.MyJifenActivity;
 
 import org.json.JSONException;
@@ -60,7 +68,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/13 15:45
  */
-public class MainCenterFragmentTest extends Fragment implements GetSignStatus, GetUserInfo {
+public class MainCenterFragmentTest extends Fragment implements GetSignStatus, GetUserInfo, CheckAppVersion {
     @BindView(R.id.img_head)
     ImageView imgHead;
     @BindView(R.id.tv_sign)
@@ -104,9 +112,10 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
     @BindView(R.id.lin_guanyu)
     LinearLayout linGuanyu;
     private String str_Version;
-    private Boolean SignStatus;
+    private Boolean SignStatus=false;
     private UserInfoBean userInfoBean;
     private RequestOptions options = new RequestOptions().error(R.mipmap.peop).centerCrop();
+    private Boolean loginstatu=false;
     public MainCenterFragmentTest() {
     }
 
@@ -124,33 +133,78 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
     }
 
     private void initView() {
-        getSignStatus();
-        ACache aCache=ACache.get(getActivity());
-        userInfoBean = (UserInfoBean) aCache.getAsObject("userinfo");
-        if(userInfoBean!=null&&userInfoBean.getData()!=null){
-            if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getHeadImageUrl()!=null){
-                String headimg= (String) userInfoBean.getData().getHeadImageUrl();
-                Glide.with(getActivity()).load(AppConfig.BASE_PICTURE_URL+ headimg).apply(options).into(imgHead);
-            }else {
-                Glide.with(getActivity()).load(R.mipmap.peop).apply(options).into(imgHead);
-            }
-
-            if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getUserTrueName()!=null){
-                String trueName=userInfoBean.getData().getUserTrueName();
-                tvName.setText(trueName);
-            }
-            Object remark=userInfoBean.getData().getRemark();
-            if(remark!=null){
-                tvRemake.setText(remark.toString());
+        loginstatu = (boolean) SharedPreferenceTools.getValueofSP(getActivity(),"loginStru",false);
+        if(loginstatu){
+            tvSign.setVisibility(View.VISIBLE);
+            getSignStatus();
+            ACache aCache=ACache.get(getActivity());
+            userInfoBean = (UserInfoBean) aCache.getAsObject("userinfo");
+            if(userInfoBean!=null&&userInfoBean.getData()!=null){
+                if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getHeadImageUrl()!=null){
+                    String headimg= (String) userInfoBean.getData().getHeadImageUrl();
+                    Glide.with(getActivity()).load(AppConfig.BASE_PICTURE_URL+ headimg).apply(options).into(imgHead);
+                }else {
+                    Glide.with(getActivity()).load(R.mipmap.peop).apply(options).into(imgHead);
+                }
+                if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getUserTrueName()!=null){
+                    String trueName=userInfoBean.getData().getUserTrueName();
+                    tvName.setText(trueName);
+                }
+                Object remark=userInfoBean.getData().getRemark();
+                if(remark!=null){
+                    tvRemake.setText(remark.toString());
+                }else{
+                    tvRemake.setText("无签名");
+                }
             }else{
-                tvRemake.setText("无签名");
+                NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                newNetWorkPersenter.GetUserInfo("",this);
             }
         }else{
-            NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
-            newNetWorkPersenter.GetUserInfo("",this);
+            tvSign.setVisibility(View.GONE);
+            Glide.with(getActivity()).load(R.mipmap.peop).apply(options).into(imgHead);
+            tvName.setText("未登录");
+            tvRemake.setText("");
         }
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loginstatu = (boolean) SharedPreferenceTools.getValueofSP(getActivity(),"loginStru",false);
+        if(loginstatu){
+            tvSign.setVisibility(View.VISIBLE);
+            getSignStatus();
+            ACache aCache=ACache.get(getActivity());
+            userInfoBean = (UserInfoBean) aCache.getAsObject("userinfo");
+            if(userInfoBean!=null&&userInfoBean.getData()!=null){
+                if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getHeadImageUrl()!=null){
+                    String headimg= (String) userInfoBean.getData().getHeadImageUrl();
+                    Glide.with(getActivity()).load(AppConfig.BASE_PICTURE_URL+ headimg).apply(options).into(imgHead);
+                }else {
+                    Glide.with(getActivity()).load(R.mipmap.peop).apply(options).into(imgHead);
+                }
+                if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getUserTrueName()!=null){
+                    String trueName=userInfoBean.getData().getUserTrueName();
+                    tvName.setText(trueName);
+                }
+                Object remark=userInfoBean.getData().getRemark();
+                if(remark!=null){
+                    tvRemake.setText(remark.toString());
+                }else{
+                    tvRemake.setText("无签名");
+                }
+            }else{
+                NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                newNetWorkPersenter.GetUserInfo("",this);
+            }
+        }else{
+            tvSign.setVisibility(View.GONE);
+            Glide.with(getActivity()).load(R.mipmap.peop).apply(options).into(imgHead);
+            tvName.setText("未登录");
+            tvRemake.setText("");
+        }
     }
 
     private void getSignStatus() {
@@ -189,7 +243,7 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
         });
     }
 
-    @OnClick({R.id.img_head, R.id.tv_sign, R.id.constraintLayout, R.id.linearLayout, R.id.imageView17, R.id.lin_message, R.id.lin_collect, R.id.lin_history, R.id.lin_suggest, R.id.lin_jifen, R.id.lin_yuyue, R.id.lin_version, R.id.lin_set, R.id.lin_clearcache, R.id.lin_faimlily, R.id.lin_share, R.id.lin_guanyu})
+    @OnClick({R.id.img_head, R.id.tv_sign, R.id.constraintLayout, R.id.linearLayout, R.id.imageView17, R.id.lin_message, R.id.lin_collect, R.id.lin_history, R.id.lin_suggest, R.id.lin_jifen, R.id.lin_yuyue, R.id.lin_version, R.id.lin_set, R.id.lin_clearcache, R.id.lin_faimlily, R.id.lin_share, R.id.lin_guanyu,R.id.tv_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_head:
@@ -237,7 +291,8 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
                 startActivity(intent6);
                 break;
             case R.id.lin_version:
-                GlobalToast.show("已是最新版本",Toast.LENGTH_LONG);
+                NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                newNetWorkPersenter.CheckAppVersion(this);
                 break;
             case R.id.lin_set:
                 startActivity(new Intent(getActivity(), SettingActivity.class));
@@ -251,12 +306,19 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
                 startActivity(intent4);
                 break;
             case R.id.lin_share:
+                Intent intent1=new Intent(getActivity(), ShareActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.lin_guanyu:
                 getVersionMsg();//获取版本信息
                 new AlertDialog.Builder(getActivity()).setTitle("关于我们").setMessage("公众号:\n山西卓至飞高电子科技有限公司\n\n" + str_Version)
                         .setPositiveButton("确定", null)
                         .show();
+                break;
+            case R.id.tv_name:
+                if(tvName.getText().toString().equals("未登录")){
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
                 break;
         }
     }
@@ -307,5 +369,40 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
         }else{
             tvRemake.setText("无签名");
         }
+    }
+
+    @Override
+    public void GetAppVersion(AppVersionBean appVersionInfo) {
+
+        int appcode=SystemAppUtils.getAPPVersionCode(getActivity());
+        String appVersionName=SystemAppUtils.getAPPVersionName(getActivity());
+        if(appVersionInfo.getCode()==200){
+            String info=appVersionInfo.getData().getVersion();
+            if(info.equals(appVersionName)){
+                GlobalToast.showPicture(R.mipmap.nodowlod,Toast.LENGTH_LONG);
+            }else{
+                //下载
+                UpdateApkDialog updateApkDialog = new UpdateApkDialog(getActivity(),appVersionInfo.getData(),appVersionName);
+                updateApkDialog.setOnDialogListen(new UpdateApkDialog.Confirm() {
+                    @Override
+                    public void ok() {
+                        SharedPreferenceTools.putValuetoSP(getActivity(),"url",appVersionInfo.getData().getUrl());
+                        Intent intent=new Intent(getActivity(), DownAPKService.class);
+                        getActivity().startService(intent);
+                        updateApkDialog.cancel();
+                    }
+
+                    @Override
+                    public void cannal() {
+                        updateApkDialog.cancel();
+                    }
+                });
+                updateApkDialog.show();
+            }
+
+        }
+
+
+
     }
 }

@@ -104,6 +104,15 @@ public class MuhuNewBean implements Serializable {
 
         private String Id;
         private String Title;
+        private int TargetId;
+
+        public int getTargetId() {
+            return TargetId;
+        }
+
+        public void setTargetId(int targetId) {
+            TargetId = targetId;
+        }
 
         public String getId() {
             return Id;

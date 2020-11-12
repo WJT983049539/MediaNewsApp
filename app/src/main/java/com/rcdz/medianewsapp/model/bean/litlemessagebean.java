@@ -10,31 +10,39 @@ import java.io.Serializable;
  * time 2020/10/21 14:15
  */
 public class litlemessagebean implements Serializable {
-    String type;
-    String message;
-    String UserName;
+
+    /**
+     * UserName : 张三
+     * SendDate : 2020/11/1 14:06:35
+     * Message : 213
+     */
+
+    private String UserName;
+    private String SendDate;
+    private String Message;
 
     public String getUserName() {
         return UserName;
     }
 
-    public void setUserName(String userName) {
-        UserName = userName;
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
     }
 
-    public String getType() {
-        return type;
+    public String getSendDate() {
+        return SendDate;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSendDate(String SendDate) {
+        this.SendDate = SendDate;
     }
 
     public String getMessage() {
-        return message;
+        return Message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMessage(String Message) {
+        this.Message = Message;
     }
 }
+

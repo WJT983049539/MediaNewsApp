@@ -17,6 +17,7 @@ import com.rcdz.medianewsapp.model.adapter.LiveAdapter;
 import com.rcdz.medianewsapp.model.bean.TvCannelBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetCannelInfo;
+import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.view.activity.VideoPlayerActivity;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
 import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
@@ -37,12 +38,17 @@ public class ChannelListFragment extends androidx.fragment.app.Fragment implemen
     NRecyclerView live_list;
     LiveAdapter liveAdapter;
     private List<TvCannelBean.TvCanneInfo>  list =new ArrayList<>();
+//    String PlantId;
+//    String PlantName;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view= inflater.inflate(R.layout.tv_list,container,false);
         live_list=view.findViewById(R.id.live_list);
+//        Bundle bundle = getArguments();
+//        PlantId=bundle.getString("PlantId");
+//        PlantName=bundle.getString("PlantName");
         ininData();
         return view;
     }
@@ -59,7 +65,15 @@ public class ChannelListFragment extends androidx.fragment.app.Fragment implemen
             public void onitemclik(int position, Object object) {
                 if(object!=null){
                     Intent intent = new Intent(getContext(), VideoPlayerActivity.class);
-                    intent.putExtra("tvinfo",list.get(position));
+                    intent.putExtra("id",String.valueOf(list.get(position).getId()));
+                    intent.putExtra("name",String.valueOf(list.get(position).getName()));
+                    intent.putExtra("url",String.valueOf(list.get(position).getStreamUrl()));
+                    if(list.get(position).getImageUrl()!=null){
+                        intent.putExtra("image",list.get(position).getImageUrl().toString());
+                    }else{
+                        intent.putExtra("image","");
+                    }
+                    Constant.isQuanping=false;
                     startActivity(intent);
                 }
             }

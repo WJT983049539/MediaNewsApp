@@ -1,5 +1,10 @@
 package com.rcdz.medianewsapp.tools;
 
+import android.app.Activity;
+import android.telephony.TelephonyManager;
+
+import static android.content.Context.TELEPHONY_SERVICE;
+
 /**
  * 公共静态变量
  */
@@ -22,5 +27,8 @@ public class Constant {
     public static int displayHeight = 0;			//屏幕高度
     public static String token="";//保存现有的token
     public static boolean logonstau=false;//登录状态
+    public static boolean isQuanping=false;
+
+
 
 }

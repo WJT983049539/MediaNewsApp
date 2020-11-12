@@ -15,6 +15,9 @@ import com.rcdz.medianewsapp.persenter.CommApi;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.view.customview.ClearEditText;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,12 +77,28 @@ public class NiieEditActivity extends BaseActivity {
                     CommApi.post("api/Sys_User/UpdateUserUserTrueName",areaMap).execute(new StringCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
+//                            {"status":true,"code":200,"message":"昵称修改提交成功，请等待审核","data":"我他发可"}
                             if(response.body()!=null){
                                 Log.i("test","修改昵称成功-->");
-                                Intent intent=new Intent();
-                                intent.putExtra("nickname",nickedit2);
-                                setResult(12,intent);
-                                finish();
+
+                                try {
+                                    JSONObject jsonObject=new JSONObject(response.body());
+                                    int code=jsonObject.getInt("code");
+                                    String data=jsonObject.getString("data");
+                                    String message=jsonObject.getString("message");
+                                    if(code==200){
+                                        Intent intent=new Intent();
+                                        intent.putExtra("nickname",data);
+                                        setResult(12,intent);
+                                        finish();
+                                    }else{
+                                        GlobalToast.show(message,Toast.LENGTH_LONG);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+
                             }
                         }
 

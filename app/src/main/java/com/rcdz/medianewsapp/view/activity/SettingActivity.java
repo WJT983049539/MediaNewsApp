@@ -11,6 +11,7 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.tools.ACache;
+import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.view.customview.OutLoginDialog;
 
@@ -72,8 +73,11 @@ public class SettingActivity extends BaseActivity {
                         ACache aCache=ACache.get(SettingActivity.this);
                         UserInfoBean userInfoBean=null;
                         aCache.put("userinfo",userInfoBean);
-                        Intent intent=new Intent(SettingActivity.this,LoginActivity.class);
-                        startActivity(intent);
+                        SharedPreferenceTools.putValuetoSP(SettingActivity.this,"user","");//不是第一次登录了
+                        SharedPreferenceTools.putValuetoSP(SettingActivity.this,"token","");//保存到共享参数
+                        Constant.token="";
+//                        Intent intent=new Intent(SettingActivity.this,LoginActivity.class);
+//                        startActivity(intent);
                         SettingActivity.this.finish();
 
                     }

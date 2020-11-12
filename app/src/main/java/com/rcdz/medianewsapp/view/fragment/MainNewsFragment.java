@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,12 +29,19 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetUserSetion;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.SetList;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.rcdz.medianewsapp.view.activity.LoginActivity;
+import com.rcdz.medianewsapp.view.activity.MainActivity;
 import com.rcdz.medianewsapp.view.activity.NewsSearchActivity;
 import com.rcdz.medianewsapp.view.activity.SelectCannerListActivity;
+import com.rcdz.medianewsapp.view.activity.SettingActivity;
+import com.rcdz.medianewsapp.view.activity.WelcomeActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +72,7 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
     @BindView(R.id.viewpager)
     ViewPager viewpager;
     private  MyNewsPagerAdapter myPagerAdapter;
+    private boolean loginstatu=false;
 
     public MainNewsFragment() {
     }
@@ -81,9 +90,16 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
         ButterKnife.bind(this, view);
         newlist.clear();
         EventBus.getDefault().register(this);//注册evenbus
+        loginstatu = (boolean) SharedPreferenceTools.getValueofSP(getActivity(),"loginStru",false);
         // todo 请求新闻title
         newsNetWorkPersenter = new NewNetWorkPersenter(getActivity());
-        newsNetWorkPersenter.GetUserSetion(this);//得到全部plate
+        if(loginstatu){
+            newsNetWorkPersenter.GetUserSetion(this);//得到全部plate
+        }else{
+            newsNetWorkPersenter.GetUserSetionasNoLogin(this);
+        }
+
+
         return view;
     }
 
@@ -91,8 +107,6 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
-//        newNetWorkPersenter.GetNewsList(MainNewsFragment.this);
     }
 
     /**
@@ -105,26 +119,6 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
 
     }
 
-    /**
-     * 得到用户的title,显示主页各种新闻页面
-     */
-    @Override
-    public void getUserSetion(SetionBean setionBean2) {
-        newlist.clear();
-        setionBean=setionBean2;
-        for(SetionBean.DataBean titleBean:setionBean2.getData()){
-            newlist.add(titleBean);
-        }
-
-
-        myPagerAdapter= new MyNewsPagerAdapter(getFragmentManager());
-        viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
-        viewpager.setAdapter(myPagerAdapter);
-        viewpager.setOffscreenPageLimit(5);//缓存5个页面
-        tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tablayout.setupWithViewPager(viewpager);
-
-    }
 
     @OnClick({R.id.searchBtn, R.id.loginBtn,R.id.lanmumenu})
     public void onViewClicked(View view) {
@@ -133,19 +127,52 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
                 startActivity(new Intent(getContext(), NewsSearchActivity.class));
                 break;
             case R.id.loginBtn://个人中心
-                break;
-            case R.id.lanmumenu://栏目编辑
-                if(setionBean==null||setionBean.getData().size()==0){
-                    GlobalToast.show("栏目信息不存在，请查看有无栏目",5000);
+                if(loginstatu){
+                    MainActivity mainActivity= (MainActivity) getActivity();
+                    mainActivity.setPositon(4);
                 }else{
-                    ACache aCache=ACache.get(getActivity());
-                    aCache.put("setionBean",setionBean);
-                    Intent intent=new Intent(getActivity(), SelectCannerListActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(getActivity(),LoginActivity.class));
                 }
 
                 break;
+            case R.id.lanmumenu://栏目编辑
+                    if(setionBean==null||setionBean.getData().size()==0){
+                        GlobalToast.show4("栏目信息不存在，请查看有无栏目",5000);
+                    }else{
+                        ACache aCache=ACache.get(getActivity());
+                        aCache.put("setionBean",setionBean);
+                        Intent intent=new Intent(getActivity(), SelectCannerListActivity.class);
+                        startActivity(intent);
+                    }
+                break;
         }
+    }
+
+    /**
+     * 得到用户的title,显示主页各种新闻页面
+     */
+    @Override
+    public void getUserSetion(List<SetionBean.DataBean> setionBeans) {
+        newlist.clear();
+        setionBean=new SetionBean();
+        setionBean.setCode(200);
+        setionBean.setData(setionBeans);
+        setionBean.setMessage("ok");
+
+        for(SetionBean.DataBean titleBean:setionBeans){
+            if(titleBean.getName().equals("推荐")){
+                newlist.add(0,titleBean);
+            }else{
+                newlist.add(titleBean);
+            }
+        }
+
+        myPagerAdapter= new MyNewsPagerAdapter(getFragmentManager());
+        viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
+        viewpager.setAdapter(myPagerAdapter);
+        viewpager.setOffscreenPageLimit(5);//缓存5个页面
+        tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tablayout.setupWithViewPager(viewpager);
     }
 
     private class MyNewsPagerAdapter extends FragmentPagerAdapter {
@@ -161,11 +188,13 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
                     fragment= new NewsRecommendFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("PlateID", String.valueOf(newlist.get(position).getId()));
+                    bundle.putString("PlateName",newlist.get(position).getName());
                     fragment.setArguments(bundle);
                 }else {
                     fragment = new NewsAdoptFragment();
                     Bundle bundle = new Bundle();
                     bundle.putString("PlateID", String.valueOf(newlist.get(position).getId()));
+                    bundle.putString("PlateName",newlist.get(position).getName());
                     fragment.setArguments(bundle);
 
 
@@ -198,7 +227,12 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
         SectionName= SectionName.substring(0,SectionName.length()-1);
 
         newsNetWorkPersenter.UpdateUserSections(SectionName);//修改版块
-        newsNetWorkPersenter.GetUserSetion(this);//得到全部plate
+        if(loginstatu){
+            newsNetWorkPersenter.GetUserSetion(this);//得到全部plate
+        }else{
+            newsNetWorkPersenter.GetUserSetionasNoLogin(this);
+        }
+
     }
     @Override
     public void onDestroyView() {

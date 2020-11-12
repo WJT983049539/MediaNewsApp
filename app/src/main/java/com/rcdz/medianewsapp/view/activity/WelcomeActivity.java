@@ -75,17 +75,20 @@ public class WelcomeActivity extends BaseActivity{
 
                         if(!isFirstStart){   //不是第一次登录
 
-                            if(loginStru){ //已经登录过了，直接进入主页
+//                            if(loginStru){ //已经登录过了，直接进入主页
+//                                openActivity(MainActivity.class);
+//                                WelcomeActivity.this.finish();
+//                            }else{
+//                                openActivity(LoginActivity.class);
+//                                WelcomeActivity.this.finish();
+//                            }
+
+                            //不管登录不登录直接进入主页
                                 openActivity(MainActivity.class);
                                 WelcomeActivity.this.finish();
-                            }else{
-                                openActivity(LoginActivity.class);
-                                WelcomeActivity.this.finish();
-                            }
-
 
                         }else{    //第一次登录
-                            openActivity(LoginActivity.class);
+                            openActivity(GuideActivity.class); //todo 欢迎页面完善
                             WelcomeActivity.this.finish();
                         }
                     }

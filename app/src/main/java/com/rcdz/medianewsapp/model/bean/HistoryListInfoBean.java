@@ -128,6 +128,15 @@ public class HistoryListInfoBean implements Serializable {
         private int CreateID;
         private String Creator;
         private String CreateDate;
+        private int ActivityType;
+
+        public int getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(int activityType) {
+            ActivityType = activityType;
+        }
 
         public int getId() {
             return Id;

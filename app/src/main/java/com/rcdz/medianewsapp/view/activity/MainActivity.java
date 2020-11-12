@@ -66,19 +66,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public void inintView() {
         ButterKnife.bind(this);
-        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
-        newNetWorkPersenter.GetUserInfo("",null);
+//        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
+//        newNetWorkPersenter.GetUserInfo("",null);
         /**
          * 初始化页面控件
          */
         mainTabRg.setOnCheckedChangeListener(this);
-        fragments.add(MainNewsFragment.getInstance());//首页
-        fragments.add(MainTVFragment.getInstance());//频道
-        fragments.add(MainAllFragment.getInstance());//智慧圈
-        fragments.add(MainPoliticsFragment.getInstance());//民生
-        fragments.add(MainCenterFragmentTest.getInstance());//个人中心
+        fragments.add(MainNewsFragment.getInstance());  //首页
+        fragments.add(MainTVFragment.getInstance());  //频道
+        fragments.add(MainAllFragment.getInstance());  //智慧圈
+        fragments.add(MainPoliticsFragment.getInstance());  //民生
+        fragments.add(MainCenterFragmentTest.getInstance());  //个人中心
         mainViewPageAdapter = new MainViewPageAdapter(getSupportFragmentManager(), fragments);
-        mainViewpager.setOffscreenPageLimit(5);//缓存4个页面
+        mainViewpager.setOffscreenPageLimit(5); //缓存4个页面
         mainViewpager.setAdapter(mainViewPageAdapter);
     }
 
@@ -87,6 +87,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     }
 
+    public void setPositon(int positon){
+        if(mainViewpager!=null){
+            mainViewpager.setCurrentItem(positon);
+        }
+    }
 
 
 

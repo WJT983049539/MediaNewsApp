@@ -126,7 +126,27 @@ public class NewsListBean implements Serializable {
         private String PublishDate;
         private String PublishDateString;
         private int SectionId;
+
+        public int getTargetId() {
+            return TargetId;
+        }
+
+        public void setTargetId(int targetId) {
+            TargetId = targetId;
+        }
+
+        private int TargetId;
         private String LocationSection;
+
+        public int getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(int activityType) {
+            ActivityType = activityType;
+        }
+
+        private int ActivityType;
         private int CommentCount;
         private int Type;
         private String ContentFontFize;

@@ -72,9 +72,8 @@ public class AppealHotFragment  extends Fragment implements GetPliveLeaveMsgInfo
         return mRootView;
     }
     private  void initView(){
-            NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
-             newNetWorkPersenter.GetPLiveLeaveInfo(String.valueOf(mPage),"0",this);
-
+        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+        newNetWorkPersenter.GetPLiveLeaveInfo(String.valueOf(mPage),"0",this);
         appealHotAdapter=new AppealHotAdapter(dataList,getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(appealHotAdapter);

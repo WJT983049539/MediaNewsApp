@@ -12,7 +12,6 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.LivingMasterBean;
 import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
-import com.rcdz.medianewsapp.persenter.interfaces.GetLivingMInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
 import com.rcdz.medianewsapp.tools.AppConfig;
 
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
  * 邮箱 983049539@qq.com
  * time 2020/10/23 14:13
  */
-public class PersonInfoActivity extends BaseActivity implements GetLivingMInfo {
+public class PersonInfoActivity extends BaseActivity implements GetUserInfo {
     @BindView(R.id.p_back)
     ImageView pBack;
     @BindView(R.id.p_head)
@@ -70,34 +69,34 @@ public class PersonInfoActivity extends BaseActivity implements GetLivingMInfo {
     @Override
     public void inintData() {
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(this);
-        newNetWorkPersenter.GetLivingMasterInfo(userId, this);
+        newNetWorkPersenter.GetUserInfo("",this);
     }
 
 
     @Override
-    public void getinfo(LivingMasterBean livingMasterBean) {
+    public void getUserInfo(UserInfoBean userInfoBean) {
         RequestOptions options = new RequestOptions().error(R.mipmap.peop).centerCrop();
-        if(livingMasterBean!=null&&livingMasterBean.getData()!=null){
-            Log.i("test",livingMasterBean.getData().toString());
-            Glide.with(this).load(AppConfig.BASE_PICTURE_URL+ livingMasterBean.getData().getHeadImageUrl()).apply(options).into(pHead);//头像
-            if(livingMasterBean.getData().getUserName()!=null){
-                pNick.setText(livingMasterBean.getData().getUserName());
+        if(userInfoBean!=null&&userInfoBean.getData()!=null){
+            Log.i("test",userInfoBean.getData().toString());
+            Glide.with(this).load(AppConfig.BASE_PICTURE_URL+ userInfoBean.getData().getHeadImageUrl()).apply(options).into(pHead);//头像
+            if(userInfoBean.getData().getUserName()!=null){
+                pNick.setText(userInfoBean.getData().getUserName());
             }
-            if(livingMasterBean.getData().getAddress()!=null){
-                pAddress.setText(livingMasterBean.getData().getAddress().toString());
+            if(userInfoBean.getData().getAddress()!=null){
+                pAddress.setText(userInfoBean.getData().getAddress().toString());
             }
-            if(livingMasterBean.getData().getRemark()!=null){
-                pRemake.setText(livingMasterBean.getData().getRemark().toString());
+            if(userInfoBean.getData().getRemark()!=null){
+                pRemake.setText(userInfoBean.getData().getRemark().toString());
             }
-            if(livingMasterBean.getData().getPhoneNo()!=null){
-                pPhone.setText(livingMasterBean.getData().getPhoneNo());
+            if(userInfoBean.getData().getPhoneNo()!=null){
+                pPhone.setText(userInfoBean.getData().getPhoneNo());
             }
-                if(Integer.valueOf(livingMasterBean.getData().getPhoneNo())==0){
-                    pPhone.setText("男");
-                }
-                if(Integer.valueOf(livingMasterBean.getData().getPhoneNo())==1){
-                    pPhone.setText("女");
-                }
+            if(Integer.valueOf(userInfoBean.getData().getPhoneNo())==0){
+                pPhone.setText("男");
+            }
+            if(Integer.valueOf(userInfoBean.getData().getPhoneNo())==1){
+                pPhone.setText("女");
+            }
 
         }
     }

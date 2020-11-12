@@ -140,7 +140,7 @@ public class ModelNetWebActivity extends BaseActivity {
                 webView.loadUrl("https://www.yihu.com/hospital/");
                 break;
             case "1178": //公安局
-                setToolBarTitle("预约挂号");
+                setToolBarTitle("派出所查询");
                 webView.loadUrl("http://yuncheng.bendibao.com/cyfw/wangdian/1950.shtm");
                 break;
             case "1145": //交话费
@@ -218,4 +218,21 @@ public class ModelNetWebActivity extends BaseActivity {
         });
         webView2.setInitialScale(25);
     }
+    /**
+     * back键处理
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            if(webView.canGoBack()){
+                webView.goBack();
+                return true;
+            }
+            else{
+                finish();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

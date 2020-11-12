@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -29,6 +30,10 @@ import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.SetList;
 import com.rcdz.medianewsapp.view.fragment.SearchAllFragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,7 +47,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/15 9:59
  */
-public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle , GetAllNewsList {
+public class NewsSearchActivity extends BaseActivity2 implements GetMoHuNewTitle , GetAllNewsList {
     @BindView(R.id.backBtn)
     ImageButton backBtn;
     @BindView(R.id.search_Org)
@@ -62,7 +67,8 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
     View view2;
     private String sousuoContent="";//搜索内容
     private SetList<String> list = new SetList<String>();
-    private SetList<MuhuNewBean.RowsBean> NewTitlelist = new SetList<MuhuNewBean.RowsBean>();
+    private List<MuhuNewBean.RowsBean> NewTitlelist = new ArrayList<MuhuNewBean.RowsBean>();
+    private HashMap<Integer,MuhuNewBean.RowsBean> NewTitlelist2 = new HashMap<>();
 
     @Override
     public String setNowActivityName() {
@@ -76,41 +82,16 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
 
     @Override
     public void inintView() {
-        view2= getLayoutInflater().inflate(R.layout.pup_new_seach, null);
-        list.add("综合");
-            list.add("视频");
         ButterKnife.bind(this);
+        list.add("综合");
+        list.add("视频");
         searchOrg.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     // 此处为得到焦点时的处理内容
-                    NewTitlelist.clear();
-                    RecyclerView recyclerView= view2.findViewById(R.id.search_new_pup_rc);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(NewsSearchActivity.this));
-                    pupwindowsAdapter=new PupwindowsAdapter(NewTitlelist);
-                    pupwindowsAdapter.setOnItemClickListener(new PupwindowsAdapter.ItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            String title=NewTitlelist.get(position).getTitle();
-                            sousuoContent=title;
-                            zonghe.setTextColor(Color.parseColor("#000000"));
-                            video.setTextColor(Color.parseColor("#555555"));
-                            FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
-                            fragmentTransaction.replace(R.id.sousuoshowfragment,new SearchAllFragment(sousuoContent));
-                            fragmentTransaction.commit();
-                            if(popupBigPhoto!=null){
-                                popupBigPhoto.dismiss();
-                            }
-                        }
-                    });
-                    recyclerView.setAdapter(pupwindowsAdapter);
-                    if (popupBigPhoto == null) {
-                        popupBigPhoto = new PopupWindow(view2,  LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT, false);
-                        popupBigPhoto.setOutsideTouchable(false);
-                        popupBigPhoto.showAsDropDown(searchOrg,0,20);
-                    }
+//                    NewTitlelist.clear();
+
                 }else{
                     Log.i("test","as");
                 }
@@ -130,9 +111,10 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                    String sousuowhere=editable.toString().trim();
+                String sousuowhere=editable.toString().trim();
                 if(sousuowhere.equals("")||sousuowhere==null){
-
+                    NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(NewsSearchActivity.this);
+                    newNetWorkPersenter.MohuNewSearch(sousuowhere,NewsSearchActivity.this);//模糊搜索
                 }else{
                     NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(NewsSearchActivity.this);
                     newNetWorkPersenter.MohuNewSearch(sousuowhere,NewsSearchActivity.this);//模糊搜索
@@ -140,11 +122,17 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
 
             }
         });
+        NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(NewsSearchActivity.this);
+        newNetWorkPersenter.MohuNewSearch("",NewsSearchActivity.this);//模糊搜索
     }
 
     @Override
     public void inintData() {
-
+//        zonghe.setTextColor(Color.parseColor("#000000"));
+//        video.setTextColor(Color.parseColor("#555555"));
+//        FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.sousuoshowfragment,new SearchAllFragment(sousuoContent));
+//        fragmentTransaction.commit();
     }
 
 
@@ -158,6 +146,7 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
                 if (searchOrg.getText() == null || searchOrg.getText().equals("")) {
                     GlobalToast.show("搜索内容为空", 5000);
                 } else {
+                    sousuoContent=searchOrg.getText().toString();
                     zonghe.setTextColor(Color.parseColor("#000000"));
                     video.setTextColor(Color.parseColor("#555555"));
                     if(!sousuoContent.equals("")){
@@ -190,11 +179,51 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
                 break;
         }
     }
-
+    //新闻列表，搜索标题
     @Override
     public void getMohuNewTitle(List<MuhuNewBean.RowsBean> list2) {
         NewTitlelist.clear();
-        NewTitlelist.addAll(list2);
+        NewTitlelist2.clear();
+        for(int i=0;i<list2.size();i++){
+            NewTitlelist2.put(list2.get(i).getTargetId(),list2.get(i));
+        }
+        List<MuhuNewBean.RowsBean> valuesList = new ArrayList<MuhuNewBean.RowsBean>(NewTitlelist2.values()); //去掉重复新闻
+        NewTitlelist.addAll(valuesList);
+
+        if(view2==null){
+            view2= getLayoutInflater().inflate(R.layout.pup_new_seach, null);
+            RecyclerView recyclerView= view2.findViewById(R.id.search_new_pup_rc);
+            recyclerView.setLayoutManager(new LinearLayoutManager(NewsSearchActivity.this));
+            pupwindowsAdapter=new PupwindowsAdapter(NewTitlelist);
+            pupwindowsAdapter.setOnItemClickListener(new PupwindowsAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    String title=NewTitlelist.get(position).getTitle();
+                    sousuoContent=title;
+                    zonghe.setTextColor(Color.parseColor("#000000"));
+                    video.setTextColor(Color.parseColor("#555555"));
+                    FragmentTransaction fragmentTransaction= getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.sousuoshowfragment,new SearchAllFragment(sousuoContent));
+                    fragmentTransaction.commit();
+                    if(popupBigPhoto!=null){
+                        popupBigPhoto.dismiss();
+                        popupBigPhoto=null;
+                        view2=null;
+                    }
+                }
+            });
+            recyclerView.setAdapter(pupwindowsAdapter);
+        }
+
+        if (popupBigPhoto == null) {
+            popupBigPhoto = new PopupWindow(view2,  LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, false);
+            popupBigPhoto.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
+            popupBigPhoto.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            popupBigPhoto.setOutsideTouchable(false);
+            popupBigPhoto.showAsDropDown(searchOrg,0,20);
+        }
+
        if(popupBigPhoto!=null&&popupBigPhoto.isShowing()){
            pupwindowsAdapter.notifyDataSetChanged();
        }
@@ -208,15 +237,17 @@ public class NewsSearchActivity extends BaseActivity implements GetMoHuNewTitle 
 
 
     private static class PupwindowsAdapter extends RecyclerView.Adapter<PupwindowsAdapter.ViewHolder>{
-        private SetList<MuhuNewBean.RowsBean> newTitlelist;
+        private List<MuhuNewBean.RowsBean> newTitlelist;
         private ItemClickListener mItemClickListener ;
+
+
         public interface ItemClickListener{
             public void onItemClick(int position) ;
         }
         public void setOnItemClickListener(ItemClickListener itemClickListener){
             this.mItemClickListener = itemClickListener ;
         }
-        public PupwindowsAdapter(SetList<MuhuNewBean.RowsBean> newTitlelist) {
+        public PupwindowsAdapter(List<MuhuNewBean.RowsBean> newTitlelist) {
             this.newTitlelist=newTitlelist;
         }
 

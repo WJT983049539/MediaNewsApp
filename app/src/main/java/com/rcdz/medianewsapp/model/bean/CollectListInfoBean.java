@@ -112,6 +112,33 @@ public class CollectListInfoBean implements Serializable {
          * Duration : 你好哈哈
          */
 
+
+        public int getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(int activityType) {
+            ActivityType = activityType;
+        }
+
+        public int getGlobalSectionId() {
+            return GlobalSectionId;
+        }
+
+        public void setGlobalSectionId(int globalSectionId) {
+            GlobalSectionId = globalSectionId;
+        }
+
+        public String getSectionName() {
+            return SectionName;
+        }
+
+        public void setSectionName(String sectionName) {
+            SectionName = sectionName;
+        }
+        private int ActivityType;
+        private int GlobalSectionId;
+        private String SectionName;
         private int Id;
         private int Type;
         private int TargetId;

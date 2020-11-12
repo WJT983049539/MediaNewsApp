@@ -1,16 +1,26 @@
 package com.rcdz.medianewsapp.view.activity;
 
+import android.app.ActionBar;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -36,8 +46,11 @@ import com.rcdz.medianewsapp.persenter.interfaces.DeleteYuyue;
 import com.rcdz.medianewsapp.persenter.interfaces.DisCollect;
 import com.rcdz.medianewsapp.persenter.interfaces.GetCannelDataInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetProgerssListInfo;
+import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.GlobalToast;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.tools.Strings;
+import com.rcdz.medianewsapp.tools.SystemAppUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,6 +79,16 @@ import cn.jpush.android.api.JPushInterface;
 public class VideoPlayerActivity extends BaseActivity implements GetCannelDataInfo , GetProgerssListInfo , AddReserve, DeleteYuyue, AddCollect, DisCollect {
     @BindView(R.id.img_back)
     ImageView imgBack;
+    @BindView(R.id.video_view)
+    RelativeLayout video_view;
+    @BindView(R.id.toolbar)
+    RelativeLayout toolbar;
+    @BindView(R.id.backBtn)
+    ImageButton backBtn;
+    @BindView(R.id.content)
+    LinearLayout content;
+    @BindView(R.id.openfitmix)
+    ImageView openfitmix;
     @BindView(R.id.cannel_player)
     KSYTextureView mVideoView;
     @BindView(R.id.cannel_title)
@@ -90,8 +113,10 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
     TextView openSunTime;
     private String playurl;
     private String id;
+    private String title;
+    private String image;
     private Boolean isCollect=false;
-    TvCannelBean.TvCanneInfo tvCanneInfo;
+//    TvCannelBean.TvCanneInfo tvCanneInfo;
     CannelDateAdapter cannelDateAdapter;
     ProgressAdapter progressAdapter;
     public  static List<String> SelectedDatelist=new ArrayList<>();
@@ -102,6 +127,10 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
     public static final int HIDDEN_SEEKBAR = 1;
     public static final int UPDATE_CURPROGRAM = 2;
     private Timer timer=null;
+    private boolean loginStru=false;
+    private  int dataId=-1;
+//    private String PlantName;
+//    private String PlantId;
     //8.处理消息
     private Handler  mHandler = new Handler() {
         @Override
@@ -133,13 +162,33 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
     @Override
     public void inintView() {
         ButterKnife.bind(this);
+
+        if(Constant.isQuanping){
+            toolbar.setVisibility(View.GONE);
+            backBtn.setVisibility(View.VISIBLE);
+
+//            content.setVisibility(View.VISIBLE);//内容区隐藏
+        }else{
+            toolbar.setVisibility(View.VISIBLE);
+            backBtn.setVisibility(View.GONE);
+
+//            content.setVisibility(View.GONE);//内容区隐藏
+        }
+
         rid = JPushInterface.getRegistrationID(getApplicationContext());
-        tvCanneInfo= (TvCannelBean.TvCanneInfo) getIntent().getSerializableExtra("tvinfo");
-        id= String.valueOf(tvCanneInfo.getId());
-        playurl=tvCanneInfo.getStreamUrl();
-        cannelTitle.setText(tvCanneInfo.getName());
+//        tvCanneInfo= (TvCannelBean.TvCanneInfo) getIntent().getSerializableExtra("tvinfo");
+//        PlantName=getIntent().getStringExtra("PlantName");
+//        PlantId=getIntent().getStringExtra("PlantId");
+        id= getIntent().getStringExtra("id");
+        title= getIntent().getStringExtra("name");
+        playurl= getIntent().getStringExtra("url");
+        image= getIntent().getStringExtra("image");
+
         datelist.clear();
-        CheckCollectStatu();//检查收藏状态
+        loginStru= (boolean) SharedPreferenceTools.getValueofSP(VideoPlayerActivity.this,"loginStru",false);
+        if(loginStru){
+            CheckCollectStatu();//检查收藏状态
+        }
         prigresslist.setLayoutManager(new LinearLayoutManager(this));
         progressAdapter=new ProgressAdapter(this,progressList,R.layout.item_yuyue_progress);
         prigresslist.setAdapter(progressAdapter);
@@ -173,10 +222,17 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
                         }
                     }
                 }else if(type.equals("2")){ //添加预约
-                    NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(VideoPlayerActivity.this);
-                   String progressId= String.valueOf(item.getId());
-                    newNetWorkPersenter.AddYuYue(progressId,String.valueOf(item.getChannelId()),item.getProgramTime(),item.getStartTime(),item.getName(),item.getProgramUrl(),rid,VideoPlayerActivity.this);
-                }else if(type.equals("3")){ //取消预约
+                    if(loginStru){
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(VideoPlayerActivity.this);
+                        String progressId= String.valueOf(item.getId());
+                        newNetWorkPersenter.AddYuYue(progressId,String.valueOf(item.getChannelId()),item.getProgramTime(),item.getStartTime(),item.getName(),item.getProgramUrl(),rid,VideoPlayerActivity.this);
+                    }else{
+                            startActivity(new Intent(VideoPlayerActivity.this,LoginActivity.class));
+                    }
+                }else if(type.equals("3")){
+                    //取消预约
+
+                    if(loginStru){
                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(VideoPlayerActivity.this);
                     if( item.getFlag()!=null){
                         String yuyueId= (String) item.getFlag();
@@ -187,6 +243,9 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
 
                     }else{
                         GlobalToast.show("无法取消预约",Toast.LENGTH_LONG);
+                    }
+                    }else{
+                        startActivity(new Intent(VideoPlayerActivity.this,LoginActivity.class));
                     }
                 }
             }
@@ -243,10 +302,13 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
     }
 
 
-    @OnClick({R.id.img_back, R.id.cannel_title, R.id.collect, R.id.cancel_share})
+    @OnClick({R.id.img_back, R.id.cannel_title, R.id.collect, R.id.cancel_share,R.id.openfitmix,R.id.backBtn})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+                this.finish();
+                break;
+            case R.id.backBtn:
                 this.finish();
                 break;
             case R.id.cannel_title:
@@ -255,15 +317,56 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
                 //{"status":false,"code":400,"message":"当前状态为未收藏","data":null}
                 NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(VideoPlayerActivity.this);
                 if(!isCollect){
-                    newNetWorkPersenter.AddCollect("6",id,tvCanneInfo.getName(),tvCanneInfo.getStreamUrl(),VideoPlayerActivity.this);
+                    newNetWorkPersenter.AddCollect("6",id,title,playurl,"6","-1",image,VideoPlayerActivity.this);
                 }else{
-                    newNetWorkPersenter.DeleteCollect(id,VideoPlayerActivity.this);
+                    newNetWorkPersenter.DeleteCollect(String.valueOf(dataId),VideoPlayerActivity.this);
                 }
-
                 break;
             case R.id.cancel_share:
                 break;
-            case R.id.stopBtn: //暂停按钮
+            case R.id.openfitmix: //全屏
+                if(Constant.isQuanping){ //旋转为竖屏
+                    toolbar.setVisibility(View.VISIBLE);
+                    backBtn.setVisibility(View.GONE);
+                    content.setVisibility(View.VISIBLE);//内容区隐藏
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    Constant.isQuanping=false;
+
+                    DisplayMetrics dm = new DisplayMetrics();
+                    this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+                    int screenWidth = dm.widthPixels;
+                    int screenHeight = dm.heightPixels;
+                    //设置全屏
+                    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) video_view.getLayoutParams();
+                    int px=SystemAppUtils.dip2px(this,224);
+                    params.height =px;
+                    video_view.setLayoutParams(params);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                        mVideoView.setRotation(90);
+                    openfitmix.setBackgroundResource(R.mipmap.quanping);
+
+                }else{ //旋转为横屏
+                    toolbar.setVisibility(View.GONE);
+                    backBtn.setVisibility(View.VISIBLE);
+                    content.setVisibility(View.GONE);//内容区隐藏
+                    Constant.isQuanping=true;
+
+                    //竖屏转横屏
+                    DisplayMetrics dm = new DisplayMetrics();
+                    this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+                    int screenWidth = dm.widthPixels;
+                    int screenHeight = dm.heightPixels;
+                        //设置全屏
+                        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) video_view.getLayoutParams();
+                        params.height =screenWidth;
+                        video_view.setLayoutParams(params);
+                         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//                        mVideoView.setRotation(90);
+                         openfitmix.setBackgroundResource(R.mipmap.disquanping);
+
+                }
                 break;
         }
     }
@@ -300,6 +403,7 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
     //得到该天的节目详细列表
     @Override
     public void getProgressList(YuYueProgresListInfoBean yuYueProgresListInfoBean) {
+
         progressList.clear();
         if(yuYueProgresListInfoBean.getData().size()!=0){
             progressList.addAll(yuYueProgresListInfoBean.getData());
@@ -349,7 +453,7 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
         @Override
         public void onCompletion(IMediaPlayer mp) {
             // todo 播放完了，重新刷新
-            seekBarView.setVisibility(View.INVISIBLE);
+            seekBarView.setVisibility(View.VISIBLE);
             mVideoView.reload(playurl, true);
             mVideoView.prepareAsync();
         }
@@ -360,8 +464,8 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
         public void onBufferingUpdate(IMediaPlayer mp, int percent) {
             if (mVideoView != null) {
                 long duration = mVideoView.getDuration();
-                long progress = duration * percent / 100;
-                seekBar.setSecondaryProgress((int) progress);
+//                long progress = duration * percent / 100;
+//                seekBar.setSecondaryProgress((int) progress);
             }
         }
     };
@@ -385,8 +489,9 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
         }
     }
     public void CheckCollectStatu(){
-
-        CommApi.postNoParams("api/Sys_UserStores/IsDo/6/"+tvCanneInfo.getId()).execute(new CustomStringCallback() {
+    //{"status":true,"code":200,"message":"当前状态为已收藏","data":3}
+    //{"status":false,"code":400,"message":"当前状态为未收藏","data":null}
+        CommApi.postNoParams("api/Sys_UserStores/IsDo/6/"+id).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 if(response.body()!=null){
@@ -399,7 +504,9 @@ public class VideoPlayerActivity extends BaseActivity implements GetCannelDataIn
                             Glide.with(VideoPlayerActivity.this).load(R.mipmap.collect_img).into(collect);
                             isCollect=false;
                         }else if(code==200){
+                            dataId= jsonObject.getInt("data");
                             isCollect=true;
+                            Glide.with(VideoPlayerActivity.this).load(R.mipmap.collected).into(collect);
                             //已经收藏
                         }
                     } catch (JSONException e) {

@@ -1,5 +1,6 @@
 package com.rcdz.medianewsapp.view.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -35,6 +36,8 @@ public class LoginActivity extends BaseActivity {
     TextView loginPhone;
     @BindView(R.id.login_pwd)
     TextView loginPwd;
+    @BindView(R.id.tg)
+    TextView tg;
 
     @Override
     public String setNowActivityName() {
@@ -44,7 +47,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     public int setLayout() {
         return R.layout.activity_login;
-
     }
 
     @Override
@@ -61,7 +63,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.register, R.id.tv_agreement, R.id.login_phone, R.id.login_pwd})
+    @OnClick({R.id.register, R.id.tv_agreement, R.id.login_phone, R.id.login_pwd,R.id.tg})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.register:
@@ -84,6 +86,10 @@ public class LoginActivity extends BaseActivity {
                 fragmentTransaction.replace(R.id.showlin, new Login_PwdFragment(), "login_pwd");
                 fragmentTransaction.commit();
 
+                break;
+            case  R.id.tg:
+                Intent intent=new Intent(this,MainActivity.class);
+                startActivity(intent);
                 break;
         }
     }

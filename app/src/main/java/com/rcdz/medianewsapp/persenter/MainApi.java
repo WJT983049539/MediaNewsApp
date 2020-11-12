@@ -11,13 +11,19 @@ public class MainApi {
      * 获取新闻列表
      * */
     public static String getNewsListUrl(){
-        return String.format("api/NewsView/getPageData");
+        return String.format("api/NewsView/GetPageList");
     }
     /**
      * 获取用户版块
      * */
     public static String getUserSection(){
         return String.format("api/Sys_UserSections/GetUserSections");
+    }
+    /**
+     * 获取用户版块 未登录状态
+     * */
+    public static String getNoLoginUserSection(){
+        return String.format("api/Global_Sections/GetPageList");
     }
     /**
      * 获取用户自己取消的版块
@@ -29,7 +35,7 @@ public class MainApi {
      * 模糊搜索
      * */
     public static String newsSearch(){
-        return String.format("api/NewsSearchView/getPageData");
+        return String.format("api/NewsSearchView/GetPageList");
     }
     /**
      *
@@ -43,7 +49,7 @@ public class MainApi {
      * 民生版块信息
      * */
     public static String PliveData(){
-        return String.format("api/Livelihood_Feedback/GetPageData");
+        return String.format("api/Livelihood_Feedback/GetPageList");
     }
     /**
      *
@@ -57,14 +63,14 @@ public class MainApi {
      * 获得直播间列表
      * */
     public static String GetLiving(){
-        return String.format("api/LiveRoomView/GetPageData");
+        return String.format("api/LiveRoomView/GetPageList");
     }
     /**
      *
      * 民生机构信息
      * */
     public static String Department(){
-        return String.format("api/Livelihood_Organization/GetStatOrganization");
+        return String.format("api/Livelihood_Organization/GetStatOrganization/");
     }
     /**
      *
@@ -85,7 +91,7 @@ public class MainApi {
      * 主播信息
      * */
     public static String GetLivingMasterInfo(){
-        return String.format("api/User/getUserInfo");
+        return String.format("api/Sys_User/GetLiveUserInfo");
     }
     /**
      *
@@ -103,17 +109,17 @@ public class MainApi {
     }
     /**
      *
-     * 留言弹框  查询反馈单位
+     * 频道版块
      * */
     public static String GetChannels_Setion(){
-        return String.format("api/Channels_Section/GetPageData");
+        return String.format("api/Channels_Section/GetPageList");
     }
     /**
      *
      * 获取TV直播列表
      * */
     public static String GetTv_LIVE(){
-        return String.format("api/Channels/GetPageData");
+        return String.format("api/Channels/GetPageList");
     }
 //    /**
 //     *
@@ -141,7 +147,7 @@ public class MainApi {
      * 获取点播列表
      * */
     public static String GetDemandList(){
-        return String.format("api/VideoDemandListView/GetPageData");
+        return String.format("api/VideoDemandListView/GetPageList");
     }
     /**
      *
@@ -185,5 +191,32 @@ public class MainApi {
     public static String UpLeavseMsg(){
         return String.format("api/Livelihood_Feedback/Upload");
     }
-
+    /**
+     *
+     * 留言上传
+     * */
+    public static String YiJianYiBack(){
+        return String.format("api/Sys_UserFeedback/Add");
+    }
+    /**
+     *
+     * 添加评论
+     * */
+    public static String AddComment(){
+        return String.format("api/Sys_UserComments/Add");
+    }
+    /**
+     *
+     * 获取版本信息
+     * */
+    public static String GetAppVersionInfo(){
+        return String.format("api/App_Version/GetMasterVersion/0");
+    }
+    /**
+     *
+     * 获取版本信息
+     * */
+    public static String AddHistoryforNews(){
+        return String.format("api/Sys_UserFootMark/AddNewsFoot/");
+    }
 }

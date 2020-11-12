@@ -9,7 +9,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters 'armeabi-v7a','arm64-v8a'
@@ -53,6 +53,7 @@ dependencies {
     implementation files('libs\\jcore-android-2.4.0.jar')
     implementation files('libs\\jmimemagic-0.1.1.jar')
     implementation files('libs\\tbs_sdk_thirdapp_v4.3.0.39_43939_sharewithdownloadwithfile_withoutGame_obfs_20200713_223411.jar')
+    implementation files('src\\main\\jniLibs\\zxing.jar')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -88,6 +89,9 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:4.1.6'
     implementation 'com.github.SheHuan:NiceImageView:1.0.5'
     implementation 'com.github.donkingliang:ImageSelector:2.2.0' //图片选择
+    //下载器
+    implementation 'com.liulishuo.filedownloader:library:1.4.2'
+    implementation 'com.hjq:xtoast:6.0'
 }
 repositories {
     mavenCentral()

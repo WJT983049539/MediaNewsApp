@@ -1,9 +1,12 @@
 package com.rcdz.medianewsapp.model.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.view.View;
 
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.TopNewsInfo;
+import com.rcdz.medianewsapp.view.activity.NewsDetailActivity;
 
 import java.util.List;
 
@@ -15,6 +18,8 @@ import java.util.List;
  * time 2020/10/27 10:51
  */
 public class ZhiDingAdapter extends CommonRecyclerAdapter<TopNewsInfo.TopNews>{
+
+
     public ZhiDingAdapter(Context context, List<TopNewsInfo.TopNews> data, int layoutId) {
         super(context, data, layoutId);
     }
@@ -24,5 +29,17 @@ public class ZhiDingAdapter extends CommonRecyclerAdapter<TopNewsInfo.TopNews>{
         holder.setText(R.id.long_title,item.getLongTitle());
         holder.setText(R.id.zuzhi,item.getCreator());
         holder.setText(R.id.comment,item.getCommentCount()+"评论");
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Intent intent =new Intent(mContext, NewsDetailActivity.class);
+                    intent.putExtra("id",item.getTargetId());
+                    intent.putExtra("plateId",item.getSectionId());
+                    intent.putExtra("platName","推荐");
+                    intent.putExtra("ActivityType",item.getActivityType());
+                    intent.putExtra("Type",item.getType());
+                    mContext.startActivity(intent);
+            }
+        });
     }
 }

@@ -1,11 +1,17 @@
 package com.rcdz.medianewsapp.view.activity;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +20,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,12 +32,16 @@ import com.rcdz.medianewsapp.model.adapter.CommentListAdapter;
 import com.rcdz.medianewsapp.model.adapter.JishuAdapter;
 import com.rcdz.medianewsapp.model.bean.CommentInfoBean;
 import com.rcdz.medianewsapp.model.bean.DemandEpisodeBean;
+import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetComment;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandJiNumDetails;
+import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.Strings;
+import com.rcdz.medianewsapp.tools.SystemAppUtils;
+import com.rcdz.medianewsapp.view.customview.BottomDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,15 +59,18 @@ import butterknife.OnClick;
  * time 2020/10/19 17:49
  */
 public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNumDetails, GetComment {
-
-
+    private  float speed=0f;
+    String videoDemandId;
     String demandId;
     String title = "";
     String litletitle = "";
     String content = "";
     String VideoUrl = "";
+    String channelSectionId="";
     @BindView(R.id.ksy_textureview)
     KSYTextureView mVideoView;
+    @BindView(R.id.video_view)
+    LinearLayout video_view;
     @BindView(R.id.demand_details_title)
     TextView demandDetailsTitle;
     @BindView(R.id.demand_details_litlt_title)
@@ -87,12 +101,16 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     LinearLayout mPlayerPanel;
     @BindView(R.id.outside)
     RelativeLayout outside;
-    @BindView(R.id.pause)
-    ImageView thum;
     @BindView(R.id.thum)
+    ImageView thum;
+    @BindView(R.id.pause)
     ImageView pause; //暂停按钮
     @BindView(R.id.commentlist)
     RecyclerView commentlist; //暂停按钮
+    @BindView(R.id.writecomment)
+    TextView edit_comment; //评论按钮
+
+    private String userName;
     boolean is_play = true;//是否播放/暂停
     private int mVideoWidth = 0;
     private int mVideoHeight = 0;
@@ -115,16 +133,11 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
                     setVideoProgress(0);//更新进度条上的时间
                     break;
                 case HIDDEN_SEEKBAR://隐藏
-//                    mPlayerPanelShow = false;
-//                    mPlayerPanel.setVisibility(View.GONE);//进度bar
-//                    topPanel.setVisibility(View.GONE);//top bar
-//                    screenBtn.setVisibility(View.GONE);//截图按钮
-//                    if (isFullScreen) {
-//                        backBtn.setVisibility(View.GONE);//返回按钮
-//                    }
+                    mPlayerPanelShow = false;
+                    outside.setVisibility(View.GONE);
+                    pause.setVisibility(View.GONE);
                     break;
                 case UPDATE_CURPROGRAM:
-                    //定时更新直播节目选中状态
                     break;
             }
         }
@@ -132,6 +145,7 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     ;
 
     String liveUrl = "";
+    private boolean isQuanping=false; //是否全屏
 
     @Override
     public String setNowActivityName() {
@@ -145,20 +159,27 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
 
     @Override
     public void inintView() {
+        Log.i("test","onCreate()");
         ButterKnife.bind(this);
         demandId = getIntent().getStringExtra("demandId");
         title = getIntent().getStringExtra("title");
         litletitle = getIntent().getStringExtra("litletitle");
         content = getIntent().getStringExtra("content");
+        channelSectionId = getIntent().getStringExtra("channelSectionId");
         list.clear();
+
+        ACache aCache=ACache.get(this);
+        UserInfoBean userInfoBean= (UserInfoBean) aCache.getAsObject("userinfo");
+        userName=userInfoBean.getData().getUserName();
+        speed=0f;
         initVideoView();//初始化播放器
 
 
     }
 
     private void initVideoView() {
-        mPlayerPanel.setVisibility(View.GONE);
-        fullBtn.setVisibility(View.GONE);
+        mPlayerPanel.setVisibility(View.VISIBLE);
+        fullBtn.setVisibility(View.VISIBLE);
         //设置监听器
         mVideoView.setOnBufferingUpdateListener(mOnBufferingUpdateListener);//网络流媒体的缓冲变化时回调
         mVideoView.setOnCompletionListener(mOnCompletionListener);//网络流媒体播放结束时回调
@@ -170,15 +191,14 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         mVideoView.setOnTouchListener(mTouchListener);
         mVideoView.setKeepScreenOn(true);
         seekBar.setOnSeekBarChangeListener(mSeekBarListener);
-
         //设置播放参数
         mVideoView.setBufferTimeMax(2.0f);
         mVideoView.setTimeout(5, 30);
 
         //设置播放地址并准备
 //        try {
-////            mVideoView.setDataSource(liveUrl);
-////            mVideoView.prepareAsync();
+//            mVideoView.setDataSource(liveUrl);
+//            mVideoView.prepareAsync();
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
@@ -194,12 +214,25 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             @Override
             public void onitemclik(int position) {
                 GlobalToast.show("第" + position + 1 + "集", Toast.LENGTH_LONG);
+                DemandEpisodeBean.DemandEpisodeInfo demandEpisodeInfo=  list.get(position);
+                videoDemandId= String.valueOf(demandEpisodeInfo.getId());
+                NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(DemandDetailsActivity.this);
+                newNetWorkPersenter.GeCommentList(videoDemandId,DemandDetailsActivity.this);//获取评论列表  ,todo 这应该是获取集数的评论
+                int id=demandEpisodeInfo.getId();
+                liveUrl=AppConfig.BASE_VIDEO_URL+demandEpisodeInfo.getVideoUrl();
+                try {
+                    mVideoView.setDataSource(liveUrl);
+                    mVideoView.prepareAsync();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
         //获取集数
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(this);
         newNetWorkPersenter.GetDemandDetails(demandId, this);
-        newNetWorkPersenter.GeCommentList(demandId,this);
 
     }
 
@@ -213,10 +246,13 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             jishuAdapter.notifyDataSetChanged();
 
             liveUrl = AppConfig.BASE_VIDEO_URL+demandEpisodeBean.getData().get(0).getVideoUrl();
+            videoDemandId= String.valueOf(demandEpisodeBean.getData().get(0).getId());
             demandDetailsTitle.setText(title);
             demandDetailsLitltTitle.setText(litletitle);
             demandDetailsContent.setText(content);
             demand_details_num.setText("共" + demandEpisodeBean.getData().size() + "集");
+            NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(this);
+            newNetWorkPersenter.GeCommentList(videoDemandId,this);//获取评论列表  ,todo 这应该是获取集数的评论
             try {
                 mVideoView.setDataSource(liveUrl);
                 mVideoView.setBufferTimeMax(10);
@@ -305,7 +341,6 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             } else if (what == KSYMediaPlayer.MEDIA_ERROR_UNKNOWN) {
                 if (extra == KSYMediaPlayer.MEDIA_ERROR_IO) {
                     //文件不存在或错误，或网络不可访问错误
-
                     Log.i("play", "文件不存在或错误，或网络不可访问错误");
                 } else if (extra == KSYMediaPlayer.MEDIA_ERROR_TIMED_OUT) {
                     //超时
@@ -469,19 +504,22 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     }
 
 
-    @OnClick({R.id.pause, R.id.backBtn, R.id.fullBtn, R.id.rc_xuanji})
+    @OnClick({R.id.pause, R.id.backBtn, R.id.fullBtn, R.id.rc_xuanji,R.id.writecomment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.pause:
                 if (is_play) {
-                    pause.setBackgroundResource(R.mipmap.play);
+                    pause.setBackgroundResource(R.mipmap.play); //暂停
                     if (mVideoView != null) {
                         mVideoView.pause();
                     }
                 } else {
-                    pause.setBackgroundResource(R.mipmap.stop);
+                    pause.setBackgroundResource(R.mipmap.stop); //开始播放
                     if (mVideoView != null) {
                         mVideoView.start();
+                        Message msg = new Message();
+                        msg.what = HIDDEN_SEEKBAR;
+                        mHandler.sendMessageDelayed(msg, 5000);
                     }
                 }
                 is_play = !is_play;
@@ -489,9 +527,70 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             case R.id.backBtn:
                 finish();
                 break;
-            case R.id.fullBtn:
+            case R.id.fullBtn: //全屏
+                speed= mVideoView.getSpeed();
+                if(isQuanping){ //全屏
+                    contentView.setVisibility(View.VISIBLE);//内容区隐藏
+                   DisplayMetrics dm = new DisplayMetrics();
+                    this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+                    int screenWidth = dm.widthPixels;
+                    int screenHeight = dm.heightPixels;
+                    //设置全屏
+                    this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                    LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) video_view.getLayoutParams();
+                    int px= SystemAppUtils.dip2px(this,224);
+                    params.height =px;
+                    video_view.setLayoutParams(params);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//                        mVideoView.setRotation(90);
+                    fullBtn.setBackgroundResource(R.mipmap.quanping);
+                    mVideoView.setSpeed(speed);
+                    isQuanping=false;
+
+                }else{ //不是全屏
+                    contentView.setVisibility(View.GONE);//内容区隐藏
+                         //竖屏转横屏
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    DisplayMetrics dm = new DisplayMetrics();
+                    this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+                    int screenWidth = dm.widthPixels;
+                    int screenHeight = dm.heightPixels;
+                        //设置全屏
+                        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) video_view.getLayoutParams();
+                        params.height =screenWidth;
+                        video_view.setLayoutParams(params);
+
+                    fullBtn.setBackgroundResource(R.mipmap.disquanping);
+
+                    mVideoView.setSpeed(speed);
+                    isQuanping=true;
+                }
+
                 break;
             case R.id.rc_xuanji:
+                break;
+            case R.id.writecomment: //提交评论
+                if(edit_comment.getText()!=null){
+                BottomDialog showDialog = new BottomDialog();
+                    showDialog.BottomDialog(this);
+                    showDialog.setFirm(new BottomDialog.Firm() {
+                        @Override
+                        public void commit(String info) {
+                            NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(DemandDetailsActivity.this);
+                            newNetWorkPersenter.AddComment(userName,litletitle,title,info,videoDemandId,channelSectionId,"5");
+                        }
+
+                        @Override
+                        public void cannel() {
+
+                        }
+                    });
+
+                }
+
+
                 break;
         }
     }
@@ -499,6 +598,7 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     //页面暂停 播放器的处理
     @Override
     protected void onPause() {
+        Log.i("test","onPause()");
         super.onPause();
 
         if (mVideoView != null) {
@@ -510,6 +610,7 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     //页面恢复 播放器的处理
     @Override
     protected void onResume() {
+        Log.i("test","onResume()");
         super.onResume();
         if (mVideoView != null) {
             mVideoView.runInForeground();
@@ -518,7 +619,20 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("test","onStart()");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i("test","onRestart()");
+    }
+
+    @Override
     protected void onDestroy(){
+        Log.i("test","onDestroy()");
         super.onDestroy();
         mHandler = null;
         if(mVideoView != null){
@@ -532,5 +646,12 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         commentlist.setLayoutManager(new LinearLayoutManager(this));
         CommentListAdapter commentAdapter=new CommentListAdapter(this,commentInfoBean.getRows(),R.layout.item_commentlist);
         commentlist.setAdapter(commentAdapter);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Log.i("test","onConfigurationChanged()");
+
     }
 }

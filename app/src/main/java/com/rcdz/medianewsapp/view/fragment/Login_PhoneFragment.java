@@ -168,6 +168,7 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
             if(loginBean.getData().getToken()!=null){
                 Log.i("Token",loginBean.getData().getToken());
                 String token=loginBean.getData().getToken();
+                String user=loginBean.getData().getUser();
                 if(token==null||token.equals("")){
                     GlobalToast.show("Token获取失败",2000);
                     Log.i("Token","Token获取失败");
@@ -177,6 +178,7 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                     SharedPreferenceTools.putValuetoSP(getActivity(),"token",token);//保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"loginStru",true);//登录状态保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"isFirstStart",false);//不是第一次登录了
+                    SharedPreferenceTools.putValuetoSP(getActivity(),"user",user);//不是第一次登录了
                     Constant.token=token;//保存到临时变量里面
                     ACache aCache=ACache.get(getActivity());
                     aCache.put("loginInfo",loginBean);//储存到缓存 ，，用户变更需要改变

@@ -16,7 +16,10 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.PliveLeaveInfo;
 import com.rcdz.medianewsapp.tools.AppConfig;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * 作用:
@@ -29,6 +32,16 @@ public class AppealHotAdapter extends RecyclerView.Adapter<AppealHotAdapter.View
     private ArrayList<PliveLeaveInfo.LeaveMessageInfo> dataList;
     private RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_image).error(R.mipmap.default_image).centerCrop();
     private Context context;
+
+    public interface OnItemClick {
+        void onitemclik(int position);
+    }
+
+    private OnItemClick onItemClick = null;
+
+    public void setOnItemClick(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
+    }
     public AppealHotAdapter(ArrayList<PliveLeaveInfo.LeaveMessageInfo> dataList, Context context) {
         this.dataList=dataList;
         this.context=context;
@@ -48,12 +61,37 @@ public class AppealHotAdapter extends RecyclerView.Adapter<AppealHotAdapter.View
         holder.tv_subject.setText(dataList.get(position).getSubject());
         holder.tv_suggest.setText(dataList.get(position).getType());
         holder.tv_OrganizationName.setText(dataList.get(position).getOrganizationName());
-        holder.tv_date.setText(dataList.get(position).getCreateDate());
+        if(dataList.get(position).getCreateDate()!=null){
+            String date=dataList.get(position).getCreateDate();
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+            SimpleDateFormat simpleDateFormat2=new SimpleDateFormat("YYYY-MM-dd");
+            SimpleDateFormat simpleDateFormat3=new SimpleDateFormat("HH:mm:ss");
+            try {
+              Date data=  simpleDateFormat.parse(date);
+                String data2=simpleDateFormat2.format(data);
+                String data3=simpleDateFormat3.format(data);
+                holder.tv_date.setText(data2);
+                holder.tv_time.setText(data3);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
         if(dataList.get(position).getIsReply()==0){ //未回复
             Glide.with(context).load(R.mipmap.dhf).apply(options).into(holder.img_statu);
         }else if(dataList.get(position).getIsReply()==1){
             Glide.with(context).load(R.mipmap.yhf).apply(options).into(holder.img_statu);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(onItemClick!=null){
+                    onItemClick.onitemclik(position);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -70,6 +108,7 @@ public class AppealHotAdapter extends RecyclerView.Adapter<AppealHotAdapter.View
         TextView tv_content;
         TextView tv_suggest;
         TextView tv_date;
+        TextView tv_time;
         TextView tv_OrganizationName;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +121,7 @@ public class AppealHotAdapter extends RecyclerView.Adapter<AppealHotAdapter.View
             tv_content=itemView.findViewById(R.id.tv_content);
             tv_suggest=itemView.findViewById(R.id.tv_suggest);
             tv_date=itemView.findViewById(R.id.tv_cz);
+            tv_time=itemView.findViewById(R.id.tv_time);
             tv_OrganizationName=itemView.findViewById(R.id.tv_OrganizationName);
 
 

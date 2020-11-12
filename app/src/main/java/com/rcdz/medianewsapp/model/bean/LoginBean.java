@@ -15,7 +15,9 @@ public class LoginBean  implements Serializable {
      * status : true
      * code : 310
      * message : 登陆成功
-     * data : {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNiIsImlhdCI6IjE2MDI1NTMyODYiLCJuYmYiOiIxNjAyNTUzMjg2IiwiZXhwIjoiMTYwMzE1ODA4NiIsImlzcyI6IkZ1c2lvbk1lZGlhLmNvcmUub3duZXIiLCJhdWQiOiJGdXNpb25NZWRpYS5jb3JlIn0.ncjJ4I2dC4gu2nYoEXiraGdcpvNHOoLDPD1golcYc_o","userName":null,"img":null}
+     * data : {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNiIsImlhdCI6IjE2MDI1NTMyODYiLCJuYmYiOiIxNjAyNTUzMjg2IiwiZXhwIjoiMTYwMzE1ODA4NiIsImlzcyI6IkZ1c2lvbk1lZGlhLmNvcmUub3duZXIiLCJhdWQiOiJGdXNpb25NZWRpYS5jb3JlIn0.ncjJ4I2dC4gu2nYoEXiraGdcpvNHOoLDPD1golcYc_o",
+     * "userName":null,
+     * "img":null}
      */
 
     private boolean status;
@@ -65,6 +67,16 @@ public class LoginBean  implements Serializable {
         private String token;
         private Object userName;
         private Object img;
+
+        public String getUser() {
+            return user;
+        }
+
+        public void setUser(String user) {
+            this.user = user;
+        }
+
+        private String user;
 
         public String getToken() {
             return token;

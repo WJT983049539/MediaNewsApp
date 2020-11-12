@@ -32,6 +32,20 @@ public class TvCannelBean implements Serializable {
     private Object extra;
     private List<TvCanneInfo> rows;
 
+    @Override
+    public String toString() {
+        return "TvCannelBean{" +
+                "code=" + code +
+                ", message=" + message +
+                ", status=" + status +
+                ", msg=" + msg +
+                ", total=" + total +
+                ", summary=" + summary +
+                ", extra=" + extra +
+                ", rows=" + rows +
+                '}';
+    }
+
     public int getCode() {
         return code;
     }
@@ -299,6 +313,32 @@ public class TvCannelBean implements Serializable {
 
         public void setAuditDate(Object AuditDate) {
             this.AuditDate = AuditDate;
+        }
+
+        @Override
+        public String toString() {
+            return "TvCanneInfo{" +
+                    "Id=" + Id +
+                    ", Name='" + Name + '\'' +
+                    ", StreamUrl='" + StreamUrl + '\'' +
+                    ", CreateID=" + CreateID +
+                    ", Creator='" + Creator + '\'' +
+                    ", CreateDate='" + CreateDate + '\'' +
+                    ", LogoNo=" + LogoNo +
+                    ", TagId=" + TagId +
+                    ", Description='" + Description + '\'' +
+                    ", Platform=" + Platform +
+                    ", Type=" + Type +
+                    ", ChannelSectionId=" + ChannelSectionId +
+                    ", Permission=" + Permission +
+                    ", IsTopic=" + IsTopic +
+                    ", IsLookingBack=" + IsLookingBack +
+                    ", IsMoveTime=" + IsMoveTime +
+                    ", ImageUrl=" + ImageUrl +
+                    ", State=" + State +
+                    ", AuditUserId=" + AuditUserId +
+                    ", AuditDate=" + AuditDate +
+                    '}';
         }
     }
 }

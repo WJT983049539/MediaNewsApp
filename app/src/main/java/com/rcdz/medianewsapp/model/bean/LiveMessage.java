@@ -8,13 +8,14 @@ import java.io.Serializable;
  */
 public class LiveMessage implements Serializable {
 
+
     /**
      * Auth : {"Password":"qwer1234.0"}
-     * Data : {"Message":"你好","RoomId":1,"UserId":100}
+     * Data : {"Message":"{\"UserName\":\"张三\",\"SendDate\":\"2020/11/1 14:06:35\",\"Message\":\"213\"}","RoomId":1015,"UserId":100,"Img":"http://www.a.com/users/123123.png","MessageType":0}
      */
 
     private AuthBean Auth;
-    private DataBean Data;
+    private SendMessageBean Data;
 
     public AuthBean getAuth() {
         return Auth;
@@ -24,15 +25,15 @@ public class LiveMessage implements Serializable {
         this.Auth = Auth;
     }
 
-    public DataBean getData() {
+    public SendMessageBean getData() {
         return Data;
     }
 
-    public void setData(DataBean Data) {
+    public void setData(SendMessageBean Data) {
         this.Data = Data;
     }
 
-    public static class AuthBean  implements Serializable {
+    public static class AuthBean {
         /**
          * Password : qwer1234.0
          */
@@ -48,59 +49,59 @@ public class LiveMessage implements Serializable {
         }
     }
 
-    public static class DataBean implements Serializable {
+    public static class SendMessageBean implements Serializable {
         /**
-         * Message : 你好
-         * RoomId : 1
+         * Message : {"UserName":"张三","SendDate":"2020/11/1 14:06:35","Message":"213"}
+         * RoomId : 1015
          * UserId : 100
+         * Img : http://www.a.com/users/123123.png
+         * MessageType : 0
          */
 
         private String Message;
         private int RoomId;
         private int UserId;
-        private int MessageType;
-
-        public String getImg() {
-            return Img;
-        }
-
-        public void setImg(String img) {
-            Img = img;
-        }
-
         private String Img;
+        private int MessageType;
 
         public String getMessage() {
             return Message;
         }
 
-        public void setMessage(String message) {
-            Message = message;
+        public void setMessage(String Message) {
+            this.Message = Message;
         }
 
         public int getRoomId() {
             return RoomId;
         }
 
-        public void setRoomId(int roomId) {
-            RoomId = roomId;
+        public void setRoomId(int RoomId) {
+            this.RoomId = RoomId;
         }
 
         public int getUserId() {
             return UserId;
         }
 
-        public void setUserId(int userId) {
-            UserId = userId;
+        public void setUserId(int UserId) {
+            this.UserId = UserId;
+        }
+
+        public String getImg() {
+            return Img;
+        }
+
+        public void setImg(String Img) {
+            this.Img = Img;
         }
 
         public int getMessageType() {
             return MessageType;
         }
 
-        public void setMessageType(int messageType) {
-            MessageType = messageType;
+        public void setMessageType(int MessageType) {
+            this.MessageType = MessageType;
         }
     }
-
 }

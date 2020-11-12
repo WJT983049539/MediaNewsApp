@@ -79,6 +79,7 @@ public class VodFragment extends Fragment implements GetDemandList {
                 intent.putExtra("title",dataList.get(position).getName());
                 intent.putExtra("litletitle",dataList.get(position).getKeyword());
                 intent.putExtra("content",dataList.get(position).getMark());
+                intent.putExtra("channelSectionId",channelSectionId);
                 startActivity(intent);
             }
         });

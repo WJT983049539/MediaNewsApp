@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.DepartmnetInfoBean;
+import com.rcdz.medianewsapp.tools.AppConfig;
+import com.rcdz.medianewsapp.tools.GlideUtil;
 
 import java.util.List;
 
@@ -49,6 +52,8 @@ public class OrganizationAdapter extends RecyclerView.Adapter<OrganizationAdapte
         if(dataList.get(position).getContactsPhone()!=null){
             holder.tv_phone.setText(dataList.get(position).getContactsPhone().toString());
         }
+
+        Glide.with(activity).load(AppConfig.BASE_PICTURE_URL+dataList.get(position).getLogo()).apply(GlideUtil.getOption()).into(holder.img_img);
 
     }
 

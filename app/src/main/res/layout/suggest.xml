@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:text="意见与反馈"
-            android:textColor="#111111"
+            android:textColor="#000000"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/back"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,7 +51,7 @@
             android:layout_marginEnd="16dp"
             android:text="发送"
             android:textColor="#1D8ED5"
-            android:textSize="12sp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -61,18 +61,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginStart="@dimen/dp_10"
-        android:layout_marginEnd="@dimen/dp_10"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_20"
         >
 
         <EditText
             android:id="@+id/suggestcontent"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_170"
-            android:textColorHint="#C8C9CA"
-            android:text="asd asda"
+            android:textColorHint="#FDC8C9CA"
             android:ems="10"
             android:maxLength="300"
+            android:gravity="left|top"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_20"
+            android:paddingTop="@dimen/dp_20"
+            android:background="@drawable/edit_comment"
             android:hint="请输入问题描述，点击下方“+”提交截图，帮助我们更快定位您的问题"
             ></EditText>
 
@@ -98,20 +102,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/dp_20"
+            android:layout_margin="@dimen/dp_10"
             >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="联系方式"
-                >
-            </TextView>
+                android:text="联系方式"></TextView>
             <EditText
+                android:id="@+id/contact"
                 android:layout_marginStart="@dimen/dp_20"
                 android:layout_width="@dimen/dp_160"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_comment"
+                android:hint="QQ、邮箱、手机"
+                android:textColor="#000000"
                 >
 
             </EditText>

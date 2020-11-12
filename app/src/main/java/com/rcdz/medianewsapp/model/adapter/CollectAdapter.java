@@ -1,6 +1,8 @@
 package com.rcdz.medianewsapp.model.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,7 +14,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.CollectListInfoBean;
 import com.rcdz.medianewsapp.tools.AppConfig;
+import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.view.activity.MyCollectActivity;
+import com.rcdz.medianewsapp.view.activity.NewsDetailActivity;
+import com.rcdz.medianewsapp.view.activity.VideoPlayerActivity;
 import com.rcdz.medianewsapp.view.customview.SmoothCheckBox;
 
 import java.util.List;
@@ -30,11 +35,10 @@ public class CollectAdapter extends CommonRecyclerAdapter<CollectListInfoBean.Co
     public CollectAdapter(Context context, List<CollectListInfoBean.CollectInfo> data, int layoutId) {
         super(context, data, layoutId);
     }
-    //todo 点击进入详情页面 还未做
     @Override
     public void convert(CommonViewHolder holder, Context context, CollectListInfoBean.CollectInfo item) {
         Glide.with(context).load(AppConfig.BASE_PICTURE_URL+item.getImageUrl()).apply(options).into((ImageView) holder.getView(R.id.collect_img));
-        holder.setText(R.id.collect_title,item.getLongTitle());
+        holder.setText(R.id.collect_title,item.getTitle());
         holder.setText(R.id.collect_date,item.getCreator());
         if(isSelected){
             holder.setViewVisibility(R.id.selsct_statu, View.VISIBLE);
@@ -43,11 +47,36 @@ public class CollectAdapter extends CommonRecyclerAdapter<CollectListInfoBean.Co
             smoothCheckBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(SmoothCheckBox smoothCheckBox, boolean isChecked) {
-                    MyCollectActivity.selectCollectMap.put(item.getId(),isChecked);
+                    MyCollectActivity.selectCollectMap.put(item.getTargetId(),isChecked);
                 }
             });
         }else{
             holder.setViewVisibility(R.id.selsct_statu, View.GONE);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //跳转到详情页
+                    if(item.getSourceType()!=null){
+                        Log.i("test","SourceType为空");
+                        return;
+                    }
+                    if(item.getType()==1||item.getType()==2||item.getType()==3){
+                        Intent intent =new Intent(mContext, NewsDetailActivity.class);
+                        intent.putExtra("id",item.getTargetId());
+                        intent.putExtra("plateId",item.getGlobalSectionId());
+                        intent.putExtra("platName",item.getSectionName());
+                        intent.putExtra("ActivityType",item.getActivityType());
+                        intent.putExtra("Type",item.getType());
+                        mContext.startActivity(intent);
+                    }else if(item.getSourceType().equals("6")){ //点播频道
+                        Intent intent = new Intent(mContext, VideoPlayerActivity.class);
+                        intent.putExtra("id",item.getTargetId());
+                        intent.putExtra("name",item.getTitle());
+                        intent.putExtra("url",item.getUrl());
+                        mContext.startActivity(intent);
+                    }
+                }
+            });
         }
     }
 

@@ -19,6 +19,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetDepartmentInfo;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.view.customview.ClearEditText;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
+import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,24 +77,33 @@ public class OrganizationListFragment extends Fragment implements GetDepartmentI
 
     private void initView() {
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
-        newNetWorkPersenter.GetDepartmentInfo(this);
+        newNetWorkPersenter.GetDepartmentInfo(this,"0","");
         organizationAdapter = new OrganizationAdapter(dataList, getActivity());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(organizationAdapter);
+        mRecyclerView.setPullRefreshEnabled(true);
+        mRecyclerView.setLoadingMoreEnabled(false);
+        mRecyclerView.setLoadingListener(new LoadingListener() {
+            @Override
+            public void onRefresh() {
+                super.onRefresh();
+                NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
+                newNetWorkPersenter.GetDepartmentInfo(OrganizationListFragment.this,"0","");
+            }
+        });
     }
 
     private void initListData(int mPage) {
         mRecyclerView.refreshComplete();//刷新成功
         organizationAdapter.notifyDataSetChanged();
 
-
     }
 
 
     @Override
     public void getDepartmentinfo(DepartmnetInfoBean departmnetInfoBean) {
-
-
+        mRecyclerView.refreshComplete();//刷新成功
+        dataList.clear();
         if (departmnetInfoBean.getCode() == 200) {
             if (departmnetInfoBean.getData().size() != 0) {
                 List<DepartmnetInfoBean.DepartmnetInfo> ll = departmnetInfoBean.getData();
@@ -108,12 +118,19 @@ public class OrganizationListFragment extends Fragment implements GetDepartmentI
 
     @OnClick({ R.id.searchBtn})
     public void onViewClicked(View view) {
+        String content="";
         switch (view.getId()) {
             case R.id.searchBtn://搜索按钮
                 organizationName = searchBtn.getText().toString();
                 dataList.clear();
                 mPage = 1;
-                initListData(mPage);
+                if(  searchOrg.getText()!=null){
+                     content=searchOrg.getText().toString();
+                }
+
+
+                NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
+                newNetWorkPersenter.GetDepartmentInfo(OrganizationListFragment.this,"1",content);
 
                 break;
         }

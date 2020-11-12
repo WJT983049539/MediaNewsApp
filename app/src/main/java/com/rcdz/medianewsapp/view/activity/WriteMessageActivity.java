@@ -42,6 +42,8 @@ import com.rcdz.medianewsapp.model.bean.LeaveMegBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.Commentimpl;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowSearchOrganization;
+import com.rcdz.medianewsapp.persenter.interfaces.UpFile;
+import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.GridImageUtil;
 import com.rcdz.medianewsapp.tools.ImageUtils;
@@ -65,7 +67,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/20 9:47
  */
-public class WriteMessageActivity extends BaseActivity implements IshowSearchOrganization, AdapterView.OnItemClickListener, Commentimpl {
+public class WriteMessageActivity extends BaseActivity implements IshowSearchOrganization, AdapterView.OnItemClickListener, Commentimpl, UpFile {
     //提交按钮
     @BindView(R.id.submitBtn)
     Button submitBtn;
@@ -90,8 +92,6 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
     MyGridView gridView;
     @BindView(R.id.img_back)
     ImageView imgBack;
-
-
     CommonAdapter commonAdapter;
     String FeedbackOrganization="";//反馈单位
     int FeedbackOrganizationId=0;//反馈单位ID
@@ -101,6 +101,7 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
     String phone="";
     Uri photoUri;
     private  List<FeedbackBean.FeedbackInfo>  Feedbacklist=new ArrayList<>();
+    List<File>files=new ArrayList<>();
     private List<String> FeedbackTypeList=new ArrayList<String>();
     @Override
     public String setNowActivityName() {
@@ -118,6 +119,7 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
 
     @Override
     public void inintView() {
+        photopath.clear();
         Feedbacklist.clear();
         FeedbackTypeList.clear();
         FeedbackTypeList.add("投诉");
@@ -178,7 +180,6 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
                 addPickerDanweiView();
                 break;
             case R.id.submitBtn://提交
-                List<File>files=new ArrayList<File>();
                 files.clear();
                 NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
 
@@ -187,54 +188,8 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
                     files.add(file);
                 }
 
-                newNetWorkPersenter.UppictureMessage(files);
+                newNetWorkPersenter.UppictureMessage(files,this);
 
-
-
-
-                if(FeedbackType.equals("")){
-                    GlobalToast.show("反馈类型为空", Toast.LENGTH_LONG);
-                    return;
-                }
-                if(FeedbackOrganization.equals("")){
-                    GlobalToast.show("反馈单位为空", Toast.LENGTH_LONG);
-                    return;
-                }
-
-                if(message_theme.getText()==null||message_theme.getText().equals("")){
-                    GlobalToast.show("请填写主题", Toast.LENGTH_LONG);
-                    return;
-
-                }else{
-                    theme= message_theme.getText().toString();
-                }
-
-                if(feed_content.getText()==null||feed_content.getText().equals("")){
-                    GlobalToast.show("请填写反馈内容", Toast.LENGTH_LONG);
-                    return;
-
-                }else{
-                    feedcontent= feed_content.getText().toString();
-                }
-                if(contact_mode.getText()!=null){
-                   phone= contact_mode.getText().toString();
-                }
-
-                NewNetWorkPersenter newNetWorkPersenter2=new NewNetWorkPersenter(this);
-                LeaveMegBean leaveMegBean=new LeaveMegBean();
-                LeaveMegBean.MainData mainData=new   LeaveMegBean.MainData();
-                mainData.setSubject(theme);
-                mainData.setContents(feedcontent);
-                mainData.setImages("");
-                mainData.setIsBlackList(0);
-                mainData.setIsReply(0);
-                mainData.setOrganizationId(FeedbackOrganizationId);
-                mainData.setOrganizationName(FeedbackOrganization);
-                mainData.setPhoneNo(phone);
-                mainData.setType(FeedbackType);
-                mainData.setState("0");
-                leaveMegBean.setMainData(mainData);
-                newNetWorkPersenter2.AddLeaveMessage(leaveMegBean,this);
                 break;
         }
     }
@@ -265,7 +220,11 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
     @Override
     public void ishowSearchOrganization(FeedbackBean feedbackBean) {
         Feedbacklist.clear();
-        Feedbacklist=feedbackBean.getRows();
+        Feedbacklist.addAll(feedbackBean.getRows());
+        List<String> nameList=new ArrayList<>();
+        for(int i=0;i<Feedbacklist.size();i++){
+            nameList.add(Feedbacklist.get(i).getName());
+        }
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
@@ -278,7 +237,7 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
                 .setTextColorCenter(Color.BLACK) //设置选中项文字颜色
                 .setContentTextSize(20)
                 .build();
-        pvOptions.setPicker(Feedbacklist);
+        pvOptions.setPicker(nameList);
         pvOptions.show();
     }
 
@@ -503,6 +462,65 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
 
     @Override
     public void getInfo(String info) {
+        WriteMessageActivity.this.finish();
+    }
+
+    @Override
+    public void upfileSuccess(String data) {
+        String fileurl="";
+        for(int i=0;i<files.size();i++){
+            String url= data+"/"+files.get(i).getName();
+            fileurl=url+",";
+        }
+        fileurl= fileurl.substring(0,fileurl.length()-1);
+
+        if(FeedbackType.equals("")){
+            GlobalToast.show("反馈类型为空", Toast.LENGTH_LONG);
+            return;
+        }
+        if(FeedbackOrganization.equals("")){
+            GlobalToast.show("反馈单位为空", Toast.LENGTH_LONG);
+            return;
+        }
+
+        if(message_theme.getText()==null||message_theme.getText().equals("")){
+            GlobalToast.show("请填写主题", Toast.LENGTH_LONG);
+            return;
+
+        }else{
+            theme= message_theme.getText().toString();
+        }
+
+        if(feed_content.getText()==null||feed_content.getText().equals("")){
+            GlobalToast.show("请填写反馈内容", Toast.LENGTH_LONG);
+            return;
+
+        }else{
+            feedcontent= feed_content.getText().toString();
+        }
+        if(contact_mode.getText()!=null){
+            phone= contact_mode.getText().toString();
+        }
+
+        NewNetWorkPersenter newNetWorkPersenter2=new NewNetWorkPersenter(this);
+        LeaveMegBean leaveMegBean=new LeaveMegBean();
+        LeaveMegBean.MainData mainData=new   LeaveMegBean.MainData();
+        mainData.setSubject(theme);
+        mainData.setContents(feedcontent);
+        mainData.setImages(fileurl);
+        mainData.setIsBlackList(0);
+        mainData.setIsReply(0);
+        mainData.setOrganizationId(FeedbackOrganizationId);
+        mainData.setOrganizationName(FeedbackOrganization);
+        mainData.setPhoneNo(phone);
+        mainData.setType(FeedbackType);
+        mainData.setState("0");
+        leaveMegBean.setMainData(mainData);
+        newNetWorkPersenter2.AddLeaveMessage(leaveMegBean,this);
+    }
+
+    @Override
+    public void upfileFail() {
 
     }
 }

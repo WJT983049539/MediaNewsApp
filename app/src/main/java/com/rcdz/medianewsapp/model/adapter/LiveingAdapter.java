@@ -13,6 +13,9 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.LiveBean;
 import com.rcdz.medianewsapp.tools.AppConfig;
@@ -29,7 +32,14 @@ import java.util.List;
 public class LiveingAdapter extends RecyclerView.Adapter<LiveingAdapter.HolderView>{
     private List<LiveBean.LiveInfo> data;
     private Context context;
-
+    RequestOptions options = new RequestOptions()
+            .placeholder(R.mipmap.peop)
+            .error(R.mipmap.peop)
+//                .centerCrop()
+//                .circleCrop()//加载成圆形
+//                .override(500, 500)//指定大小
+//                .skipMemoryCache(true)//禁用内存缓存
+            .diskCacheStrategy(DiskCacheStrategy.ALL);
     public LiveingAdapter(List<LiveBean.LiveInfo> livelists, Context context) {
         this.data=livelists;
         this.context=context;
@@ -55,15 +65,17 @@ public class LiveingAdapter extends RecyclerView.Adapter<LiveingAdapter.HolderVi
     @Override
     public void onBindViewHolder(@NonNull HolderView holder, int position) {
         holder.live_title.setText(data.get(position).getName());
-        GlideUtil.load(context, AppConfig.BASE_LIVE_URL +data.get(position).getUrl()+"?j"+ Math.random(),holder.live_Preview,GlideUtil.getOption());
+
         int status=data.get(position).getLiveState();
         if(status==2){
+            GlideUtil.load(context, AppConfig.BASE_LIVE_URL +data.get(position).getUrl()+"?j"+ Math.random(),holder.live_Preview,GlideUtil.getOption());
             holder.live_status.setImageResource(R.mipmap.liveing);
         }else {
+            Glide.with(context).load(R.mipmap.nolivebg).into(holder.live_Preview);
             holder.live_status.setImageResource(R.mipmap.nolive);
         }
         holder.living_name.setText(data.get(position).getName().toString());
-        GlideUtil.load(context, AppConfig.BASE_LIVE_URL +data.get(position).getHeadImageUrl()+"?j"+ Math.random(),holder.living_head,GlideUtil.getOption());
+        Glide.with(context).load(AppConfig.BASE_LIVE_URL +data.get(position).getHeadImageUrl()+"?j"+ Math.random()).apply(options).into(holder.living_head);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

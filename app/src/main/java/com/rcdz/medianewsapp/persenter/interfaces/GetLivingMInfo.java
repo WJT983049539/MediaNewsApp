@@ -10,5 +10,5 @@ import com.rcdz.medianewsapp.model.bean.LivingMasterBean;
  * time 2020/10/21 11:40
  */
 public interface GetLivingMInfo {
-    void getinfo(LivingMasterBean livingMasterBean);
+    void getinfo(String userName,String headImg);
 }

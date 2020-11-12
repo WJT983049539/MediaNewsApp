@@ -10,4 +10,5 @@
     <color name="colordd">#dddddd</color>
     <color name="my_color">#BBBBBB</color>
     <color name="my_color2">#3D3D3D</color>
+    <color name="Transparent">#00000000</color>
 </resources>

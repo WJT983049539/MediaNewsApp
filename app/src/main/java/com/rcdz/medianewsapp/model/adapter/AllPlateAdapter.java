@@ -25,7 +25,6 @@ public class AllPlateAdapter extends RecyclerView.Adapter<AllPlateAdapter.ViewHo
     public interface OnItemClick {
         void onitemclik(int position);
     }
-
     private OnItemClick onItemClick = null;
 
     public void setOnItemClick(OnItemClick onItemClick) {

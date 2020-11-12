@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/p_back"
+        android:layout_width="@dimen/dp_15"
+        android:layout_height="@dimen/dp_16"
+        android:layout_marginStart="15dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/back2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编辑资料"
+        android:textColor="#111111"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/p_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view10"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="12.5dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"></View>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginTop="29dp"
+        android:text="头像"
+        android:textColor="#111111"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view10" />
+
+    <ImageView
+        android:id="@+id/p_head"
+        android:layout_width="42.5dp"
+        android:layout_height="42.5dp"
+        android:layout_marginTop="13.5dp"
+        android:layout_marginEnd="36.5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view10"
+        app:srcCompat="@mipmap/peop" />
+
+    <View
+        android:id="@+id/view11"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="13.5dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/p_head"></View>
+
+
+    <LinearLayout
+        android:id="@+id/lin_nick"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/view11"
+        tools:layout_editor_absoluteX="0dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="19dp"
+                android:text="昵称"
+                android:textColor="#111111"
+                android:textSize="15sp"
+                />
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginTop="23dp"
+                app:srcCompat="@mipmap/go" />
+            <TextView
+                android:id="@+id/p_nick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_220"
+                android:layout_marginTop="20dp"
+                android:layout_toLeftOf="@+id/imageView4"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:text="我日你妈"
+                 />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view12"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="#ffeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin_nick"></View>
+
+
+   <LinearLayout
+    android:id="@+id/lin_remake"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_50"
+    android:layout_marginTop="@dimen/dp_20"
+    android:orientation="horizontal"
+    app:layout_constraintTop_toBottomOf="@+id/lin_nick">
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           >
+           <TextView
+               android:id="@+id/textView12"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="@dimen/dp_20"
+               android:layout_marginTop="19dp"
+               android:text="简介"
+               android:textColor="#111111"
+               android:textSize="15sp"
+               />
+           <ImageView
+               android:id="@+id/imageView5"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_marginEnd="@dimen/dp_20"
+               android:layout_marginTop="23dp"
+               app:srcCompat="@mipmap/go" />
+           <TextView
+               android:id="@+id/p_remake"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="@dimen/dp_220"
+               android:layout_marginTop="20dp"
+               android:layout_toLeftOf="@+id/imageView5"
+               android:layout_marginEnd="@dimen/dp_20"
+               android:text="待完善"
+               />
+
+
+       </RelativeLayout>
+</LinearLayout>
+
+
+    <View
+        android:id="@+id/view15"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="19dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin_remake"></View>
+
+
+    <LinearLayout
+        android:id="@+id/lin_sex"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintTop_toBottomOf="@+id/view15"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:id="@+id/textView14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="19dp"
+                android:text="性别"
+                android:textColor="#111111"
+                android:textSize="15sp"
+                />
+            <ImageView
+                android:id="@+id/imageView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginTop="23dp"
+                app:srcCompat="@mipmap/go" />
+            <TextView
+                android:id="@+id/p_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_220"
+                android:layout_marginTop="20dp"
+                android:layout_toLeftOf="@+id/imageView7"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:text="女"
+                />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+    <View
+        android:id="@+id/view16"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="19dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin_sex"></View>
+
+
+    <LinearLayout
+        android:id="@+id/lin_phone"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintTop_toBottomOf="@+id/view16">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:id="@+id/sex_women"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="19dp"
+                android:text="性别"
+                android:textColor="#111111"
+                android:textSize="15sp"
+                />
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginTop="23dp"
+                app:srcCompat="@mipmap/go" />
+            <TextView
+                android:id="@+id/p_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_220"
+                android:layout_marginTop="20dp"
+                android:layout_toLeftOf="@+id/imageView8"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:text="手机号"
+                />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+    <View
+        android:id="@+id/view18"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="19dp"
+        android:background="#ffeeeeee"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lin_phone"></View>
+
+
+    <LinearLayout
+        android:id="@+id/lin_address"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        app:layout_constraintTop_toBottomOf="@+id/view18">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_marginTop="19dp"
+                android:text="家庭住址"
+                android:textColor="#111111"
+                android:textSize="15sp"
+                />
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:layout_marginTop="23dp"
+                app:srcCompat="@mipmap/go" />
+            <TextView
+                android:id="@+id/p_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_220"
+                android:layout_marginTop="20dp"
+                android:layout_toLeftOf="@+id/imageView9"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:text="运城"
+                />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

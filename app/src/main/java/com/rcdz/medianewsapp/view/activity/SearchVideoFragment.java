@@ -23,6 +23,7 @@ import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
 import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,6 +46,7 @@ public class SearchVideoFragment extends Fragment implements GetAllNewsList {
     int mPage = 1;
     private NewsAdapter dataAdapter;
     public ArrayList<NewsListBean.NewsInfo> newsItemList = new ArrayList<NewsListBean.NewsInfo>();
+    private HashMap<Integer, NewsListBean.NewsInfo> NewTitlelist2 = new HashMap<>(); //健存tarid 值存具体内容
     public final static String TAG="SearchVideoFragment";
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class SearchVideoFragment extends Fragment implements GetAllNewsList {
         ButterKnife.bind(this, mRootView);  //fragment 绑定 带两个参数
         initView();
         newsItemList.clear();
+        NewTitlelist2.clear();
         return mRootView;
     }
 
@@ -94,18 +97,21 @@ public class SearchVideoFragment extends Fragment implements GetAllNewsList {
 
     private void initNewsList(int mPage1) {
         NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
-        newNetWorkPersenter.NewSearch(sousuoContent,String.valueOf(mPage1),true, SearchVideoFragment.this);
+        newNetWorkPersenter.NewSearch(sousuoContent,String.valueOf(mPage1),false, SearchVideoFragment.this);
     }
 
     @Override
     public void getAllNewsList(NewsListBean news) {
         androidNewsList.refreshComplete();//刷新成功
+        NewTitlelist2.clear();
         List<NewsListBean.NewsInfo> newInfos= news.getRows();
         for (int i = 0; i < newInfos.size(); i++) {
-            newsItemList.add(newInfos.get(i));
+            NewTitlelist2.put(newInfos.get(i).getTargetId(),newInfos.get(i));
         }
+        List<NewsListBean.NewsInfo> valuesList = new ArrayList<NewsListBean.NewsInfo>(NewTitlelist2.values()); //去掉重复新闻
+        newsItemList.addAll(valuesList);
         dataAdapter.notifyDataSetChanged();
-        if (newsItemList.size() >= Integer.valueOf(news.getTotal())) {
+        if (newsItemList.size() >= 100) { //最多显示100条
             androidNewsList.setNoMore(true);//没有更多了
         } else {
             androidNewsList.loadMoreComplete();//加载成功

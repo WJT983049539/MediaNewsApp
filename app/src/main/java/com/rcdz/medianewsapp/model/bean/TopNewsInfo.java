@@ -11,12 +11,11 @@ import java.util.List;
  * time 2020/10/27 10:47
  */
 public class TopNewsInfo implements Serializable {
-
     /**
      * status : true
      * code : 200
      * message : 获取置顶新闻成功
-     * data : [{"id":"61e8cbaa-9894-4573-819a-c7d911252a47","title":"sadfasdfasdf","longTitle":"sadfasdfasdf","styleType":"06","coverUrl":"Upload/Files/ImageSet/b6c0792a59104bc6984bf83cecbfbe46/small/2345截图20201009120030.png","imageUrl":null,"creator":"超级管理员","publishDate":"2020-10-23 10:00:00","publishDateString":"4天前","sectionId":1,"locationSection":"1","commentCount":0,"type":3,"contentFontFize":null,"titleFontSize":null},{"id":"83db029b-2c99-4316-8ed2-ba150ee930b3","title":"第三方大厦","longTitle":"手打阿萨德","styleType":"02","coverUrl":"Upload/Files/Article/5d32bc064c91408b9fad8549ad3bc61a/small/06.jpg","imageUrl":null,"creator":"测试用户1","publishDate":"2020-03-02 20:10:00","publishDateString":"7个月前","sectionId":1,"locationSection":"1","commentCount":16,"type":1,"contentFontFize":null,"titleFontSize":null},{"id":"6bb411a2-0ad8-4fbe-8433-e443b1009181","title":"视频测试","longTitle":"视频测试视频测试视频测试视频测试","styleType":"04","coverUrl":"Upload/Files/Video/fd6adf1943d248e4b5b0cde11a08dd19/small/06.jpg","imageUrl":null,"creator":"测试用户1","publishDate":"2020-02-02 00:00:00","publishDateString":"8个月前","sectionId":3,"locationSection":"1","commentCount":0,"type":2,"contentFontFize":"12","titleFontSize":"14"}]
+     * data : [{"id":"b2b2889d-05f9-4848-8af8-6083a1c39dd4","title":"华裔投票拜登：若特朗普连任，就搬去其他国家","longTitle":"华裔投票拜登：若特朗普连任，就搬去其他国家","styleType":null,"coverUrl":"Upload/Files/Video/aef569b5f845437a86fb2df3d0147293/small/logo.png","imageUrl":null,"creator":"测试用户1","publishDate":"2020-11-06 10:00:00","publishDateString":"4小时前","targetId":93,"sectionId":2,"locationSection":"1","activityType":-1,"commentCount":1,"type":2,"contentFontFize":null,"titleFontSize":null},{"id":"61b23a92-dcfb-4e70-ba93-2cb3bd9497bb","title":"测试图集","longTitle":"测试图集测试图集测试图集测试图集测试图集测试图集","styleType":"06","coverUrl":"Upload/Files/ImageSet/716f37ddfa2f414b89d73d0aed190940/small/logo.png","imageUrl":null,"creator":"测试用户1","publishDate":"2020-11-06 09:52:06","publishDateString":"4小时前","targetId":62,"sectionId":2,"locationSection":"1","activityType":-1,"commentCount":0,"type":3,"contentFontFize":null,"titleFontSize":null},{"id":"25e9fed3-1a4a-4c70-b340-d82275e42aea","title":"测试图集2","longTitle":"测试图集2","styleType":"06","coverUrl":"Upload/Files/ImageSet/512822e07c7c45f2b0f183a78575e8c1/small/logo.png","imageUrl":null,"creator":"测试用户1","publishDate":"2020-11-06 09:51:07","publishDateString":"4小时前","targetId":63,"sectionId":3,"locationSection":"1","activityType":-1,"commentCount":0,"type":3,"contentFontFize":null,"titleFontSize":null}]
      */
 
     private boolean status;
@@ -48,29 +47,31 @@ public class TopNewsInfo implements Serializable {
         this.message = message;
     }
 
-    public List<TopNews> getData() {
+    public List< TopNews> getData() {
         return data;
     }
 
-    public void setData(List<TopNews> data) {
+    public void setData(List< TopNews> data) {
         this.data = data;
     }
 
     public static class TopNews implements Serializable {
         /**
-         * id : 61e8cbaa-9894-4573-819a-c7d911252a47
-         * title : sadfasdfasdf
-         * longTitle : sadfasdfasdf
-         * styleType : 06
-         * coverUrl : Upload/Files/ImageSet/b6c0792a59104bc6984bf83cecbfbe46/small/2345截图20201009120030.png
+         * id : b2b2889d-05f9-4848-8af8-6083a1c39dd4
+         * title : 华裔投票拜登：若特朗普连任，就搬去其他国家
+         * longTitle : 华裔投票拜登：若特朗普连任，就搬去其他国家
+         * styleType : null
+         * coverUrl : Upload/Files/Video/aef569b5f845437a86fb2df3d0147293/small/logo.png
          * imageUrl : null
-         * creator : 超级管理员
-         * publishDate : 2020-10-23 10:00:00
-         * publishDateString : 4天前
-         * sectionId : 1
+         * creator : 测试用户1
+         * publishDate : 2020-11-06 10:00:00
+         * publishDateString : 4小时前
+         * targetId : 93
+         * sectionId : 2
          * locationSection : 1
-         * commentCount : 0
-         * type : 3
+         * activityType : -1
+         * commentCount : 1
+         * type : 2
          * contentFontFize : null
          * titleFontSize : null
          */
@@ -78,14 +79,16 @@ public class TopNewsInfo implements Serializable {
         private String id;
         private String title;
         private String longTitle;
-        private String styleType;
+        private Object styleType;
         private String coverUrl;
         private Object imageUrl;
         private String creator;
         private String publishDate;
         private String publishDateString;
+        private int targetId;
         private int sectionId;
         private String locationSection;
+        private int activityType;
         private int commentCount;
         private int type;
         private Object contentFontFize;
@@ -115,11 +118,11 @@ public class TopNewsInfo implements Serializable {
             this.longTitle = longTitle;
         }
 
-        public String getStyleType() {
+        public Object getStyleType() {
             return styleType;
         }
 
-        public void setStyleType(String styleType) {
+        public void setStyleType(Object styleType) {
             this.styleType = styleType;
         }
 
@@ -163,6 +166,14 @@ public class TopNewsInfo implements Serializable {
             this.publishDateString = publishDateString;
         }
 
+        public int getTargetId() {
+            return targetId;
+        }
+
+        public void setTargetId(int targetId) {
+            this.targetId = targetId;
+        }
+
         public int getSectionId() {
             return sectionId;
         }
@@ -177,6 +188,14 @@ public class TopNewsInfo implements Serializable {
 
         public void setLocationSection(String locationSection) {
             this.locationSection = locationSection;
+        }
+
+        public int getActivityType() {
+            return activityType;
+        }
+
+        public void setActivityType(int activityType) {
+            this.activityType = activityType;
         }
 
         public int getCommentCount() {
@@ -211,4 +230,8 @@ public class TopNewsInfo implements Serializable {
             this.titleFontSize = titleFontSize;
         }
     }
+
+
+
+
 }

@@ -3,6 +3,8 @@ package com.rcdz.medianewsapp.view.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -38,6 +40,9 @@ public class MyJifenActivity extends BaseAppCompatActivity implements GetJifenLi
     NRecyclerView jifenList;
     @BindView(R.id.toolbar_title)
     TextView title;
+    @BindView(R.id.img_back)
+    ImageView back;
+
     private String AllJiFen;
     String User_id;
     private int mPage=1;
@@ -82,6 +87,12 @@ public class MyJifenActivity extends BaseAppCompatActivity implements GetJifenLi
                 ++mPage;
                 NewNetWorkPersenter newsNetWorkPersenter = new NewNetWorkPersenter(MyJifenActivity.this);
                 newsNetWorkPersenter.jifenList(String.valueOf(mPage),MyJifenActivity.this);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyJifenActivity.this.finish();
             }
         });
     }

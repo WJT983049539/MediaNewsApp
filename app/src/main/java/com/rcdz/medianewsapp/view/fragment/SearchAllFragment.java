@@ -1,5 +1,6 @@
 package com.rcdz.medianewsapp.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -14,13 +15,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.adapter.NewsAdapter;
+import com.rcdz.medianewsapp.model.bean.MuhuNewBean;
 import com.rcdz.medianewsapp.model.bean.NewsListBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetAllNewsList;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.rcdz.medianewsapp.view.activity.NewsDetailActivity;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
 import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -37,9 +42,11 @@ public class SearchAllFragment extends Fragment implements GetAllNewsList {
     private String sousuoContent;
     @BindView(R.id.android_news_list)
     NRecyclerView androidNewsList;
+    private  boolean loginStru=false;
     int mPage = 1;
     private NewsAdapter dataAdapter;
     public ArrayList<NewsListBean.NewsInfo> newsItemList = new ArrayList<NewsListBean.NewsInfo>();
+    private HashMap<Integer, NewsListBean.NewsInfo> NewTitlelist2 = new HashMap<>(); //健存tarid 值存具体内容
     public final static String TAG="SearchAllFragment";
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -54,8 +61,10 @@ public class SearchAllFragment extends Fragment implements GetAllNewsList {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.android_news_list, container, false);
         ButterKnife.bind(this, mRootView);  //fragment 绑定 带两个参数
+        loginStru= (boolean) SharedPreferenceTools.getValueofSP(getActivity(),"loginStru",false);
         initView();
         newsItemList.clear();
+        NewTitlelist2.clear();
         return mRootView;
     }
 
@@ -88,6 +97,32 @@ public class SearchAllFragment extends Fragment implements GetAllNewsList {
                 initNewsList(mPage);
             }
         });
+        dataAdapter.setOnItemClickListener(new NewsAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if(loginStru){ //记录足迹
+                    int type=newsItemList.get(position).getType();
+                    if(type==1){ //文章
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()), String.valueOf(newsItemList.get(position).getSectionId()), String.valueOf(type));
+                    }else if(type==2){ //视频
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),String.valueOf(newsItemList.get(position).getSectionId()), "-1");
+                    }else if(type==3){ //图集
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),String.valueOf(newsItemList.get(position).getSectionId()), "-1");
+                    }
+                }
+                //跳转到详情页
+//                Intent intent =new Intent(getActivity(), NewsDetailActivity.class);
+//                intent.putExtra("id",newsItemList.get(position).getTargetId());
+//                intent.putExtra("plateId",newsItemList.get(position).getSectionId());
+//                intent.putExtra("platName",PlateName);
+//                intent.putExtra("ActivityType",newsItemList.get(position).getActivityType());
+//                intent.putExtra("Type",newsItemList.get(position).getType());
+//                getActivity().startActivity(intent);
+            }
+        });
     }
 
     private void initNewsList(int mPage1) {
@@ -97,13 +132,16 @@ public class SearchAllFragment extends Fragment implements GetAllNewsList {
 
     @Override
     public void getAllNewsList(NewsListBean news) {
+        NewTitlelist2.clear();
         androidNewsList.refreshComplete();//刷新成功
         List<NewsListBean.NewsInfo> newInfos= news.getRows();
         for (int i = 0; i < newInfos.size(); i++) {
-            newsItemList.add(newInfos.get(i));
-        }
+            NewTitlelist2.put(newInfos.get(i).getTargetId(),newInfos.get(i));
+       }
+        List<NewsListBean.NewsInfo> valuesList = new ArrayList<NewsListBean.NewsInfo>(NewTitlelist2.values()); //去掉重复新闻
+        newsItemList.addAll(valuesList);
         dataAdapter.notifyDataSetChanged();
-        if (newsItemList.size() >= Integer.valueOf(news.getTotal())) {
+        if (newsItemList.size() >= 100) { //只能显示100条
             androidNewsList.setNoMore(true);//没有更多了
         } else {
             androidNewsList.loadMoreComplete();//加载成功

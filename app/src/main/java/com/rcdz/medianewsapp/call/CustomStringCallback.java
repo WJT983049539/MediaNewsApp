@@ -9,8 +9,11 @@ import com.lzy.okgo.convert.StringConvert;
 import com.lzy.okgo.exception.HttpException;
 import com.lzy.okgo.exception.StorageException;
 import com.rcdz.medianewsapp.MAppaction;
+import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.GlobalToast;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.view.activity.LoginActivity;
+import com.rcdz.medianewsapp.view.activity.WelcomeActivity;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -36,12 +39,15 @@ public abstract class CustomStringCallback extends AbsCallback<String> {
         int code=response.code();
         if(code==401||code==202){
             Log.i("test","token 过时"+code);
+            SharedPreferenceTools.putValuetoSP(MAppaction.ActivityManager.getManager().getTopActivity(),"loginStru",false);
+            Constant.token="";
             // token过时了
             if(MAppaction.ActivityManager.getManager().getTopActivity()instanceof LoginActivity){
 
             }else{
                 MAppaction.ActivityManager.getManager().getTopActivity().startActivity(new Intent(MAppaction.ActivityManager.getManager().getTopActivity(), LoginActivity.class));
             }
+            GlobalToast.show4("未登录,请登录",Toast.LENGTH_LONG);
 
             return null;
         }
@@ -57,29 +63,31 @@ public abstract class CustomStringCallback extends AbsCallback<String> {
             exception.printStackTrace();
         }
         if(exception instanceof UnknownHostException ||exception instanceof ConnectException){
-            GlobalToast.show("网络连接失败，请连接网络！", Toast.LENGTH_SHORT);
+            GlobalToast.showToastforCenter("网络连接失败，请连接网络！",Toast.LENGTH_SHORT);
 //            if(HwApp.getApp().getCurActivity()instanceof DisconnectActivity){
 //            }else {
 //                OpenHelper.openDisconnectActivity(HwApp.getApp().getCurActivity());
 //            }
         }else if(exception instanceof SocketTimeoutException){
-            GlobalToast.show("网络请求超时!", Toast.LENGTH_SHORT);
+            GlobalToast.showToastforCenter("网络请求超时",Toast.LENGTH_SHORT);
 //            if(HwApp.getApp().getCurActivity()instanceof DisconnectActivity){
 //            }else {
 //                OpenHelper.openDisconnectActivity(HwApp.getApp().getCurActivity());
 //            }
         }else if(exception instanceof HttpException){
-            GlobalToast.show("服务端异常了!", Toast.LENGTH_SHORT);
+//            GlobalToast.show("服务端异常了!", Toast.LENGTH_SHORT);
+            GlobalToast.showToastforCenter("服务端异常了",Toast.LENGTH_SHORT);
 //            if(HwApp.getApp().getCurActivity()instanceof DisconnectActivity){
 //            }else {
 //                OpenHelper.openDisconnectActivity(HwApp.getApp().getCurActivity());
 //            }
         }else if(exception instanceof StorageException){
 //            ToastUtil.showShort(HwApp.getApp(),"SD卡不存在或者没有权限！");
-            GlobalToast.show("SD卡不存在或者没有权限!", Toast.LENGTH_SHORT);
+            GlobalToast.show4("SD卡不存在或者没有权限!", Toast.LENGTH_SHORT);
         }else if(exception instanceof IllegalStateException){
-            GlobalToast.show(exception.getMessage(), Toast.LENGTH_SHORT);
+            GlobalToast.show4(exception.getMessage(), Toast.LENGTH_SHORT);
 //            ToastUtil.showShort(HwApp.getApp(),exception.getMessage());
+
         }
     }
 }

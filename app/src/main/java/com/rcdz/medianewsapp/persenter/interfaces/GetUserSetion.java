@@ -2,6 +2,8 @@ package com.rcdz.medianewsapp.persenter.interfaces;
 
 import com.rcdz.medianewsapp.model.bean.SetionBean;
 
+import java.util.List;
+
 /**
  * 作用: 显示版块信息
  *
@@ -10,5 +12,5 @@ import com.rcdz.medianewsapp.model.bean.SetionBean;
  * time 2020/10/14 9:25
  */
 public interface GetUserSetion {
-    void getUserSetion(SetionBean setionBean);
+    void getUserSetion(List<SetionBean.DataBean> setionBeans);
 }

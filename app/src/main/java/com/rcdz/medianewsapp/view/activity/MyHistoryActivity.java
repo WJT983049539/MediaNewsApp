@@ -84,6 +84,7 @@ public class MyHistoryActivity extends BaseActivity implements GetHistory {
                 initNewsList(mPage);
             }
         });
+
         initNewsList(mPage);
     }
 

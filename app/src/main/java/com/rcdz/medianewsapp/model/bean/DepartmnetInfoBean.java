@@ -68,6 +68,15 @@ public class DepartmnetInfoBean implements Serializable {
         private int feedbackNum;
         private Object contactsPhone;
         private String name;
+        private String logo;
+
+        public String getLogo() {
+            return logo;
+        }
+
+        public void setLogo(String logo) {
+            this.logo = logo;
+        }
 
         public int getFeedbackReplynum() {
             return feedbackReplynum;

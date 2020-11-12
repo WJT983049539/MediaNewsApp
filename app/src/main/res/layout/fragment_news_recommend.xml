@@ -28,7 +28,6 @@
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                app:banner_radius="15dp"
                 android:layout_margin="10dp"
                 app:banner_indicator_normal_color="#88ffffff"
                 app:banner_indicator_selected_color="#F41C0C"
@@ -36,10 +35,6 @@
             </com.youth.banner.Banner>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:background="#f0f0f0" />
 
             <!--常用功能-->
             <LinearLayout
@@ -239,16 +234,23 @@
                     android:layout_margin="5dp"
                     >
                     <RelativeLayout
+                        android:id="@+id/topvideo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         >
-
-                        <ImageView
+                        <com.shehuan.niv.NiceImageView
                             android:id="@+id/topvideonew_img"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            app:is_circle="false"
+                            app:corner_top_left_radius="10dp"
+                            app:corner_top_right_radius="10dp"
+                            app:corner_bottom_left_radius="10dp"
+                            app:corner_bottom_right_radius="10dp"
+                            app:border_width="4dp"
                             >
-                        </ImageView>
+                        </com.shehuan.niv.NiceImageView>
                         <ImageView
                             android:id="@+id/topvideonew_status"
                             android:layout_width="wrap_content"
@@ -264,10 +266,10 @@
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/dp_30"
-                            android:layout_marginTop="@dimen/dp_50"
                             android:textColor="#fff"
                             android:textSize="15sp"
                             android:gravity="center"
+                            android:text=""
                             >
 
                         </TextView>
@@ -283,19 +285,23 @@
                     android:orientation="vertical"
                     >
                     <LinearLayout
+                        android:id="@+id/newtime"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="5"
-                        android:background="@mipmap/test2"
                         android:layout_margin="5dp"
+                        android:background="@mipmap/image1"
+                        >
 
-                        ></LinearLayout>
+                    </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/zhengpawer"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="5"
                         android:layout_margin="5dp"
-                        android:background="@mipmap/test3"
+                        android:background="@mipmap/image2"
+                        android:orientation="vertical"
                         ></LinearLayout>
 
                 </LinearLayout>

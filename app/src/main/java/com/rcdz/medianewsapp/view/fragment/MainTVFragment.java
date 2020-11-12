@@ -64,7 +64,6 @@ public class MainTVFragment extends Fragment implements GetCannelSetion {
         for(com.rcdz.medianewsapp.model.bean.CannalSationBean.CannelSation titleBean:CannalSationBean.getRows()){
             list.add(titleBean);
         }
-
         myPagerAdapter= new MyNewsPagerAdapter(getFragmentManager());
         viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
         viewpager.setAdapter(myPagerAdapter);
@@ -84,7 +83,15 @@ public class MainTVFragment extends Fragment implements GetCannelSetion {
             Fragment fragment = null;
             if(list.get(position).getName().equals("TV直播")){  //现在tv频道里面暂时只有3个频道
                 fragment= new ChannelListFragment();
+//                Bundle bundle=new Bundle();
+//                bundle.putString("PlantId", String.valueOf(list.get(position).getId()));
+//                bundle.putString("PlantName", list.get(position).getName());
+//                fragment.setArguments(bundle);
             }else if(list.get(position).getName().equals("精品点播")){
+//                Bundle bundle=new Bundle();
+//                bundle.putString("PlantId", String.valueOf(list.get(position).getId()));
+//                bundle.putString("PlantName", list.get(position).getName());
+//                fragment.setArguments(bundle);
                 fragment= new VodFragment(ChannelSectionId);
             }else if(list.get(position).getName().equals("直播间")){
                 fragment= new LivingFragment();

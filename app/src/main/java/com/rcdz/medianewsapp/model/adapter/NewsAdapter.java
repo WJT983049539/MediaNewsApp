@@ -68,28 +68,52 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int viewType=getItemViewType(position);
         if(viewType==1){ //1图+文字
             ((ViewHolder)holder).news1_title.setText(newsItemList.get(position).getLongTitle());
-            Glide.with(activity).load(AppConfig.BASE_URL +newsItemList.get(position).getLongTitle()).apply(options).into(((ViewHolder)holder).news1_thumb);
+            String usrl=newsItemList.get(position).getCoverUrl();
+            usrl=usrl.split(",")[0];
+//            String asda=usrl.replace("/small","");
+            Glide.with(activity).load(AppConfig.BASE_URL +usrl).apply(options).into(((ViewHolder)holder).news1_thumb);
             ((ViewHolder)holder).news1_createedit.setText(newsItemList.get(position).getCreator());
-            ((ViewHolder)holder).news1_commentcount.setText(newsItemList.get(position).getCommentCount()+"");
+            ((ViewHolder)holder).news1_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
             ((ViewHolder)holder).news1_item_time.setText(newsItemList.get(position).getPublishDateString());
         }else if(viewType==2){ //2图加图加图
             ((ViewHolder.ViewHolder2)holder).news2_title.setText(newsItemList.get(position).getLongTitle());
             ((ViewHolder.ViewHolder2)holder).news2_createedit.setText(newsItemList.get(position).getCreator());
-            ((ViewHolder.ViewHolder2)holder).news2_commentcount.setText(newsItemList.get(position).getCommentCount()+"");
+            ((ViewHolder.ViewHolder2)holder).news2_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
             ((ViewHolder.ViewHolder2)holder).news2_item_time.setText(newsItemList.get(position).getPublishDateString());
-            Object thumb=newsItemList.get(position).getImageUrl();
+            Object thumb=newsItemList.get(position).getCoverUrl();
             if(thumb!=null) {
                 String thumb1=thumb.toString();
                 String[] thumbs = thumb1.split(",");
                 if(thumbs.length==1){
-                    Glide.with(activity).load(AppConfig.BASE_URL + thumbs[0]).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
+
+                    String usrl=thumbs[0];
+//                    String asda=usrl.replace("/small","");
+
+                    Glide.with(activity).load(AppConfig.BASE_URL + usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
                 } else if (thumbs.length == 2) {
-                    Glide.with(activity).load(AppConfig.BASE_URL +  thumbs[0]).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
-                    Glide.with(activity).load( AppConfig.BASE_URL +  thumbs[1]).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
+                    String usrl=thumbs[0];
+//                    String asda=usrl.replace("/small","");
+
+                    String usrl1=thumbs[1];
+//                    String asda1=usrl1.replace("/small","");
+
+
+                    Glide.with(activity).load(AppConfig.BASE_URL +  usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
+                    Glide.with(activity).load( AppConfig.BASE_URL +  usrl1).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
                 } else if (thumbs.length == 3) {
-                    Glide.with(activity).load(AppConfig.BASE_URL +  thumbs[0]).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
-                    Glide.with(activity).load( AppConfig.BASE_URL +  thumbs[1]).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
-                    Glide.with(activity).load(AppConfig.BASE_URL +  thumbs[2]).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb3);
+
+                    String usrl=thumbs[0];
+//                    String asda=usrl.replace("/small","");
+
+                    String usrl1=thumbs[1];
+//                    String asda1=usrl1.replace("/small","");
+
+                    String usrl2=thumbs[2];
+//                    String asda2=usrl2.replace("/small","");
+
+                    Glide.with(activity).load(AppConfig.BASE_URL +  usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
+                    Glide.with(activity).load( AppConfig.BASE_URL +  usrl1).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
+                    Glide.with(activity).load(AppConfig.BASE_URL +  usrl2).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb3);
                 }
 
             }else{
@@ -100,10 +124,25 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }else if(viewType==3){ //3大图
                 ((ViewHolder.ViewHolder3)holder).news3_title.setText(newsItemList.get(position).getLongTitle());
             ((ViewHolder.ViewHolder3)holder).news3_createedit.setText(newsItemList.get(position).getCreator());
-            ((ViewHolder.ViewHolder3)holder).news3_commentcount.setText(newsItemList.get(position).getCommentCount()+"");
+            ((ViewHolder.ViewHolder3)holder).news3_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
             ((ViewHolder.ViewHolder3)holder).news3_item_time.setText(newsItemList.get(position).getPublishDateString());
-            Glide.with(activity).load(AppConfig.BASE_URL +newsItemList.get(position).getLongTitle()).apply(options).into(((ViewHolder.ViewHolder3)holder).news3_hubm);
+
+            String usrl=newsItemList.get(position).getCoverUrl();
+            usrl=usrl.split(",")[0];
+
+            String asda=usrl.replace("/small","");
+
+            Glide.with(activity).load(AppConfig.BASE_URL +asda).apply(options).into(((ViewHolder.ViewHolder3)holder).news3_hubm);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mItemClickListener!=null){
+                    mItemClickListener.onItemClick(position);
+                }
+            }
+        });
 
 
     }

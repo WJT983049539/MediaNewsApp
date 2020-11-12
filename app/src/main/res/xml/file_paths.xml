@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <paths>
+        <external-path path="." name="external_storage_root" />
         <!-- 这个是保存拍照图片的路径,必须配置。 -->
         <external-files-path
             name="images"
@@ -14,5 +15,30 @@
         <external-path path="" name="camera_photos" /> <!--访问外部储存下images下的所有文件 /storage/emulated/0/images-->
         <external-path path="" name="camera_photos" /> <!--访问外部储存根目录下下的所有文件 -->
         <external-path path="" name="download" />
+        <external-path path="Android/data/com.ruichuang.mobileeditor/" name="files_root" />
+        <external-path path="." name="external_storage_root" />
+        <external-path
+            name="external_storage_root"
+            path="."/>
+
+        <root-path
+            name="root"
+            path="." />
+        <files-path
+            name="files"
+            path="." />
+        <cache-path
+            name="cache"
+            path="/"/>
+        <external-path
+            name="external"
+            path="." />
+        <external-cache-path
+            name="external_cache"
+            path="." />
+        <external-files-path
+            name="external_file"
+            path="." />
     </paths>
+
 </resources>

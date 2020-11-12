@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.rcdz.medianewsapp.R;
+import com.rcdz.medianewsapp.model.adapter.AppealHotAdapter;
 import com.rcdz.medianewsapp.model.adapter.LeaveMessageAdapter;
 import com.rcdz.medianewsapp.model.bean.PliveLeaveInfo;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
@@ -42,12 +43,12 @@ public class LeavingMessageFragment extends Fragment implements GetPliveLeaveMsg
     NRecyclerView RC_leavingMessage;
     @BindView(R.id.leaveBtn)
     LinearLayout leaveBtn;
-    private LeaveMessageAdapter leaveMessageAdapter;
+    private AppealHotAdapter leaveMessageAdapter;
     private Activity mContext;
-    public List<PliveLeaveInfo.LeaveMessageInfo> dataList = new ArrayList<PliveLeaveInfo.LeaveMessageInfo>();
+    public ArrayList<PliveLeaveInfo.LeaveMessageInfo> dataList = new ArrayList<PliveLeaveInfo.LeaveMessageInfo>();
     private int mPage = 1;
 
-    public LeavingMessageFragment() {
+    public  LeavingMessageFragment() {
     }
 
     public static OrganizationListFragment newInstance() {
@@ -76,14 +77,15 @@ public class LeavingMessageFragment extends Fragment implements GetPliveLeaveMsg
     private void initView() {
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
         newNetWorkPersenter.GetPLiveLeaveInfo(String.valueOf(mPage), "1", this);
-        leaveMessageAdapter = new LeaveMessageAdapter(dataList);
+        leaveMessageAdapter = new AppealHotAdapter(dataList,getActivity());
         RC_leavingMessage.setLayoutManager(new LinearLayoutManager(getContext()));
         RC_leavingMessage.setAdapter(leaveMessageAdapter);
-        leaveMessageAdapter.setOnItemClick(new LeaveMessageAdapter.OnItemClick() {
+        leaveMessageAdapter.setOnItemClick(new AppealHotAdapter.OnItemClick() {
             @Override
             public void onitemclik(int position) {
                 //留言详情
                 Intent intent = new Intent(mContext, MessageDetailActivity.class);
+                intent.putExtra("id",dataList.get(position).getId());
                 mContext.startActivity(intent);
             }
         });

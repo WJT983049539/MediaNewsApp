@@ -74,52 +74,7 @@ import butterknife.OnClick;
     }
 
 
-    /**
-     * 得到用户版块信息
-     */
-    @Override
-    public void getUserSetion(SetionBean setionBean) {
-        UserList.clear();
-        OrderUserList.clear();
-        if (setionBean.getData().size() != 0&&setionBean.getData()!=null) {
-            if(TJplate!=null){
-                UserList.addFirst(TJplate);
-            }
-            for (SetionBean.DataBean plateinfo : setionBean.getData()) {
-                if(!UserList.contains(plateinfo)){
-                    UserList.add(plateinfo);
-                }
 
-            }
-        } else {
-            if(TJplate!=null){
-                UserList.addFirst(TJplate);//默认永远有推荐
-            }
-
-        }
-
-        mycannel.setLayoutManager(new GridLayoutManager(this, 4));
-        myPlateAdapter= new MyPlateAdapter(UserList);
-        mycannel.setAdapter(myPlateAdapter);
-        myPlateAdapter.setOnItemClick(new MyPlateAdapter.OnItemClick() {
-            @Override
-            public void onitemclik(int position) {
-                //删除版块事件 推荐版块不允许删除
-                OrderUserList.add(UserList.get(position));
-                UserList.remove(position);
-                if(allPlateAdapter!=null){
-                    allPlateAdapter.notifyDataSetChanged();
-                }
-                if(myPlateAdapter!=null){
-                    myPlateAdapter.notifyDataSetChanged();
-                }
-
-
-            }
-        });
-
-
-    }
 
 
 
@@ -182,6 +137,53 @@ import butterknife.OnClick;
                     if(myPlateAdapter!=null){
                         myPlateAdapter.notifyDataSetChanged();
                     }
+            }
+        });
+    }
+    /**
+     * 得到用户版块信息
+     */
+    @Override
+    public void getUserSetion(List<SetionBean.DataBean> setionBeans) {
+        UserList.clear();
+        OrderUserList.clear();
+        if(setionBeans!=null){
+            UserList.addAll(setionBeans);
+        }
+//        if (setionBean.getData().size() != 0&&setionBean.getData()!=null) {
+//            if(TJplate!=null){
+//                UserList.addFirst(TJplate);
+//            }
+//            for (SetionBean.DataBean plateinfo : setionBean.getData()) {
+//                if(!UserList.contains(plateinfo)){
+//                    UserList.add(plateinfo);
+//                }
+//
+//            }
+//        } else {
+//            if(TJplate!=null){
+//                UserList.addFirst(TJplate);//默认永远有推荐
+//            }
+//
+//        }
+
+        mycannel.setLayoutManager(new GridLayoutManager(this, 4));
+        myPlateAdapter= new MyPlateAdapter(UserList);
+        mycannel.setAdapter(myPlateAdapter);
+        myPlateAdapter.setOnItemClick(new MyPlateAdapter.OnItemClick() {
+            @Override
+            public void onitemclik(int position) {
+                //删除版块事件 推荐版块不允许删除
+                OrderUserList.add(UserList.get(position));
+                UserList.remove(position);
+                if(allPlateAdapter!=null){
+                    allPlateAdapter.notifyDataSetChanged();
+                }
+                if(myPlateAdapter!=null){
+                    myPlateAdapter.notifyDataSetChanged();
+                }
+
+
             }
         });
     }

@@ -3,23 +3,27 @@ package com.rcdz.medianewsapp.model.bean;
 import java.io.Serializable;
 
 /**
+ * 作用: 握手成功收到的消息
+ *
  * @author:create by wjt
  * 邮箱 983049539@qq.com
+ * time 2020/11/1 14:15
  */
-public class LiveReciveMessage implements Serializable {
-
+public class LiveWoShouReciviceBean implements Serializable {
 
     /**
-     * Message :
-     * UserCount : 2
-     * MessageType : 0
-     * RoomId : 1010
+     * Message : [{"Img":"http://www.xx.com/users/1.jpg"}]
+     * UserCount : 1
+     * MessageType : 1
+     * RoomId : 1015
+     * Img : http://www.xx.com/users/1.jpg
      */
 
     private String Message;
     private int UserCount;
     private int MessageType;
     private int RoomId;
+    private String Img;
 
     public String getMessage() {
         return Message;
@@ -51,5 +55,13 @@ public class LiveReciveMessage implements Serializable {
 
     public void setRoomId(int RoomId) {
         this.RoomId = RoomId;
+    }
+
+    public String getImg() {
+        return Img;
+    }
+
+    public void setImg(String Img) {
+        this.Img = Img;
     }
 }

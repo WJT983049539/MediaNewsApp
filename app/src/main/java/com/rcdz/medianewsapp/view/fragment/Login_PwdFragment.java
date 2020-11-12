@@ -112,10 +112,16 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
 
     @Override
     public void ishowLogin(LoginBean loginBean) {
+        //{"status":true,"code":310,"message":"登陆成功","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNiIsImlhdCI6IjE2MDQ2MjgwOTkiLCJuYmYiOiIxNjA0NjI4MDk5IiwiZXhwIjoiMTYwNTIzMjg5OSIsImlzcyI6IkZ1c2lvbk1lZGlhLmNvcmUub3duZXIiLCJhdWQiOiJGdXNpb25NZWRpYS5jb3JlIn0.jMAaJX2OJfBeyfeS486nGmcwLB2z7HObCSp2FGmnUzk",
+        // "userName":"我他发可",
+        // "img":"Upload/Files/Sys_User/07610eac938141fe8259e166b96d5a09/small/temp.jpg",
+        // "user":"ccaaa"}}
         if(loginBean.getCode()==310){
             if(loginBean.getData().getToken()!=null){
                 Log.i("Token",loginBean.getData().getToken());
                 String token=loginBean.getData().getToken();
+                String user=loginBean.getData().getUser();
+
                 if(token==null||token.equals("")){
                     GlobalToast.show("Token获取失败",2000);
                     Log.i("Token","Token获取失败");
@@ -123,6 +129,8 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
                     SharedPreferenceTools.putValuetoSP(getActivity(),"token",token);//保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"loginStru",true);//登录状态保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"isFirstStart",false);//不是第一次登录了
+                    SharedPreferenceTools.putValuetoSP(getActivity(),"user",user);//不是第一次登录了
+
                     Constant.token=token;//保存到临时变量里面
                     ACache aCache=ACache.get(getActivity());
                     aCache.put("loginInfo",loginBean);//储存到缓存 ，，用户变更需要改变

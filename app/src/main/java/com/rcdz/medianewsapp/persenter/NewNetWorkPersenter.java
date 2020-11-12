@@ -10,6 +10,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.rcdz.medianewsapp.call.CustomStringCallback;
 import com.rcdz.medianewsapp.call.JsonCallback;
+import com.rcdz.medianewsapp.model.bean.AppVersionBean;
 import com.rcdz.medianewsapp.model.bean.BannerInfoBean;
 import com.rcdz.medianewsapp.model.bean.BaseBean;
 import com.rcdz.medianewsapp.model.bean.CannalSationBean;
@@ -26,8 +27,8 @@ import com.rcdz.medianewsapp.model.bean.JifenType;
 import com.rcdz.medianewsapp.model.bean.LeaveMegBean;
 import com.rcdz.medianewsapp.model.bean.LiveBean;
 import com.rcdz.medianewsapp.model.bean.LiveCoverInfo;
-import com.rcdz.medianewsapp.model.bean.LivingMasterBean;
 import com.rcdz.medianewsapp.model.bean.LoginBean;
+import com.rcdz.medianewsapp.model.bean.MessageDetalInfoBean;
 import com.rcdz.medianewsapp.model.bean.MuhuNewBean;
 import com.rcdz.medianewsapp.model.bean.NewsListBean;
 import com.rcdz.medianewsapp.model.bean.NoSetionsBean;
@@ -40,8 +41,10 @@ import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.model.bean.YuYueInfoBean;
 import com.rcdz.medianewsapp.model.bean.YuYueProgresListInfoBean;
 import com.rcdz.medianewsapp.model.bean.wherebean;
+import com.rcdz.medianewsapp.model.bean.wherebean2;
 import com.rcdz.medianewsapp.persenter.interfaces.AddCollect;
 import com.rcdz.medianewsapp.persenter.interfaces.AddReserve;
+import com.rcdz.medianewsapp.persenter.interfaces.CheckAppVersion;
 import com.rcdz.medianewsapp.persenter.interfaces.Commentimpl;
 import com.rcdz.medianewsapp.persenter.interfaces.DeleteYuyue;
 import com.rcdz.medianewsapp.persenter.interfaces.DisCollect;
@@ -56,6 +59,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetCoverInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandJiNumDetails;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDepartmentInfo;
+import com.rcdz.medianewsapp.persenter.interfaces.GetDetailMessage;
 import com.rcdz.medianewsapp.persenter.interfaces.GetForGet;
 import com.rcdz.medianewsapp.persenter.interfaces.GetHistory;
 import com.rcdz.medianewsapp.persenter.interfaces.GetJifenList;
@@ -67,7 +71,6 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPliveLeaveMsgInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetProgerssListInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetSignStatus;
-import com.rcdz.medianewsapp.persenter.interfaces.GetTopListInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetTopNews;
 import com.rcdz.medianewsapp.persenter.interfaces.GetTopVideoNews;
 import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
@@ -76,12 +79,15 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetYuyue;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowLogin;
 import com.rcdz.medianewsapp.persenter.interfaces.IshowSearchOrganization;
 import com.rcdz.medianewsapp.persenter.interfaces.ShowRegister;
+import com.rcdz.medianewsapp.persenter.interfaces.UpFile;
+import com.rcdz.medianewsapp.persenter.interfaces.YJRequestSuccess;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.GsonUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -248,15 +254,18 @@ public class NewNetWorkPersenter {
     }
 
     /**
-     * 获取新闻列表
+     * 获取全部新闻列表
      */
     public void GetNewsList(GetAllNewsList getAllNewsList) {
+
+
         Map<String,String> areaMap = new HashMap<String,String>();
         areaMap.put("page","1");
         areaMap.put("rows","30");
         areaMap.put("sort","PublishDate");
         areaMap.put("order","desc");
         areaMap.put("wheres","[]");
+        wherebean wherebean=new wherebean();
         CommApi.post(MainApi.getNewsListUrl(),areaMap).execute(new JsonCallback<NewsListBean>() {
             @Override
             public void onSuccess(Response<NewsListBean> response) {
@@ -283,7 +292,7 @@ public class NewNetWorkPersenter {
         areaMap.put("sort","Orders");
         areaMap.put("order","desc");
         areaMap.put("wheres","[]");
-        CommApi.post("api/RepeatImages/getPageData",areaMap).execute(new JsonCallback<BannerInfoBean>() {
+        CommApi.post("api/RepeatImages/GetPageList",areaMap).execute(new JsonCallback<BannerInfoBean>() {
             @Override
             public void onSuccess(Response<BannerInfoBean> response) {
                 if(response.body()!=null){
@@ -311,11 +320,12 @@ public class NewNetWorkPersenter {
         areaMap.put("rows","30");
         areaMap.put("sort","PublishDate");
         areaMap.put("order","desc");
-        wherebean w=new wherebean();
+        List<wherebean2> list=new ArrayList<wherebean2>();
+        wherebean2 w=new wherebean2();
         w.setName("SectionId");
         w.setValue(plate);
-        w.setDisplayType("text");
-        String Where=GsonUtil.BeanToJson(w);
+        list.add(w);
+        String Where=GsonUtil.BeanToJson(list);
         areaMap.put("wheres",Where);
         CommApi.post(MainApi.getNewsListUrl(),areaMap).execute(new JsonCallback<NewsListBean>() {
             @Override
@@ -382,10 +392,10 @@ public class NewNetWorkPersenter {
         list.add(w3);
         String Where=GsonUtil.BeanToJson(list);
         areaMap.put("wheres",Where);
-        CommApi.post("api/Sys_UserCommentsView/GetPageData",areaMap).execute(new JsonCallback<CommentInfoBean>() {
+        CommApi.post("api/Sys_UserCommentsView/GetPageList",areaMap).execute(new JsonCallback<CommentInfoBean>() {
             @Override
             public void onSuccess(Response<CommentInfoBean> response) {
-                Log.i(TAG,"获取获取评论-->"+response.toString());
+                Log.i(TAG,"获取获取评论-->"+response.body().getRows());
                 if(response.body()!=null){
                     getComment.getcomment(response.body());
                 }
@@ -398,21 +408,98 @@ public class NewNetWorkPersenter {
             }
         });
     }
+
+
+
+//    /**
+//     * 添加收藏
+//     * 收藏表中的字段：SourceType:来源类别，如精品点播等(1 文章 2 视频 3 图集 4 频道 5剧集点播),是哪里的收藏就传几即可
+//     */
+//    public void AddCollect(String type,String TargetId,String Title,String Url,String SourceType,String ActivityTyppe,String GlobalSectionId,String SetionName,AddCollect addCollect) {
+//        Map<String,String> areaMap = new HashMap<String,String>();
+//        areaMap.put("Type",type);
+//        areaMap.put("TargetId",TargetId);
+//        areaMap.put("Title",Title);
+//        areaMap.put("Url",Url);
+//        areaMap.put("SourceType",SourceType);
+//        areaMap.put("ActivityTyppe",ActivityTyppe);
+//        areaMap.put("GlobalSectionId",GlobalSectionId);
+//        areaMap.put("SetionName",SetionName);
+//
+//        CommApi.post("api/Sys_UserStores/add",areaMap).execute(new StringCallback() {
+//            @Override
+//            public void onSuccess(Response<String> response) {
+//                Log.i(TAG,"添加收藏-->"+response.body());
+//                if(response.body()!=null){
+//                    JSONObject jsonObject= null;
+//                    try {
+//                        jsonObject = new JSONObject(response.body());
+//                        int code=jsonObject.getInt("code");
+//                        String message=jsonObject.getString("message");
+//                        if(code==200){
+//                            addCollect.addcollect();
+//                        }else{
+//                            GlobalToast.show(message,Toast.LENGTH_LONG);
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Response response) {
+//                super.onError(response);
+//                Log.i(TAG,"添加收藏失败-->"+response.message());
+//            }
+//        });
+//    }
     /**
      * 添加收藏
+     * 收藏表中的字段：SourceType:来源类别，如精品点播等(1 文章 2 视频 3 图集 4 频道 5剧集点播),是哪里的收藏就传几即可
      */
-    public void AddCollect(String type,String TargetId,String Title,String Url,AddCollect addCollect) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("Type",type);
-        areaMap.put("TargetId",TargetId);
-        areaMap.put("Title",Title);
-        areaMap.put("Url",Url);
-        CommApi.post("api/Sys_UserStores/add",areaMap).execute(new StringCallback() {
+    public void AddCollect(String Type,String TargetId,String Title,String Url,String SourceType,String ActivityType,String imageurl,AddCollect addCollect) {
+        String parmes="";
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("Type",Type);
+            jsonObject.put("TargetId",TargetId);
+            jsonObject.put("Title",Title);
+            jsonObject.put("Url",Url);
+            jsonObject.put("SourceType",SourceType);
+            jsonObject.put("ActivityType",ActivityType);
+            jsonObject.put("ImageUrl",imageurl);
+            JSONObject jsonObject1=new JSONObject();
+            jsonObject1.put("mainData",jsonObject);
+            parmes=jsonObject1.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //{"status":true,"code":311,"message":"保存成功","data":null}
+        CommApi.postAddJson("api/Sys_UserStores/Add",parmes).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"添加收藏-->"+response.toString());
+                Log.i(TAG,"添加收藏-->"+response.body());
                 if(response.body()!=null){
-                    addCollect.addcollect();
+                    JSONObject jsonObject= null;
+                    try {
+                        jsonObject = new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        String message=jsonObject.getString("message");
+                        if(code==311){
+                            addCollect.addcollect();
+                        }else{
+                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+
                 }
             }
 
@@ -459,7 +546,7 @@ public class NewNetWorkPersenter {
      * 获取置顶新闻
      */
     public void GetTopVideoNews(GetTopVideoNews getTopVideoNews) {
-        CommApi.postNoParams("api/NewsView/GetTopVideo/3").execute(new JsonCallback<TopVideoNewBean>() {
+        CommApi.postNoParams("api/NewsView/GetTopVideo/1").execute(new JsonCallback<TopVideoNewBean>() {
             @Override
             public void onSuccess(Response<TopVideoNewBean> response) {
                 Log.i(TAG,"获取置顶新闻-->"+response.toString());
@@ -499,7 +586,6 @@ public class NewNetWorkPersenter {
                 w2.setDisplayType("text");
                 list.add(w2);
             }
-
 
             String result=GsonUtil.BeanToJson(list);
             areaMap.put("wheres",result);
@@ -546,7 +632,6 @@ public class NewNetWorkPersenter {
                     getMoHuNewTitle.getMohuNewTitle(muhuNewBean.getRows());
                     Log.i(TAG,"模糊搜索新闻->"+response.toString());
 
-
                 }
             }
             @Override
@@ -560,13 +645,93 @@ public class NewNetWorkPersenter {
     /**
      * 获取用户版块
      */
+    //{"status":true,"code":200,"message":"查询成功!","data":[{"id":1,"name":"今日闻喜"},{"id":2,"name":"推荐"},{"id":3,"name":"智慧党建"},{"id":4,"name":"桐乡文化"},{"id":8,"name":"大事记"},{"id":9,"name":"特色"},{"id":10,"name":"旅游"},{"id":13,"name":"新时代好青年"},{"id":14,"name":"人物"},{"id":15,"name":"读中国"},{"id":17,"name":"要闻资讯"},{"id":20,"name":"视频新闻"}]}
     public void GetUserSetion(GetUserSetion getUserSetion) {
-        CommApi.postNoParams(MainApi.getUserSection()).execute(new JsonCallback<SetionBean>() {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page","1");
+        areaMap.put("rows","100");
+        areaMap.put("sort","OrderNum");
+        areaMap.put("order","asc");
+        CommApi.post(MainApi.getUserSection(),areaMap).execute(new CustomStringCallback() {
             @Override
-            public void onSuccess(Response<SetionBean> response) {
+            public void onSuccess(Response<String> response) {
                 if(response.body()!=null){
                     Log.i(TAG,"获取用户版块-->"+response.toString());
-                    getUserSetion.getUserSetion(response.body());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        String message=jsonObject.getString("message");
+                        if(code==200){
+                            List<SetionBean.DataBean> list=new ArrayList<>();
+                            JSONArray jsonElements= jsonObject.getJSONArray("data");
+                            for(int i=0;i<jsonElements.length();i++){
+                                JSONObject jj=jsonElements.getJSONObject(i);
+                                String name=jj.getString("name");
+                                int id=jj.getInt("id");
+                                SetionBean.DataBean dataBean=new SetionBean.DataBean();
+                                dataBean.setName(name);
+                                dataBean.setId(id);
+                                list.add(dataBean);
+                            }
+                            getUserSetion.getUserSetion(list);
+
+
+                        }else{
+                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"获取用户版块失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 获取用户版块未登录状态
+     */
+    public void GetUserSetionasNoLogin(GetUserSetion getUserSetion) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("page","1");
+        areaMap.put("rows","100");
+        areaMap.put("sort","OrderNum");
+        areaMap.put("order","asc");
+        CommApi.post(MainApi.getNoLoginUserSection(),areaMap).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"获取用户版块-->"+response.toString());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        String message=jsonObject.getString("message");
+                        if(code==200){
+                            List<SetionBean.DataBean> list=new ArrayList<>();
+                            JSONArray jsonElements= jsonObject.getJSONArray("rows");
+                            for(int i=0;i<jsonElements.length();i++){
+                                JSONObject jj=jsonElements.getJSONObject(i);
+                                String name=jj.getString("Name");
+                                int id=jj.getInt("Id");
+                                SetionBean.DataBean dataBean=new SetionBean.DataBean();
+                                dataBean.setName(name);
+                                dataBean.setId(id);
+                                list.add(dataBean);
+                            }
+                            getUserSetion.getUserSetion(list);
+
+
+                        }else{
+                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             @Override
@@ -666,9 +831,12 @@ public class NewNetWorkPersenter {
 
     /**
      * 民生机构
+     * 1 模糊查询 0查全部
      */
-    public void GetDepartmentInfo(GetDepartmentInfo getDepartmentInfo ) {
-        CommApi.postNoParams(MainApi.Department()).execute(new JsonCallback<DepartmnetInfoBean>() {
+    public void GetDepartmentInfo(GetDepartmentInfo getDepartmentInfo,String type,String content) {
+        Map<String,String> areaMap = new HashMap<String,String>();
+        areaMap.put("name",content);
+        CommApi.post(MainApi.Department()+type,areaMap).execute(new JsonCallback<DepartmnetInfoBean>() {
             @Override
             public void onSuccess(Response<DepartmnetInfoBean> response) {
                 Log.i(TAG,"民生机构-->"+response.message());
@@ -687,15 +855,18 @@ public class NewNetWorkPersenter {
     /**
      * 根据id查询留言详情
      */
-    public void GetDepartmentInfoForid(String id ) {
-        CommApi.postNoParams(MainApi.LeaveMegDetailedInfo()).execute(new StringCallback() {
+    public void GetDepartmentInfoForid(String id , GetDetailMessage getDetailMessage) {
+        CommApi.postNoParams(MainApi.LeaveMegDetailedInfo()+"/"+id).execute(new JsonCallback<MessageDetalInfoBean>() {
+            //{"status":true,"code":200,"message":"查询成功!","data":{"id":37,"subject":"64646+","contents":"ceshi ","images":"Upload/Files/Livelihood_Feedback/2bf663251fdd42528b535fbc949a794d/small/0.41669806662035924.jpg","phoneNo":"6546","organizationId":45,"organizationName":"职能机构","type":"投诉","userTrueName":null,"auditUserId":null,"auditDate":null,"description":null,"isReply":0,"replyUserId":null,"replyContents":null,"replyDate":null,"time":null,"createID":16,"creator":"eer","createDate":"2020-11-03 19:59:26","isBlackList":0,"state":"0"}}
             @Override
-            public void onSuccess(Response<String> response) {
-
+            public void onSuccess(Response<MessageDetalInfoBean> response) {
                 if(response.body()!=null){
-
+                    if(getDetailMessage!=null){
+                        getDetailMessage.getDetailMessage(response.body());
+                    }
+                    Log.i(TAG,"留言详情-->"+response.message());
                 }
-                Log.i(TAG,"留言详情-->"+response.message());
+
             }
 
             @Override
@@ -734,16 +905,169 @@ public class NewNetWorkPersenter {
             }
         });
     }
+
+    /**
+     * 添加评论
+     * @param Creator
+     * @param Title
+     * @param LongTitle
+     * @param Contents
+     * @param TargetId
+     * @param GlobalSectionId
+     * @param type 1文章 2 视频 3图集 4直播间 5点播 6频道
+     */
+    public void AddComment(String Creator,String Title,String LongTitle,String Contents,String TargetId,String GlobalSectionId,String type){
+        String parmes="";
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("Creator",Creator);
+            jsonObject.put("Title",Title);
+            jsonObject.put("LongTitle",LongTitle);
+            jsonObject.put("Contents",Contents);
+            jsonObject.put("TargetId",TargetId);
+            jsonObject.put("GlobalSectionId",GlobalSectionId);
+            jsonObject.put("Type",type);
+            JSONObject jsonObject1=new JSONObject();
+            jsonObject1.put("mainData",jsonObject);
+            parmes=jsonObject1.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
+        CommApi.postAddJson(MainApi.AddComment(),parmes).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //{"status":true,"code":311,"message":"保存成功","data":null}
+                if(response.body()!=null){
+                    Log.i(TAG,"添加评论-->"+response.message());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        String message=jsonObject.getString("message");
+                        if(code==311){
+                            Log.i("test","添加评论成功！");
+                            GlobalToast.show(message,Toast.LENGTH_LONG);
+
+                        }else{
+                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"添加评论失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 意见反馈
+     * ,品开
+     */
+    public void upYiJianBack(String Contents, String PhoneNo, String CoverUrl, YJRequestSuccess yjRequestSuccess) {
+            String parmes="";
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("Contents",Contents);
+            jsonObject.put("PhoneNo",PhoneNo);
+            jsonObject.put("CoverUrl",CoverUrl);
+            JSONObject jsonObject1=new JSONObject();
+            jsonObject1.put("mainData",jsonObject);
+            parmes=jsonObject1.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
+        CommApi.postAddJson(MainApi.YiJianYiBack(),parmes).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //{"status":true,"code":311,"message":"保存成功","data":null}
+                if(response.body()!=null){
+                    Log.i(TAG,"意见反馈-->"+response.message());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        if(code==311){
+                            if(yjRequestSuccess!=null){
+                                yjRequestSuccess.yjquest();
+                            }
+
+                        }
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"意见反馈失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 历史足迹
+     * ,品开
+     */
+    public void AddHistoryforNews(String Type, String TargetId, String SectionId,String ActivityType) {
+        //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
+        CommApi.postNoParams(MainApi.AddHistoryforNews()+Type+"/"+TargetId+"/"+SectionId+"/"+ActivityType).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+//                {"status":true,"code":200,"message":"添加成功!","data":1}
+                if(response.body()!=null){
+                    Log.i(TAG,"添加历史成功-->"+response.message());
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"添加历史失败-->"+response.message());
+            }
+        });
+    }
     /**
      * 获取主播信息
      */
-    public void GetLivingMasterInfo(String id,GetLivingMInfo getLivingMInfo ) {
-        CommApi.postNoParams(MainApi.GetLivingMasterInfo()+"/"+id).execute(new JsonCallback<LivingMasterBean>() {
+
+    //todo
+    public void GetLivingMasterInfo( String id,GetLivingMInfo getLivingMInfo ) {
+        CommApi.postNoParams(MainApi.GetLivingMasterInfo()+"/"+id).execute(new CustomStringCallback() {
             @Override
-            public void onSuccess(Response<LivingMasterBean> response) {
+            public void onSuccess(Response<String> response) {
                 Log.i(TAG,"当前主播信息-->"+response.message());
                 if(response.body()!=null){
-                    getLivingMInfo.getinfo(response.body());
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                        if(code==200){
+                            JSONObject jsonObject1=jsonObject.getJSONObject("data");
+                            String userTrueName= jsonObject1.getString("userTrueName");
+                            String headImageUrl= jsonObject1.getString("headImageUrl");
+                            getLivingMInfo.getinfo(userTrueName,headImageUrl);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
 
             }
@@ -789,12 +1113,9 @@ public class NewNetWorkPersenter {
         CommApi.post(MainApi.GetLivingPeople(),param).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-
                 if(response.body()!=null){
                     Log.i(TAG,"直播间人数-->"+response.message());
                 }
-
-
             }
 
             @Override
@@ -836,10 +1157,10 @@ public class NewNetWorkPersenter {
      * 查看收藏列表
      * title 搜索关键字
      */
-    public void GetCollectList(GetCollectList getCollectList,String title) {
+    public void GetCollectList(GetCollectList getCollectList,String title,String page) {
         Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","30");
+        areaMap.put("page",page);
+        areaMap.put("rows","50");
         areaMap.put("sort","Id");
         areaMap.put("order","desc");
         if(title.equals("")){
@@ -881,7 +1202,6 @@ public class NewNetWorkPersenter {
         areaMap.put("sort","Id");
         areaMap.put("order","desc");
         areaMap.put("where","[]");
-
         CommApi.post("api/Sys_UserFootMark/GetPageData",areaMap).execute(new JsonCallback<HistoryListInfoBean>() {
             @Override
             public void onSuccess(Response<HistoryListInfoBean> response) {
@@ -965,6 +1285,7 @@ public class NewNetWorkPersenter {
             public void onSuccess(Response<String> response) {
                 if(response.body()!=null){
                     Log.i(TAG,"留言成功-->"+response.message());
+                    commentimpl.getInfo(response.body());
                 }
 
             }
@@ -1013,7 +1334,6 @@ public class NewNetWorkPersenter {
      *  添加积分
      */
     public void AddJifen( String Type ) {
-
         JifenType jifenType=new JifenType();
         JifenType.MainDataBean mainDataBean=new   JifenType.MainDataBean();
         mainDataBean.setType(Type);
@@ -1125,7 +1445,7 @@ public class NewNetWorkPersenter {
             @Override
             public void onSuccess(Response<TvCannelBean> response) {
                 if(response.body()!=null){
-                    Log.i(TAG,"频道栏目列表-->");
+                    Log.i(TAG,"频道栏目列表-->"+response.body().toString());
                     getCannelInfo.getCannelInfo(response.body());
                 }
             }
@@ -1150,7 +1470,7 @@ public class NewNetWorkPersenter {
             @Override
             public void onSuccess(Response<LiveBean> response) {
                 if(response.body()!=null){
-                    Log.i(TAG,"直播间列表-->");
+                    Log.i(TAG,"直播间列表-->"+response.body().getTotal());
                     getLiveListInfo.getLiveInfo(response.body());
                 }
             }
@@ -1176,7 +1496,7 @@ public class NewNetWorkPersenter {
         wherebean w=new wherebean();
         w.setName("ChannelSectionId");
 //        w.setValue(ChannelSectionId);
-        w.setValue("1");
+        w.setValue(ChannelSectionId);
         w.setDisplayType("text");
         list.add(w);
         String as=GsonUtil.BeanToJson(list);
@@ -1199,7 +1519,7 @@ public class NewNetWorkPersenter {
         });
     }
     /**
-     * 获取点播列表详情
+     * 获取点播列表集数
      */
     public void GetDemandDetails(String Id, GetDemandJiNumDetails getDemandJiNumDetails) {
         Map<String,String> areaMap = new HashMap<String,String>();
@@ -1211,7 +1531,7 @@ public class NewNetWorkPersenter {
             @Override
             public void onSuccess(Response<DemandEpisodeBean> response) {
                 if(response.body()!=null){
-                    Log.i(TAG,"精品列表-->"+response.body().getData().size());
+                    Log.i(TAG,"精品集数-->"+response.body().getData().size());
 //                    getDemandList.getDemandList(response.body());
                     getDemandJiNumDetails.getDemandJiNumDetails(response.body());
                 }
@@ -1326,15 +1646,36 @@ public class NewNetWorkPersenter {
         });
     }
 
+    /**
+     * 查询APP主版本
+     */
+    public void CheckAppVersion(CheckAppVersion CheckAppVersion) {
+
+        CommApi.postNoParams(MainApi.GetAppVersionInfo()+"/"+0).execute(new JsonCallback<AppVersionBean>() {
+            @Override
+            public void onSuccess(Response<AppVersionBean> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"查询APP主版本成功-->");
+                    CheckAppVersion.GetAppVersion(response.body());
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"查询APP主版本失败-->"+response.message());
+            }
+        });
+    }
+
     //上传留言图片
-    public void UppictureMessage(List<File> files) {
+    public void UppictureMessage(List<File> files, UpFile upFile) {
         for(File file:files){
             if (!file.exists()) {
                 GlobalToast.show("文件不存在！", Toast.LENGTH_LONG);
                 return;
             }
         }
-
         String web_path = AppConfig.BASE_URL+MainApi.UpLeavseMsg();
         OkGo.<String>post(web_path).headers("Authorization", "Bearer " + Constant.token).addFileParams("fileInput",files)
                 .isMultipart(true).execute(new StringCallback() {
@@ -1342,13 +1683,26 @@ public class NewNetWorkPersenter {
             @Override
             public void onSuccess(Response<String> response) {
                 Log.i(TAG,"留言上传图片成功" + response.body());
+                try {
+                    JSONObject jsonObject=new JSONObject(response.body());
+                    int code=jsonObject.getInt("code");
+                    String data=jsonObject.getString("data");
+                    if(code==200){
+                        upFile.upfileSuccess(data);
+                    }else{
+                        upFile.upfileFail();
+                    }
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
                 Log.i(TAG,"上传失败");
+                upFile.upfileFail();
             }
         });
 

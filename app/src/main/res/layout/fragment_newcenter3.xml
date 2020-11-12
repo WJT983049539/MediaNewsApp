@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="82dp"
-            android:text="还没想好的自己的签名"
+            android:text="个性签名"
             app:layout_constraintStart_toStartOf="@+id/tv_name"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

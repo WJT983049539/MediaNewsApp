@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="@dimen/dp_250"
+    android:layout_height="wrap_content"
+    android:background="@color/Transparent"
+    android:gravity="center"
+    android:layout_gravity="center"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/Transparent"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/dp_60"
+            android:background="@drawable/edit_bg5">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:layout_below="@+id/update_ok"
+                ></View>
+
+            <Button
+                android:id="@+id/update_ok"
+                android:layout_width="@dimen/dp_153"
+                android:layout_height="@dimen/dp_35"
+                android:layout_below="@+id/appversioncontent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@drawable/appversion_bg"
+                android:text="立即更新"
+                android:textColor="#ffffff"
+                android:textSize="20sp"></Button>
+
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="@dimen/dp_14"
+                android:layout_height="@dimen/dp_14"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/chchchc"></ImageView>
+
+            <TextView
+                android:id="@+id/versionreleasetime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/namecode"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_6"
+                android:text="更新时间：2020.09.29"
+                android:textColor="#D6D7D8"
+                android:textSize="12sp"></TextView>
+
+            <TextView
+                android:id="@+id/appversioncontent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/versionreleasetime"
+                android:layout_marginStart="@dimen/dp_30"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_30"
+                android:gravity="center"
+                android:text="1.支持独立直播间 \n2.直播间体验优化\n3.UI细节优化\n4.其他性能优化"
+                android:textColor="#222324"
+                android:textSize="18sp"></TextView>
+
+            <TextView
+                android:id="@+id/namecode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/dp_112"
+                android:text="发现新版本V5.5.3.0"
+                android:textColor="#202122"
+                android:textSize="18sp"></TextView>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/Transparent"
+            >
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="@dimen/dp_158"
+                android:layout_height="@dimen/dp_131"
+                android:scaleType="fitXY"
+                android:src="@mipmap/qppimg"
+                android:layout_centerHorizontal="true"
+                ></ImageView>
+        </RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"></LinearLayout>
+
+</LinearLayout>

@@ -1,6 +1,7 @@
 package com.rcdz.medianewsapp.view.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetCollectList;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.view.customview.ClearEditText;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
+import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,11 +62,9 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
     @BindView(R.id.delete_cllect)
     LinearLayout deleteCllect;
     public static Boolean isSelected=false;
-
+    int mPage=1;
     private List<CollectListInfoBean.CollectInfo> list=new ArrayList<>();
-
     CollectAdapter collectAdapter;
-
     @Override
     public String setNowActivityName() {
         return null;
@@ -83,7 +83,30 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
         collectRecyclerview.setLayoutManager(new LinearLayoutManager(this));
         collectAdapter=new CollectAdapter(this,list,R.layout.collect_item);
         collectRecyclerview.setAdapter(collectAdapter);
+        collectRecyclerview.setLoadingListener(new LoadingListener() {
+            //下拉刷新
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable(){
+                    public void run() {
+                        mPage = 1;
+                        list.clear();
+                        initNewsList(mPage);
+                    }
+                }, 1000);
+            }
+
+            //上拉加载
+            @Override
+            public void onLoadMore() {
+                ++mPage;
+                initNewsList(mPage);
+            }
+        });
+        initNewsList(mPage);
     }
+
+
 
     @Override
     public void inintData() {
@@ -96,8 +119,7 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
                     if(collectSousuo.getText()!=null){
                         String ssContent=collectSousuo.getText().toString();
                         NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(MyCollectActivity.this);
-                        newNetWorkPersenter.GetCollectList(MyCollectActivity.this,ssContent); //查询全部
-
+                        newNetWorkPersenter.GetCollectList(MyCollectActivity.this,ssContent, String.valueOf(mPage)); //查询全部
                     }
 
                     return true;
@@ -106,11 +128,12 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
             }
         });
 
-        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
-        newNetWorkPersenter.GetCollectList(this,""); //查询全部
     }
 
-
+    private void initNewsList(int mPage) {
+        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
+        newNetWorkPersenter.GetCollectList(this,"", String.valueOf(mPage)); //查询全部
+    }
 
     @OnClick({R.id.back, R.id.collect_edit, R.id.delete_cllect})
     public void onViewClicked(View view) {
@@ -156,7 +179,7 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
                                     GlobalToast.show(message, Toast.LENGTH_LONG);
                                 }else{
                                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(MyCollectActivity.this);
-                                    newNetWorkPersenter.GetCollectList(MyCollectActivity.this,"");
+                                    newNetWorkPersenter.GetCollectList(MyCollectActivity.this,"","1");
                                     isSelected=false;
                                     //刷新列表
                                 }
@@ -184,10 +207,11 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
     @Override
     public void getCollect(CollectListInfoBean collectListInfoBean) { //todo 暂时不添加分页
         list.clear();
+        collectRecyclerview.refreshComplete();//刷新成功
         list.addAll(collectListInfoBean.getRows());
         selectCollectMap.clear();
         for(int i=0;i<list.size();i++){
-            selectCollectMap.put(list.get(i).getId(),false); //初始化
+            selectCollectMap.put(list.get(i).getTargetId(),false); //初始化
         }
         collectAdapter.notifyDataSetChanged();
     }

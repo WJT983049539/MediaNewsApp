@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/news1_title"
-        android:layout_width="@dimen/dp_220"
+        android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_40"
         android:textColor="#4A4A4A"
         android:textSize="15sp"

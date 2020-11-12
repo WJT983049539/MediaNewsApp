@@ -1,5 +1,7 @@
 package com.rcdz.medianewsapp.model.bean;
 
+import android.app.Service;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,13 +12,14 @@ import java.util.List;
  * 邮箱 983049539@qq.com
  * time 2020/10/27 10:41
  */
+
 public class TopVideoNewBean implements Serializable {
 
     /**
      * status : true
      * code : 200
      * message : 获取置顶新闻成功
-     * data : [{"id":"eee07256-43a0-4df2-a323-d9a4918e584c","title":"视频测试","longTitle":"视频测试视频测试视频测试视频测试","styleType":"04","coverUrl":"Upload/Files/Video/fd6adf1943d248e4b5b0cde11a08dd19/small/06.jpg","imageUrl":null,"creator":"测试用户1","publishDate":"2020-02-02 00:00:00","publishDateString":"8个月前","sectionId":3,"locationSection":"1","commentCount":0,"type":2,"contentFontFize":"12","titleFontSize":"14"}]
+     * data : [{"id":"e3a80aa1-65b9-4f31-9b1a-8ddbb8f56271","title":"华裔投票拜登：若特朗普连任，就搬去其他国家","longTitle":"华裔投票拜登：若特朗普连任，就搬去其他国家","styleType":null,"coverUrl":"Upload/Files/Video/aef569b5f845437a86fb2df3d0147293/small/logo.png","imageUrl":null,"creator":"测试用户1","publishDate":"2020-11-06 10:00:00","publishDateString":"4小时前","targetId":93,"sectionId":2,"locationSection":"1","activityType":-1,"commentCount":1,"type":2,"contentFontFize":null,"titleFontSize":null},{"id":"77baf13c-899c-4272-842f-7185ed3354fb","title":"城市美景","longTitle":"城市美景","styleType":null,"coverUrl":"Upload/Files/Video/8882f2594f4649c7b6d435a37a521b4e/small/RkyLeDxJB10VMW.jpg","imageUrl":null,"creator":"测试用户2","publishDate":"2020-11-03 17:23:32","publishDateString":"2天前","targetId":86,"sectionId":1,"locationSection":"1","activityType":-1,"commentCount":0,"type":2,"contentFontFize":null,"titleFontSize":null},{"id":"4f705ca7-4196-4f20-a119-a3f19343ec2d","title":"城市美景","longTitle":"城市美景","styleType":null,"coverUrl":"Upload/Files/Video/8882f2594f4649c7b6d435a37a521b4e/small/RkyLeDxJB10VMW.jpg","imageUrl":null,"creator":"测试用户2","publishDate":"2020-11-03 17:23:32","publishDateString":"2天前","targetId":86,"sectionId":2,"locationSection":"1","activityType":-1,"commentCount":0,"type":2,"contentFontFize":null,"titleFontSize":null}]
      */
 
     private boolean status;
@@ -58,38 +61,42 @@ public class TopVideoNewBean implements Serializable {
 
     public static class TopVideoNew implements Serializable {
         /**
-         * id : eee07256-43a0-4df2-a323-d9a4918e584c
-         * title : 视频测试
-         * longTitle : 视频测试视频测试视频测试视频测试
-         * styleType : 04
-         * coverUrl : Upload/Files/Video/fd6adf1943d248e4b5b0cde11a08dd19/small/06.jpg
+         * id : e3a80aa1-65b9-4f31-9b1a-8ddbb8f56271
+         * title : 华裔投票拜登：若特朗普连任，就搬去其他国家
+         * longTitle : 华裔投票拜登：若特朗普连任，就搬去其他国家
+         * styleType : null
+         * coverUrl : Upload/Files/Video/aef569b5f845437a86fb2df3d0147293/small/logo.png
          * imageUrl : null
          * creator : 测试用户1
-         * publishDate : 2020-02-02 00:00:00
-         * publishDateString : 8个月前
-         * sectionId : 3
+         * publishDate : 2020-11-06 10:00:00
+         * publishDateString : 4小时前
+         * targetId : 93
+         * sectionId : 2
          * locationSection : 1
-         * commentCount : 0
+         * activityType : -1
+         * commentCount : 1
          * type : 2
-         * contentFontFize : 12
-         * titleFontSize : 14
+         * contentFontFize : null
+         * titleFontSize : null
          */
 
         private String id;
         private String title;
         private String longTitle;
-        private String styleType;
+        private Object styleType;
         private String coverUrl;
         private Object imageUrl;
         private String creator;
         private String publishDate;
         private String publishDateString;
+        private int targetId;
         private int sectionId;
         private String locationSection;
+        private int activityType;
         private int commentCount;
         private int type;
-        private String contentFontFize;
-        private String titleFontSize;
+        private Object contentFontFize;
+        private Object titleFontSize;
 
         public String getId() {
             return id;
@@ -115,11 +122,11 @@ public class TopVideoNewBean implements Serializable {
             this.longTitle = longTitle;
         }
 
-        public String getStyleType() {
+        public Object getStyleType() {
             return styleType;
         }
 
-        public void setStyleType(String styleType) {
+        public void setStyleType(Object styleType) {
             this.styleType = styleType;
         }
 
@@ -163,6 +170,14 @@ public class TopVideoNewBean implements Serializable {
             this.publishDateString = publishDateString;
         }
 
+        public int getTargetId() {
+            return targetId;
+        }
+
+        public void setTargetId(int targetId) {
+            this.targetId = targetId;
+        }
+
         public int getSectionId() {
             return sectionId;
         }
@@ -177,6 +192,14 @@ public class TopVideoNewBean implements Serializable {
 
         public void setLocationSection(String locationSection) {
             this.locationSection = locationSection;
+        }
+
+        public int getActivityType() {
+            return activityType;
+        }
+
+        public void setActivityType(int activityType) {
+            this.activityType = activityType;
         }
 
         public int getCommentCount() {
@@ -195,19 +218,19 @@ public class TopVideoNewBean implements Serializable {
             this.type = type;
         }
 
-        public String getContentFontFize() {
+        public Object getContentFontFize() {
             return contentFontFize;
         }
 
-        public void setContentFontFize(String contentFontFize) {
+        public void setContentFontFize(Object contentFontFize) {
             this.contentFontFize = contentFontFize;
         }
 
-        public String getTitleFontSize() {
+        public Object getTitleFontSize() {
             return titleFontSize;
         }
 
-        public void setTitleFontSize(String titleFontSize) {
+        public void setTitleFontSize(Object titleFontSize) {
             this.titleFontSize = titleFontSize;
         }
     }

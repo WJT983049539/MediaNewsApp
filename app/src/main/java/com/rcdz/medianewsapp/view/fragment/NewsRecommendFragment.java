@@ -1,5 +1,7 @@
 package com.rcdz.medianewsapp.view.fragment;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.qw.soul.permission.SoulPermission;
+import com.qw.soul.permission.bean.Permission;
+import com.qw.soul.permission.bean.Permissions;
+import com.qw.soul.permission.callbcak.CheckRequestPermissionListener;
+import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.adapter.NewsAdapter;
 import com.rcdz.medianewsapp.model.adapter.ZhiDingAdapter;
@@ -38,6 +46,10 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetTopVideoNews;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GlideUtil;
 import com.rcdz.medianewsapp.tools.GlobalToast;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.rcdz.medianewsapp.view.activity.NewTimeWebViewActivity;
+import com.rcdz.medianewsapp.view.activity.NewsDetailActivity;
+import com.rcdz.medianewsapp.view.activity.WelcomeActivity;
 import com.rcdz.medianewsapp.view.pullscrllview.NPullScrollView;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
 import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
@@ -67,8 +79,14 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
     public final static String TAG="NewsRecommendFragment";
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.newtime)
+    LinearLayout newtime;
+    @BindView(R.id.zhengpawer)
+    LinearLayout zhengpawer;
     @BindView(R.id.topvideonew_img)
     ImageView topvideonew_img;
+    @BindView(R.id.topvideo)
+    RelativeLayout topvideo;
     @BindView(R.id.topvideonew_status)
     ImageView topvideonew_status;
     @BindView(R.id.topvideonew_title)
@@ -86,7 +104,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
     public NewsAdapter dataAdapter;
     public boolean isSee=false;
     private List<TvCannelBean.TvCanneInfo> canneInfos=new ArrayList<>();
-
+    private  boolean loginStru=false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +112,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
     }
 
     private String PlateID;
+    private String PlateName;
     int mPage = 1;
     public ArrayList<NewsListBean.NewsInfo> newsItemList = new ArrayList<NewsListBean.NewsInfo>();
     //onCreateView()：每次创建、绘制该Fragment的View组件时回调该方法，Fragment将会显示该方法返回的View组件。
@@ -103,6 +122,8 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
         View mRootView = inflater.inflate(R.layout.fragment_news_recommend, container, false);
         ButterKnife.bind(this, mRootView);  //fragment 绑定 带两个参数
         PlateID = getArguments().getString("PlateID");
+        PlateName=getArguments().getString("PlateName");
+        loginStru= (boolean) SharedPreferenceTools.getValueofSP(getActivity(),"loginStru",false);
         initView();
         newsItemList.clear();
         return mRootView;
@@ -121,14 +142,49 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
 
     //获取主页推荐新闻
     private void initView() {
+
+        //新闻明时代
+        newtime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            startActivity(new Intent(getActivity(), NewTimeWebViewActivity.class));
+
+            }
+        });
+        //正能量
+        zhengpawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        SoulPermission.getInstance().checkAndRequestPermissions(Permissions.build(
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WAKE_LOCK,
+                                Manifest.permission.ACCESS_NETWORK_STATE,
+                                Manifest.permission.READ_PHONE_STATE,
+                                Manifest.permission.ACCESS_WIFI_STATE,
+                                Manifest.permission.CAMERA
+                        ), new CheckRequestPermissionsListener() {
+                            @Override
+                            public void onAllPermissionOk(Permission[] allPermissions) {
+                                startActivity(new Intent(getActivity(), ZpowerActivity.class));
+                            }
+
+                            @Override
+                            public void onPermissionDenied(Permission[] refusedPermissions) {
+
+                            }
+                        });
+
+
+
+
+            }
+        });
+
         getbanner();//获取轮播图
         canneInfos.clear();
-
-
         getCannelInfo();
-
         getZhiDingNews();
-
         initNesListView(mPage);
         androidNewsList.setLoadingMoreEnabled(false);//启用上拉加载
         androidNewsList.setPullRefreshEnabled(false);//禁用下拉刷新
@@ -159,7 +215,6 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
                 }, 100);
             }
         });
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity()) {
             @Override
             public boolean canScrollVertically() {
@@ -170,6 +225,33 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
         androidNewsList.setLayoutManager(layoutManager);
         dataAdapter = new NewsAdapter(newsItemList, getActivity());
         androidNewsList.setAdapter(dataAdapter);
+        dataAdapter.setOnItemClickListener(new NewsAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //跳转到详情页
+                if(loginStru){ //记录足迹
+
+                    int type=newsItemList.get(position).getType();
+                    if(type==1){ //文章
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),PlateID, String.valueOf(type));
+                    }else if(type==2){ //视频
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),PlateID, "-1");
+                    }else if(type==3){ //图集
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),PlateID, "-1");
+                    }
+                }
+                Intent intent =new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("id",newsItemList.get(position).getTargetId());
+                intent.putExtra("plateId",PlateID);
+                intent.putExtra("platName",PlateName);
+                intent.putExtra("ActivityType",newsItemList.get(position).getActivityType());
+                intent.putExtra("Type",newsItemList.get(position).getType());
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     private void getZhiDingNews() {
@@ -200,10 +282,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
     @Override
     public void getAllNewsList(NewsListBean news) {
         //添加新闻
-        List<NewsListBean.NewsInfo> newInfos= news.getRows();
-        for (int i = 0; i < newInfos.size(); i++) {
-            newsItemList.add(newInfos.get(i));
-        }
+        newsItemList.addAll(news.getRows());
         dataAdapter.notifyDataSetChanged();
         if (newsItemList.size() >= Integer.valueOf(news.getTotal())) {
             mScrollView.setNoMore(true);//没有更多了
@@ -244,8 +323,12 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
                         .error(R.mipmap.default_image)
                         .skipMemoryCache(false)//禁用内存缓存
                         .diskCacheStrategy(DiskCacheStrategy.ALL);
+
+                String usrl=data.getImageUrl();
+
+                String asda=usrl.replace("/small","");
                 Glide.with(holder.itemView)
-                        .load(AppConfig.BASE_PICTURE_URL + data.getImageUrl())
+                        .load(AppConfig.BASE_PICTURE_URL + asda)
                         .apply(options)
                         .into(holder.imageView);
             }
@@ -258,9 +341,11 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
             public void OnBannerClick(Object data, int position) {
                 BannerInfoBean.BannerInfo data1= (BannerInfoBean.BannerInfo) data;
                     //todo 跳转到详情
-                String bilder = data1.getLink();
-//                NewsNetWorkPersenter newsNetWorkPersenter = new NewsNetWorkPersenter(getActivity());
-//                newsNetWorkPersenter.GetNewDetaileInfo(bilder, NewsRecommendFragment.this);
+                String Link = data1.getLink();
+                Intent intent=new Intent(getActivity(),BannnerDetailActivity.class);
+                intent.putExtra("url",Link);
+                startActivity(intent);
+
             }
         });
     }
@@ -282,10 +367,26 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList , 
     public void getTopNews(TopVideoNewBean topVideoNewBean) {
         if(topVideoNewBean!=null&&topVideoNewBean.getData()!=null&&topVideoNewBean.getData().size()!=0){
            TopVideoNewBean.TopVideoNew topVideoNew= topVideoNewBean.getData().get(0);
-            GlideUtil.load(getActivity(),AppConfig.BASE_PICTURE_URL+topVideoNew.getCoverUrl(),topvideonew_img,GlideUtil.getOption());
+            String imag=topVideoNew.getCoverUrl();
+            String imageurl=imag.split(",")[0];
+//            String image=imag.replace("/small","");
+            GlideUtil.load(getActivity(),AppConfig.BASE_PICTURE_URL+imageurl,topvideonew_img,GlideUtil.getOption());
             if(topVideoNew.getTitle()!=null){
                 topvideonew_title.setText(topVideoNew.getTitle());
             }
+
+            topvideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent =new Intent(getActivity(), NewsDetailActivity.class);
+                    intent.putExtra("id",topVideoNew.getTargetId());
+                    intent.putExtra("plateId",topVideoNew.getSectionId());
+                    intent.putExtra("platName",PlateName);
+                    intent.putExtra("ActivityType",topVideoNew.getActivityType());
+                    intent.putExtra("Type",topVideoNew.getType());
+                    getActivity().startActivity(intent);
+                }
+            });
         }
     }
 

@@ -41,9 +41,9 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
     private LiveingAdapter mAdapter;
     private int mPage = 1;
     private List<LiveBean.LiveInfo>livelists=new ArrayList<LiveBean.LiveInfo>();
-    private LiveBean liveBean;
-
     public LivingFragment(){}
+
+    private LiveBean liveBean;
     public static LivingFragment newInstance(String param1, String param2) {
         LivingFragment fragment = new LivingFragment();
         return fragment;
@@ -99,6 +99,7 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
             public void onitemclik(int position) {
                 //获取直播间详情
                 String HlsUrl= livelists.get(position).getHLSUrl();
+                int type=livelists.get(position).getType();
                 String videourl=livelists.get(position).getRtmpUrl().toString()+"?id="+livelists.get(position).getId()+"&token="+ Constant.token;//得到直播地址开始直播
                 String roomId= String.valueOf(livelists.get(position).getId());
                 int CreateID= livelists.get(position).getCreateID();
@@ -110,6 +111,7 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
                     intent.putExtra("videoUrl",videourl);
                     intent.putExtra("name",name);
                     intent.putExtra("roomId",roomId);
+                    intent.putExtra("type",type);
                     intent.putExtra("CreateID",CreateID);
                     getActivity().startActivity(intent);
                 }
@@ -119,11 +121,9 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
     //得到直播间列表
     @Override
     public void getLiveInfo(LiveBean liveBean2) {
-        liveBean=liveBean2;
-
+          liveBean=liveBean2;
         String param = "";
         List<LiveBean.LiveInfo> liveInfos=  liveBean.getRows();
-
         for(int i=0;i<liveInfos.size();i++){
             int  status=liveInfos.get(i).getLiveState();
             if(status==2){ //2正在直播 ，其他状态都不管
@@ -163,6 +163,8 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
                     }
                 }
             }
+            livelists.clear();
+            livelists.addAll(liveInfos);
             mAdapter.notifyDataSetChanged();
         }
     }

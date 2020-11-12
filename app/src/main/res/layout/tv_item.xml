@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/tv_img"
-        android:layout_width="125dp"
-        android:layout_height="75.5dp"
+        android:layout_width="@dimen/dp_125"
+        android:layout_height="@dimen/dp_75"
         android:layout_marginStart="12dp"
         android:layout_marginTop="15dp"
         android:scaleType="fitXY"

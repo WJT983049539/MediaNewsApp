@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+<dimen name="textsizi">15dp</dimen>
 <dimen name="common_margin">@dimen/dp_15</dimen>
 <dimen name="dp_m_60">-60dp</dimen>
 <dimen name="dp_m_30">-30dp</dimen>
