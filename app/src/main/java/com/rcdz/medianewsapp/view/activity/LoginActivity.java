@@ -70,6 +70,7 @@ public class LoginActivity extends BaseActivity {
                 openActivity(RegisterActivity.class);
                 break;
             case R.id.tv_agreement:
+                startActivity(new Intent(this,ShowXieYiBookActivity.class));
                 break;
             case R.id.login_phone: //手机号码登录
                 loginPhone.setTextColor(Color.parseColor("#000000"));

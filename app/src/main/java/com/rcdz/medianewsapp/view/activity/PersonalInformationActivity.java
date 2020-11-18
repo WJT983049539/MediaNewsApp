@@ -177,7 +177,6 @@ public class PersonalInformationActivity extends BaseActivity implements GetUser
                     if (userInfo.getData().getPhoneNo() != null) {
                         pPhone.setText(userInfo.getData().getPhoneNo());
                     }
-                    if (userInfo.getData().getGender() != null) {
                         int ad = (int) userInfo.getData().getGender();
                         if (ad == 0) {
                             pSex.setText("男");
@@ -185,8 +184,6 @@ public class PersonalInformationActivity extends BaseActivity implements GetUser
                         if (ad == 1) {
                             pSex.setText("女");
                         }
-
-                    }
 
                 }
             }
@@ -212,7 +209,7 @@ public class PersonalInformationActivity extends BaseActivity implements GetUser
 
             case R.id.lin_nick:
                 if (loginStru) {
-                    // 调用系统的相冊
+                    // 修改昵称
                     String nick = (String) pNick.getText();
                     Intent intent3 = new Intent(this, NiieEditActivity.class);
                     intent3.putExtra("nick", nick);

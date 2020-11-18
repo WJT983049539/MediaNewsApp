@@ -67,12 +67,13 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_login_psd, container, false);
         ButterKnife.bind(this, view);
-        initView(view);
+        initView();
         return view;
     }
 
-    private void initView(View view) {
-
+    public void initView() {
+        String user= (String) SharedPreferenceTools.getValueofSP(getActivity(),"user","");
+        loginPsdUser.setText(user);
     }
 
     @Override
@@ -111,7 +112,7 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
     }
 
     @Override
-    public void ishowLogin(LoginBean loginBean) {
+    public void ishowLogin(LoginBean loginBean) { //登录成功
         //{"status":true,"code":310,"message":"登陆成功","data":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxNiIsImlhdCI6IjE2MDQ2MjgwOTkiLCJuYmYiOiIxNjA0NjI4MDk5IiwiZXhwIjoiMTYwNTIzMjg5OSIsImlzcyI6IkZ1c2lvbk1lZGlhLmNvcmUub3duZXIiLCJhdWQiOiJGdXNpb25NZWRpYS5jb3JlIn0.jMAaJX2OJfBeyfeS486nGmcwLB2z7HObCSp2FGmnUzk",
         // "userName":"我他发可",
         // "img":"Upload/Files/Sys_User/07610eac938141fe8259e166b96d5a09/small/temp.jpg",
@@ -121,7 +122,6 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
                 Log.i("Token",loginBean.getData().getToken());
                 String token=loginBean.getData().getToken();
                 String user=loginBean.getData().getUser();
-
                 if(token==null||token.equals("")){
                     GlobalToast.show("Token获取失败",2000);
                     Log.i("Token","Token获取失败");
@@ -134,8 +134,6 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
                     Constant.token=token;//保存到临时变量里面
                     ACache aCache=ACache.get(getActivity());
                     aCache.put("loginInfo",loginBean);//储存到缓存 ，，用户变更需要改变
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-
                     //获取个人信息
                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
                     newNetWorkPersenter.GetUserInfo("",this);
@@ -156,8 +154,18 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
             public void run() {
                 ACache aCache=ACache.get(getActivity());
                 aCache.put("userinfo",userInfoBean);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    }
+                });
+
             }
         }).start();
+
 
     }
 }

@@ -19,6 +19,8 @@ import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.tools.SystemAppUtils;
+import com.rcdz.medianewsapp.view.customview.UpdateApkDialog;
+import com.rcdz.medianewsapp.view.customview.XieYiDialog;
 
 /**
  * @author:create by wjt

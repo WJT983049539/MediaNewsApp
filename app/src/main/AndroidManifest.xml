@@ -32,6 +32,7 @@
         android:networkSecurityConfig="@xml/network_config"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon"
+        android:icon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme"
@@ -53,6 +54,7 @@
         <activity android:name=".view.activity.PhoneEditActivity"/>
         <activity android:name=".view.activity.PhoneSendCodeActivity"/>
         <activity android:name=".view.activity.NewTimeWebViewActivity"/>
+        <activity android:name=".view.fragment.GYActivity"/>
         <activity android:name=".view.fragment.ZpowerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleInstance"
@@ -95,6 +97,7 @@
         <activity android:name=".view.activity.PersonInfoActivity"/>
         <activity android:name=".view.activity.MyCollectActivity"/>
         <activity android:name=".view.activity.MyHistoryActivity"/>
+        <activity android:name=".view.activity.ShowXieYiBookActivity"/>
         <activity android:name=".view.activity.MyYuYueActivity"/>
         <activity android:name=".view.activity.SettingActivity"/>
         <activity android:name=".view.activity.CommentActivity"/>

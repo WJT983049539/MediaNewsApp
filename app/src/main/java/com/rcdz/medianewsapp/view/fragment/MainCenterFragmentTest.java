@@ -243,7 +243,7 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
         });
     }
 
-    @OnClick({R.id.img_head, R.id.tv_sign, R.id.constraintLayout, R.id.linearLayout, R.id.imageView17, R.id.lin_message, R.id.lin_collect, R.id.lin_history, R.id.lin_suggest, R.id.lin_jifen, R.id.lin_yuyue, R.id.lin_version, R.id.lin_set, R.id.lin_clearcache, R.id.lin_faimlily, R.id.lin_share, R.id.lin_guanyu,R.id.tv_name})
+    @OnClick({R.id.img_head, R.id.tv_sign, R.id.constraintLayout, R.id.linearLayout, R.id.lin_message, R.id.lin_collect, R.id.lin_history, R.id.lin_suggest, R.id.lin_jifen, R.id.lin_yuyue, R.id.lin_version, R.id.lin_set, R.id.lin_clearcache, R.id.lin_faimlily, R.id.lin_share, R.id.lin_guanyu,R.id.tv_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.img_head:
@@ -259,12 +259,6 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
                     newNetWorkPersenter.AddSignJifen("7",this);
                 }
 
-                break;
-            case R.id.constraintLayout:
-                break;
-            case R.id.linearLayout:
-                break;
-            case R.id.imageView17:
                 break;
             case R.id.lin_message:
                 Intent intent8 = new Intent(getActivity(), CommentActivity.class);
@@ -310,10 +304,8 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
                 startActivity(intent1);
                 break;
             case R.id.lin_guanyu:
-                getVersionMsg();//获取版本信息
-                new AlertDialog.Builder(getActivity()).setTitle("关于我们").setMessage("公众号:\n山西卓至飞高电子科技有限公司\n\n" + str_Version)
-                        .setPositiveButton("确定", null)
-                        .show();
+                Intent intent10=new Intent(getActivity(), GYActivity.class);
+                startActivity(intent10);
                 break;
             case R.id.tv_name:
                 if(tvName.getText().toString().equals("未登录")){
@@ -391,7 +383,6 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
                         getActivity().startService(intent);
                         updateApkDialog.cancel();
                     }
-
                     @Override
                     public void cannal() {
                         updateApkDialog.cancel();

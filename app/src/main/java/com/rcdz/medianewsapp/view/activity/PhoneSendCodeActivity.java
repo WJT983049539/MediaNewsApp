@@ -158,6 +158,7 @@ public class PhoneSendCodeActivity extends BaseActivity {
     }
 
     private void changeSmsCodeStyle(){
+        vc_time=60;
         //转换获取验证码按钮样式（60s不可重新获取）
         mHandler_vc = new Handler() {
             public void handleMessage(Message msg) {
@@ -166,11 +167,14 @@ public class PhoneSendCodeActivity extends BaseActivity {
                     case 0:
                         // 完成主界面更新,拿到数据
                         vc_time--;
+                        sendcode.setEnabled(false);
                         sendcode.setText("重新获取(" + vc_time + "s)");
                         if (vc_time <= 0) {
+                            sendcode.setEnabled(true);
                             // getSmsCode.setBackgroundColor(0xffff983d);//0xFF626262   0xFFfc3c17
                             sendcode.setText("获取验证码");
                             sendcode.setEnabled(true);
+
                         }
                         break;
                 }
@@ -184,6 +188,7 @@ public class PhoneSendCodeActivity extends BaseActivity {
                         // 耗时操作，完成之后发送消息给Handler，完成UI更新；
                         mHandler_vc.sendEmptyMessage(0);
                         if (vc_time <= 0) {
+
                             break;
                         }
                     } catch (InterruptedException e) {

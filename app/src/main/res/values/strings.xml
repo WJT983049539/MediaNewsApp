@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">闻喜新闻</string>
+    <string name="app_name">今日闻喜</string>
     <string name="guide_star" translatable="false">开始体验</string>
     <string name="tab_one" translatable="false">新闻</string>
     <string name="tab_two" translatable="false">频道</string>

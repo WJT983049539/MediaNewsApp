@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import androidx.core.content.FileProvider;
@@ -118,6 +119,11 @@ public class BannnerDetailActivity extends BaseActivity2 {
         //辅助WebView处理图片上传操作
         webView.setWebChromeClient(new MyChromeWebClient());
         webView.setInitialScale(25);
+        if(url.startsWith("http://")||url.startsWith("https://")){
+        }else{
+            url="http://"+url;
+        }
+        Log.i("test",url);
         webView.loadUrl(url);
     }
     /**

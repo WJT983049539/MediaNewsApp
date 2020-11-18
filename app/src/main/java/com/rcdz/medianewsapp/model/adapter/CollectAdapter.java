@@ -37,17 +37,18 @@ public class CollectAdapter extends CommonRecyclerAdapter<CollectListInfoBean.Co
     }
     @Override
     public void convert(CommonViewHolder holder, Context context, CollectListInfoBean.CollectInfo item) {
-        Glide.with(context).load(AppConfig.BASE_PICTURE_URL+item.getImageUrl()).apply(options).into((ImageView) holder.getView(R.id.collect_img));
+        String url=item.getUrl();
+        url=url.split(",")[0];
+        Glide.with(context).load(AppConfig.BASE_PICTURE_URL+url).apply(options).into((ImageView) holder.getView(R.id.collect_img));
         holder.setText(R.id.collect_title,item.getTitle());
         holder.setText(R.id.collect_date,item.getCreator());
         if(isSelected){
-            holder.setViewVisibility(R.id.selsct_statu, View.VISIBLE);
             holder.setViewVisibility(R.id.selsct_statu, View.VISIBLE);
             SmoothCheckBox smoothCheckBox=  holder.getView(R.id.airticle_checkbox);
             smoothCheckBox.setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(SmoothCheckBox smoothCheckBox, boolean isChecked) {
-                    MyCollectActivity.selectCollectMap.put(item.getTargetId(),isChecked);
+                    MyCollectActivity.selectCollectMap.put(item.getId(),isChecked);
                 }
             });
         }else{
@@ -56,10 +57,6 @@ public class CollectAdapter extends CommonRecyclerAdapter<CollectListInfoBean.Co
                 @Override
                 public void onClick(View v) {
                     //跳转到详情页
-                    if(item.getSourceType()!=null){
-                        Log.i("test","SourceType为空");
-                        return;
-                    }
                     if(item.getType()==1||item.getType()==2||item.getType()==3){
                         Intent intent =new Intent(mContext, NewsDetailActivity.class);
                         intent.putExtra("id",item.getTargetId());

@@ -88,9 +88,24 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     public void setPositon(int positon){
-        if(mainViewpager!=null){
-            mainViewpager.setCurrentItem(positon);
+        switch (positon){
+            case 0:
+                mainTabRg.check( R.id.main_tab_one);
+                break;
+            case 1:
+                mainTabRg.check( R.id.main_tab_two);
+                break;
+            case 2:
+                mainTabRg.check( R.id.main_tab_three);
+                break;
+            case 3:
+                mainTabRg.check( R.id.main_tab_four);
+                break;
+            case 4:
+                mainTabRg.check( R.id.main_tab_five);
+                break;
         }
+
     }
 
 

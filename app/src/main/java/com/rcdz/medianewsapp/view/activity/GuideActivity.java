@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.adapter.GuideViewPagerAdapter;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.rcdz.medianewsapp.view.customview.XieYiDialog;
 
 import java.util.ArrayList;
 
@@ -60,16 +61,36 @@ public class GuideActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(loginStru){ //已经登录
-                    startActivity(new Intent(GuideActivity.this,MainActivity.class));
-                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
-                    finish();
-                }else{
-                    startActivity(new Intent(GuideActivity.this,LoginActivity.class));
-                    finish();
-                }
-                SharedPreferenceTools.putValuetoSP(GuideActivity.this,"isFirstStart",false);
-                finish();
+//                if(loginStru){ //已经登录
+//                    startActivity(new Intent(GuideActivity.this,MainActivity.class));
+//                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+//                    finish();
+//                }else{
+//                    startActivity(new Intent(GuideActivity.this,LoginActivity.class));
+//                    finish();
+//                }
+
+
+                XieYiDialog xieYiDialog=new XieYiDialog(GuideActivity.this);
+                xieYiDialog.show();
+                xieYiDialog.setOnDialogListen(new XieYiDialog.Confirm() {
+                    @Override
+                    public void ok() {
+                        SharedPreferenceTools.putValuetoSP(GuideActivity.this,"isFirstStart",false);
+                        startActivity(new Intent(GuideActivity.this,LoginActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void cannal() { //不同意
+                        SharedPreferenceTools.putValuetoSP(GuideActivity.this,"isFirstStart",true);
+                        xieYiDialog.cancel();
+                        GuideActivity.this.finish();
+                    }
+                });
+
+
+
             }
         });
     }

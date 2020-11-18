@@ -228,9 +228,14 @@ public class WriteMessageActivity extends BaseActivity implements IshowSearchOrg
         OptionsPickerView pvOptions = new OptionsPickerBuilder(this, new OnOptionsSelectListener() {
             @Override
             public void onOptionsSelect(int options1, int options2, int options3, View v) {
-                FeedbackOrganization=Feedbacklist.get(options1).getName();
-                FeedbackOrganizationId= Feedbacklist.get(options1).getId();
-                feedbackunit.setText(FeedbackOrganization);//选中的值放入editText中   //todo 值未能正常显示
+                if(Feedbacklist.size()==0){
+
+                }else{
+                    FeedbackOrganization=Feedbacklist.get(options1).getName();
+                    FeedbackOrganizationId= Feedbacklist.get(options1).getId();
+                    feedbackunit.setText(FeedbackOrganization);//选中的值放入editText中
+                }
+
             }
         }).setTitleText("反馈单位选择")
                 .setDividerColor(Color.BLACK)

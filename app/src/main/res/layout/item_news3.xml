@@ -12,10 +12,13 @@
     <TextView
         android:id="@+id/news3_title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_37"
+        android:layout_height="@dimen/dp_40"
         android:text="文字标题"
         android:textColor="#4A4A4A"
         android:textSize="15sp"
+        android:maxLines="2"
+        android:maxEms="30"
+        android:ellipsize="end"
         android:gravity="left|center"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="55dp" />
@@ -23,7 +26,7 @@
     <ImageView
         android:id="@+id/news3_hubm"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_180"
+        android:layout_height="@dimen/dp_177"
         android:layout_marginTop="@dimen/dp_5"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/news3_title"

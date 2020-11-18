@@ -78,6 +78,7 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
     @Override
     public void inintView() {
         ButterKnife.bind(this);
+        isSelected=false;
         list.clear();
         selectCollectMap.clear();
         collectRecyclerview.setLayoutManager(new LinearLayoutManager(this));
@@ -145,11 +146,11 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
                    if(collectEdit.getText().equals("管理")){
                        collectEdit.setText("完成");
                        isSelected=true;
-
                        deleteCllect.setVisibility(View.VISIBLE);
                        collectAdapter.notifyDataSetChanged();
 
                    }else if(collectEdit.getText().equals("完成")){
+                       selectCollectMap.clear();
                        collectEdit.setText("管理");
                        isSelected=false;
                        deleteCllect.setVisibility(View.GONE);
@@ -176,12 +177,14 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
                                 int code= jsonObject.getInt("code");
                                 String message=jsonObject.getString("message");
                                 if(code!=200){
-                                    GlobalToast.show(message, Toast.LENGTH_LONG);
-                                }else{
+//                                    GlobalToast.show(message, Toast.LENGTH_LONG);
                                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(MyCollectActivity.this);
                                     newNetWorkPersenter.GetCollectList(MyCollectActivity.this,"","1");
                                     isSelected=false;
+
+                                }else{
                                     //刷新列表
+                                    GlobalToast.show(message, Toast.LENGTH_LONG);
                                 }
 
                             } catch (JSONException e) {
@@ -211,7 +214,7 @@ public class MyCollectActivity extends BaseActivity implements GetCollectList {
         list.addAll(collectListInfoBean.getRows());
         selectCollectMap.clear();
         for(int i=0;i<list.size();i++){
-            selectCollectMap.put(list.get(i).getTargetId(),false); //初始化
+            selectCollectMap.put(list.get(i).getId(),false); //初始化
         }
         collectAdapter.notifyDataSetChanged();
     }

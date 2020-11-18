@@ -76,7 +76,8 @@
             android:paddingStart="@dimen/dp_20"
             android:paddingEnd="@dimen/dp_20"
             android:paddingTop="@dimen/dp_20"
-            android:background="@drawable/edit_comment"
+            android:textSize="15sp"
+            android:background="@drawable/edit_address_bg"
             android:hint="请输入问题描述，点击下方“+”提交截图，帮助我们更快定位您的问题"
             ></EditText>
 
@@ -108,7 +109,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="联系方式"></TextView>
+                android:text="联系方式"
+                android:gravity="center"
+                android:textSize="13sp"
+                ></TextView>
             <EditText
                 android:id="@+id/contact"
                 android:layout_marginStart="@dimen/dp_20"
@@ -116,6 +120,8 @@
                 android:layout_height="wrap_content"
                 android:hint="QQ、邮箱、手机"
                 android:textColor="#000000"
+                android:paddingStart="@dimen/dp_10"
+                android:textSize="14sp"
                 >
 
             </EditText>

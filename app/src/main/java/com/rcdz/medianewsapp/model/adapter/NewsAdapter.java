@@ -71,7 +71,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             String usrl=newsItemList.get(position).getCoverUrl();
             usrl=usrl.split(",")[0];
 //            String asda=usrl.replace("/small","");
-            Glide.with(activity).load(AppConfig.BASE_URL +usrl).apply(options).into(((ViewHolder)holder).news1_thumb);
+            Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +usrl).apply(options).into(((ViewHolder)holder).news1_thumb);
             ((ViewHolder)holder).news1_createedit.setText(newsItemList.get(position).getCreator());
             ((ViewHolder)holder).news1_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
             ((ViewHolder)holder).news1_item_time.setText(newsItemList.get(position).getPublishDateString());
@@ -89,7 +89,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     String usrl=thumbs[0];
 //                    String asda=usrl.replace("/small","");
 
-                    Glide.with(activity).load(AppConfig.BASE_URL + usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
+                    Glide.with(activity).load(AppConfig.BASE_PICTURE_URL + usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
                 } else if (thumbs.length == 2) {
                     String usrl=thumbs[0];
 //                    String asda=usrl.replace("/small","");
@@ -98,8 +98,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 //                    String asda1=usrl1.replace("/small","");
 
 
-                    Glide.with(activity).load(AppConfig.BASE_URL +  usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
-                    Glide.with(activity).load( AppConfig.BASE_URL +  usrl1).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
+                    Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +  usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
+                    Glide.with(activity).load( AppConfig.BASE_PICTURE_URL +  usrl1).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
                 } else if (thumbs.length == 3) {
 
                     String usrl=thumbs[0];
@@ -111,9 +111,9 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     String usrl2=thumbs[2];
 //                    String asda2=usrl2.replace("/small","");
 
-                    Glide.with(activity).load(AppConfig.BASE_URL +  usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
-                    Glide.with(activity).load( AppConfig.BASE_URL +  usrl1).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
-                    Glide.with(activity).load(AppConfig.BASE_URL +  usrl2).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb3);
+                    Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +  usrl).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb);
+                    Glide.with(activity).load( AppConfig.BASE_PICTURE_URL +  usrl1).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_hubm2);
+                    Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +  usrl2).apply(options).into(((ViewHolder.ViewHolder2) holder).news2_thumb3);
                 }
 
             }else{
@@ -132,7 +132,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             String asda=usrl.replace("/small","");
 
-            Glide.with(activity).load(AppConfig.BASE_URL +asda).apply(options).into(((ViewHolder.ViewHolder3)holder).news3_hubm);
+            Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +asda).apply(options).into(((ViewHolder.ViewHolder3)holder).news3_hubm);
         }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_margin="@dimen/dp_20"
-    android:layout_height="@dimen/dp_76">
+    android:layout_height="@dimen/dp_90">
 
 
     <TextView
@@ -13,6 +13,8 @@
         android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_40"
         android:text="TextView"
+        android:gravity="center|left"
+        android:paddingStart="@dimen/dp_10"
         android:textColor="#4A4A4A"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +24,10 @@
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="28dp"
         android:text="直播中"
+        android:paddingStart="@dimen/dp_10"
+        android:textSize="12sp"
         android:textColor="#BD1B1B"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/content" />
@@ -53,5 +57,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="fitXY"
+        android:layout_margin="@dimen/dp_5"
         app:srcCompat="@mipmap/default_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>

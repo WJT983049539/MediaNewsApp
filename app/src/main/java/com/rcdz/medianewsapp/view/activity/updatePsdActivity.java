@@ -129,7 +129,7 @@ public class updatePsdActivity extends BaseActivity {
                     public void onError(Response response) {
                         super.onError(response);
                         Log.i("test","签到状态失败-->"+response.message());
-                        GlobalToast.show("获取签到状态失败！",Toast.LENGTH_LONG);
+//                        GlobalToast.show("获取签到状态失败！",Toast.LENGTH_LONG);
                     }
                 });
                 break;

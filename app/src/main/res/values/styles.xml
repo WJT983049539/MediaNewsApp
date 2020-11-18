@@ -16,6 +16,10 @@
         <item name="android:activityOpenEnterAnimation">@anim/welcomein</item>
 
     </style>
+    <declare-styleable name="FlowLayout">
+        <attr name="lineSpacing" format="dimension"/>
+        <attr name="maxLine" format="integer"/>
+    </declare-styleable>
     <style name="TabLayoutTextStyle">
         <item name="android:textSize">@dimen/textsizi</item>
     </style>

@@ -105,7 +105,7 @@ public class SearchAllFragment extends Fragment implements GetAllNewsList {
                     if(type==1){ //文章
                         NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
                         newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()), String.valueOf(newsItemList.get(position).getSectionId()), String.valueOf(type));
-                    }else if(type==2){ //视频
+                    }else if(type==2){   //视频
                         NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
                         newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),String.valueOf(newsItemList.get(position).getSectionId()), "-1");
                     }else if(type==3){ //图集
@@ -114,13 +114,14 @@ public class SearchAllFragment extends Fragment implements GetAllNewsList {
                     }
                 }
                 //跳转到详情页
-//                Intent intent =new Intent(getActivity(), NewsDetailActivity.class);
-//                intent.putExtra("id",newsItemList.get(position).getTargetId());
-//                intent.putExtra("plateId",newsItemList.get(position).getSectionId());
-//                intent.putExtra("platName",PlateName);
-//                intent.putExtra("ActivityType",newsItemList.get(position).getActivityType());
-//                intent.putExtra("Type",newsItemList.get(position).getType());
-//                getActivity().startActivity(intent);
+                Intent intent =new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("id",newsItemList.get(position).getTargetId());
+                intent.putExtra("plateId",newsItemList.get(position).getSectionId());
+                intent.putExtra("platName",newsItemList.get(position).getSectionName());
+                intent.putExtra("ActivityType",newsItemList.get(position).getActivityType());
+                intent.putExtra("Type",newsItemList.get(position).getType());
+                getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
     }

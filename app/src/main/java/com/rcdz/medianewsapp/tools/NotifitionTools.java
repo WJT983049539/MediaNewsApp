@@ -86,7 +86,7 @@ public class NotifitionTools {
 
         public static void showNotificationProgressApkDown(Context mContext
                 , int progress,String content) {
-            final NotificationCompat.Builder builder = getNotificationBuilder(mContext, "content", "闻喜新闻", "yunjia");
+            final NotificationCompat.Builder builder = getNotificationBuilder(mContext, "content", "今日闻喜", "yunjia");
             builder.setOnlyAlertOnce(true);
             builder.setDefaults(Notification.FLAG_ONLY_ALERT_ONCE);
             Log.i("test","进度"+progress);

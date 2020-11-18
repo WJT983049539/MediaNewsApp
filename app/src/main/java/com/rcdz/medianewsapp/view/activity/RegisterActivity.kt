@@ -2,13 +2,11 @@ package com.rcdz.medianewsapp.view.activity
 
 import android.os.Handler
 import android.os.Message
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import com.rcdz.medianewsapp.R
 import com.rcdz.medianewsapp.model.bean.BaseBean
-import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter
+import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode
 import com.rcdz.medianewsapp.persenter.interfaces.ShowRegister
 import com.rcdz.medianewsapp.tools.GlobalToast
 
@@ -27,6 +25,8 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
     lateinit var edit_pwd_sure: EditText
     lateinit var go_login: TextView
     lateinit var getcode: TextView
+    lateinit var toolbar_title:TextView;
+    lateinit var img_back:ImageView;
 
      var username=""
      var phone=""
@@ -45,6 +45,9 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
     }
 
     override fun inintView() {
+        toolbar_title=findViewById(R.id.toolbar_title)
+        toolbar_title.text=""
+        img_back=findViewById(R.id.img_back)
         bt_register=findViewById(R.id.bt_register)
         getcode=findViewById(R.id.getcode)
         edit_user=findViewById(R.id.edit_user)
@@ -53,12 +56,16 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
         edit_pwd=findViewById(R.id.edit_pwd)
         edit_pwd_sure=findViewById(R.id.edit_pwd_sure)
         go_login=findViewById(R.id.go_login)
+
+        img_back.setOnClickListener {
+            this.finish()
+        }
         //获取验证码
         getcode.setOnClickListener {
             val net= NewNetWorkPersenter(this@RegisterActivity);
             phone= edit_bindphone.text.toString()
             if(phone.equals("")||phone==null){
-                GlobalToast.show("请填写手机号码",5000)
+                GlobalToast.show("请填写手机号码", 5000)
                 return@setOnClickListener
             }else{
                 net.GetPhoneCode(phone, this@RegisterActivity)
@@ -106,7 +113,7 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
             }
 
             val net= NewNetWorkPersenter(this@RegisterActivity);
-            net.AppRegister(username, phone, esecode, password,this@RegisterActivity)
+            net.AppRegister(username, phone, esecode, password, this@RegisterActivity)
         }
 
         //返回登录
@@ -134,6 +141,7 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
 }
     //倒计时
     open fun changeSmsCodeStyle() {
+        vc_time = 60
         //转换获取验证码按钮样式（60s不可重新获取）
         mHandler_vc = object : Handler() {
             override fun handleMessage(msg: Message) {
@@ -142,10 +150,12 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
                     0 -> {
                         // 完成主界面更新,拿到数据
                         vc_time--
+                        getcode.setEnabled(false)
                         getcode.setText("重新获取(" + vc_time + "s)")
                         if (vc_time <= 0) {
+                            getcode.setEnabled(true)
                             // getSmsCode.setBackgroundColor(0xffff983d);//0xFF626262   0xFFfc3c17
-                            getcode.setBackgroundResource(R.drawable.com_button_bg)
+                            getcode.setBackgroundResource(R.drawable.yzm_button_bg)
                             getcode.setText("获取验证码")
                             getcode.setEnabled(true)
                         }
@@ -160,6 +170,7 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
                     // 耗时操作，完成之后发送消息给Handler，完成UI更新；
                     mHandler_vc.sendEmptyMessage(0)
                     if (vc_time <= 0) {
+
                         break
                     }
                 } catch (e: InterruptedException) {
@@ -171,8 +182,10 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
     //注册成功 跳转到登录页面
     override fun showRegister(baseBean: BaseBean?) {
         if(baseBean!!.code==200){
-            GlobalToast.show(baseBean.message,5000);
-            openActivityAndDestoryme(LoginActivity::class.java,null)
+            GlobalToast.show(baseBean.message, Toast.LENGTH_LONG);
+            openActivityAndDestoryme(LoginActivity::class.java, null)
+        }else{
+            GlobalToast.show4(baseBean.message, Toast.LENGTH_LONG);
         }
     }
 }

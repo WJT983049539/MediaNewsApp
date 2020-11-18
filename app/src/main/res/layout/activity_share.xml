@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="扫一扫，下载闻喜新闻"
+            android:text="扫一扫，下载今日闻喜"
             android:textColor="#000000"/>
     </LinearLayout>
 

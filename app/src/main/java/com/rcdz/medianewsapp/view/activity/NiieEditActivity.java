@@ -89,6 +89,7 @@ public class NiieEditActivity extends BaseActivity {
                                     if(code==200){
                                         Intent intent=new Intent();
                                         intent.putExtra("nickname",data);
+                                        GlobalToast.show(message,Toast.LENGTH_LONG);
                                         setResult(12,intent);
                                         finish();
                                     }else{

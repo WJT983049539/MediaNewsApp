@@ -125,6 +125,7 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
     }
 
     private void changeSmsCodeStyle(){
+        vc_time=60;
         //转换获取验证码按钮样式（60s不可重新获取）
         mHandler_vc = new Handler() {
             public void handleMessage(Message msg) {
@@ -133,12 +134,15 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                     case 0:
                         // 完成主界面更新,拿到数据
                         vc_time--;
+                        smscode.setEnabled(false);
                         smscode.setText("重新获取(" + vc_time + "s)");
                         if (vc_time <= 0) {
+                            smscode.setEnabled(true);
                             // getSmsCode.setBackgroundColor(0xffff983d);//0xFF626262   0xFFfc3c17
-                            smscode.setBackgroundResource(R.drawable.com_button_bg);
+                            smscode.setBackgroundResource(R.drawable.yzm_button_bg);
                             smscode.setText("获取验证码");
                             smscode.setEnabled(true);
+
                         }
                         break;
                 }
@@ -152,6 +156,7 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                         // 耗时操作，完成之后发送消息给Handler，完成UI更新；
                         mHandler_vc.sendEmptyMessage(0);
                         if (vc_time <= 0) {
+
                             break;
                         }
                     } catch (InterruptedException e) {
@@ -173,17 +178,16 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
                     GlobalToast.show("Token获取失败",2000);
                     Log.i("Token","Token获取失败");
                 }else{
-                    NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
-                    newNetWorkPersenter.GetUserInfo("",this);
+
                     SharedPreferenceTools.putValuetoSP(getActivity(),"token",token);//保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"loginStru",true);//登录状态保存到共享参数
                     SharedPreferenceTools.putValuetoSP(getActivity(),"isFirstStart",false);//不是第一次登录了
                     SharedPreferenceTools.putValuetoSP(getActivity(),"user",user);//不是第一次登录了
+                    NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
                     Constant.token=token;//保存到临时变量里面
                     ACache aCache=ACache.get(getActivity());
                     aCache.put("loginInfo",loginBean);//储存到缓存 ，，用户变更需要改变
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    //获取个人信息
+                    newNetWorkPersenter.GetUserInfo("",this);
 
                 }
             }else{
@@ -196,7 +200,21 @@ public class Login_PhoneFragment extends Fragment implements GetPhoneCode, Ishow
 
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
-        ACache aCache=ACache.get(getActivity());
-        aCache.put("userinfo",userInfoBean);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ACache aCache=ACache.get(getActivity());
+                aCache.put("userinfo",userInfoBean);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    }
+                });
+
+            }
+        }).start();
     }
 }

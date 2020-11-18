@@ -3,13 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/dp_20"
-    android:layout_height="@dimen/dp_76">
+    android:layout_margin="@dimen/dp_5"
+    android:layout_height="@dimen/dp_100">
 
     <ViewFlipper
         android:id="@+id/viewflipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#fff"
+        >
 
     </ViewFlipper>
 </LinearLayout>

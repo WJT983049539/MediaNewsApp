@@ -55,7 +55,7 @@ public class AppealHotAdapter extends RecyclerView.Adapter<AppealHotAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(AppConfig.BASE_URL +dataList.get(position).getImages()).apply(options).into(holder.img_hotimg);
+        Glide.with(context).load(AppConfig.BASE_PICTURE_URL +dataList.get(position).getImages()).apply(options).into(holder.img_hotimg);
         holder.tv_hotname.setText(dataList.get(position).getCreator());
         holder.tv_content.setText(dataList.get(position).getContents());
         holder.tv_subject.setText(dataList.get(position).getSubject());

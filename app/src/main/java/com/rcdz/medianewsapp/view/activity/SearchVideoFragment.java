@@ -1,5 +1,6 @@
 package com.rcdz.medianewsapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.rcdz.medianewsapp.model.adapter.NewsAdapter;
 import com.rcdz.medianewsapp.model.bean.NewsListBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetAllNewsList;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.view.fragment.NewsAdoptFragment;
 import com.rcdz.medianewsapp.view.fragment.SearchAllFragment;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
@@ -48,6 +50,7 @@ public class SearchVideoFragment extends Fragment implements GetAllNewsList {
     public ArrayList<NewsListBean.NewsInfo> newsItemList = new ArrayList<NewsListBean.NewsInfo>();
     private HashMap<Integer, NewsListBean.NewsInfo> NewTitlelist2 = new HashMap<>(); //健存tarid 值存具体内容
     public final static String TAG="SearchVideoFragment";
+    private  boolean loginStru=false;
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -58,6 +61,7 @@ public class SearchVideoFragment extends Fragment implements GetAllNewsList {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View mRootView = inflater.inflate(R.layout.android_news_list, container, false);
         ButterKnife.bind(this, mRootView);  //fragment 绑定 带两个参数
+        loginStru= (boolean) SharedPreferenceTools.getValueofSP(getActivity(),"loginStru",false);
         initView();
         newsItemList.clear();
         NewTitlelist2.clear();
@@ -91,6 +95,34 @@ public class SearchVideoFragment extends Fragment implements GetAllNewsList {
             public void onLoadMore() {
                 ++mPage;
                 initNewsList(mPage);
+            }
+        });
+
+        dataAdapter.setOnItemClickListener(new NewsAdapter.ItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                if(loginStru){ //记录足迹
+                    int type=newsItemList.get(position).getType();
+                    if(type==1){ //文章
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()), String.valueOf(newsItemList.get(position).getSectionId()), String.valueOf(type));
+                    }else if(type==2){   //视频
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),String.valueOf(newsItemList.get(position).getSectionId()), "-1");
+                    }else if(type==3){ //图集
+                        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
+                        newNetWorkPersenter.AddHistoryforNews(String.valueOf(newsItemList.get(position).getType()),String.valueOf(newsItemList.get(position).getTargetId()),String.valueOf(newsItemList.get(position).getSectionId()), "-1");
+                    }
+                }
+                //跳转到详情页
+                Intent intent =new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("id",newsItemList.get(position).getTargetId());
+                intent.putExtra("plateId",newsItemList.get(position).getSectionId());
+                intent.putExtra("platName",newsItemList.get(position).getSectionName());
+                intent.putExtra("ActivityType",newsItemList.get(position).getActivityType());
+                intent.putExtra("Type",newsItemList.get(position).getType());
+                getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
     }

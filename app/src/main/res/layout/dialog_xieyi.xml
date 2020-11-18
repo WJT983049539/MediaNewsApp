@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dp_274"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:background="@drawable/edit_bg6"
+    android:orientation="vertical">
+
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textColor="#1F1F1F"
+    android:text="服务协议和隐私政策"
+    android:textSize="15sp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/dp_21"
+    ></TextView>
+
+    <com.nex3z.flowlayout.FlowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_30"
+        android:layout_marginEnd="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_13"
+        app:childSpacing="@dimen/dp_1"
+        app:rowSpacing="@dimen/dp_1"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="欢迎您使用今日闻喜，我们非常重视您的隐私保护和个人信息保护，特别提示您阅读并充分理解“服务协议”和“隐私政策”各条款。我们会严格按照法律规定存储和使用您的个人信息。未经您同意，我们不会提供给任何第三方进行使用。我们会采用业界领先的安全措施保护。"
+           android:textColor="#868788"
+            android:textSize="11.5sp"
+            ></TextView>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="您可以阅读"
+           android:textColor="#868788"
+            android:textSize="12sp"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/xieyi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="《服务协议和隐私政策》"
+            android:textColor="#006EF6"
+            android:textSize="12sp"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="信息全文了"
+            android:textColor="#868788"
+            android:textSize="11sp"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="解详细"
+            android:textColor="#868788"
+            android:textSize="11sp"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="如您同意，"
+            android:textColor="#868788"
+            android:textSize="11sp"
+            ></TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请点击“同意”开始接受我们的服务。"
+            android:textColor="#868788"
+            android:textSize="11sp"
+            ></TextView>
+    </com.nex3z.flowlayout.FlowLayout>
+
+<View
+    android:layout_width="match_parent"
+    android:layout_height="2px"
+    android:background="#ffeceded"
+    android:layout_marginTop="@dimen/dp_15"
+    ></View>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_10"
+    android:orientation="horizontal"
+    >
+    <TextView
+        android:id="@+id/noshiyong"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:text="暂不使用"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_margin="@dimen/dp_10"
+        ></TextView>
+    <TextView
+        android:id="@+id/tongyi"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:text="同意"
+        android:textColor="#006EF6"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_margin="@dimen/dp_10"
+        ></TextView>
+
+
+</LinearLayout>
+</LinearLayout>

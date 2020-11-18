@@ -45,9 +45,10 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/lin_xswz"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.17"
+                    android:layout_weight="2.5"
                     android:orientation="vertical">
                     <ImageView
                         android:layout_width="match_parent"
@@ -63,8 +64,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
-                        android:text="线上问政"
-                        android:textSize="15sp"
+                        android:text="民声问政"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="#4A4A4A"
                         android:layout_marginBottom="7dp"
@@ -73,9 +74,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lin_gzh"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.17"
+                    android:layout_weight="2.5"
                     android:orientation="vertical"
                     >
                     <ImageView
@@ -93,7 +95,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:text="公众号"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="#4A4A4A"
                         android:layout_marginBottom="7dp"
@@ -101,9 +103,10 @@
                     </TextView>
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/lin_jgdw"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.17"
+                    android:layout_weight="2.5"
                     android:orientation="vertical"
                     >
                     <ImageView
@@ -120,8 +123,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
-                        android:text="机构单位"
-                        android:textSize="15sp"
+                        android:text="部门机构"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="#4A4A4A"
                         android:layout_marginBottom="7dp"
@@ -131,9 +134,10 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/lin_xzsp"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.17"
+                    android:layout_weight="2.5"
                     android:orientation="vertical"
                     >
 
@@ -151,8 +155,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
-                        android:text="行政审批"
-                        android:textSize="15sp"
+                        android:text="闻喜政务"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="#4A4A4A"
                         android:layout_marginBottom="7dp"
@@ -160,39 +164,12 @@
                     </TextView>
 
                 </LinearLayout>
+
                 <LinearLayout
+                    android:id="@+id/lin_more"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.17"
-                    android:orientation="vertical"
-                    >
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:src="@mipmap/fwrx"
-                        android:layout_margin="12dp"
-                        >
-
-
-                    </ImageView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="服务热线"
-                        android:textSize="15sp"
-                        android:gravity="center"
-                        android:textColor="#4A4A4A"
-                        android:layout_marginBottom="7dp"
-                        >
-                    </TextView>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.17"
+                    android:layout_weight="2.5"
                     android:orientation="vertical"
                     >
                     <ImageView
@@ -210,7 +187,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:text="更多"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:gravity="center"
                         android:textColor="#4A4A4A"
                         android:layout_marginBottom="7dp"
@@ -270,6 +247,7 @@
                             android:textSize="15sp"
                             android:gravity="center"
                             android:text=""
+                            android:padding="@dimen/dp_5"
                             >
 
                         </TextView>

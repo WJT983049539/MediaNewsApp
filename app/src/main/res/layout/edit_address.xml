@@ -54,6 +54,8 @@
         android:layout_width="@dimen/dp_330"
         android:layout_height="@dimen/dp_89"
         android:layout_marginTop="36dp"
+        android:paddingStart="@dimen/dp_10"
+        android:maxLength="60"
         android:background="@drawable/edit_address_bg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"

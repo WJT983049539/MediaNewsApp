@@ -31,7 +31,8 @@ android:orientation="vertical">
             android:layout_weight="8"
             android:hint="  请输入旧密码"
             android:textColor="#000"
-            android:gravity="center"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/dp_10"
             android:background="@null"
             ></EditText>
 
@@ -60,7 +61,8 @@ android:orientation="vertical">
             android:inputType="textPassword"
             android:hint="  请输入旧密码"
             android:textColor="#000"
-            android:gravity="center"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/dp_10"
             android:background="@null"
             ></EditText>
 
@@ -89,7 +91,8 @@ android:orientation="vertical">
             android:hint="  请输入确认密码"
             android:textColor="#000"
             android:inputType="textPassword"
-            android:gravity="center"
+            android:gravity="center|left"
+            android:paddingStart="@dimen/dp_10"
             android:background="@null"
             ></EditText>
 

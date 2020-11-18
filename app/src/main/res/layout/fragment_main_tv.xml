@@ -5,6 +5,7 @@
     android:background="#fff"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <include layout="@layout/toolbar_zhq_layout"></include>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout2"

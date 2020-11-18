@@ -56,7 +56,6 @@ public class ModelNetWebActivity extends BaseActivity {
 
     @Override
     public void inintData() {
-
         type=getIntent().getStringExtra("type");
         inintView(webView);
         switch (type){
@@ -64,13 +63,17 @@ public class ModelNetWebActivity extends BaseActivity {
                 setToolBarTitle("听广播");
                 webView.loadUrl("https://m.qingting.fm/categories/5/");
                 break;
+            case "1156": //看电视
+                setToolBarTitle("看电视");
+                webView.loadUrl("https://tv.cctv.com/live/");
+                break;
             case "1136": //火车票
                 setToolBarTitle("火车票");
                 webView.loadUrl("https://www.12306.cn/index/");
                 break;
             case "1134": //查违章
                 setToolBarTitle("查询违章");
-                webView.loadUrl("http://www.weizhang8.cn/");
+                webView.loadUrl("http://chaxun.weizhang8.cn/jiashizheng.php");
                 http://www.365dhw.com/baozhi.html
                 break;
             case "1123": //读报纸
@@ -116,7 +119,7 @@ public class ModelNetWebActivity extends BaseActivity {
                 webView.loadUrl("https://map.baidu.com/search/%E8%BF%90%E5%9F%8E%E5%BE%8B%E5%B8%88%E4%BA%8B%E5%8A%A1%E6%89%80/@12329371.287709137,4169384.63,10.92z?querytype=s&c=328&wd=%E8%BF%90%E5%9F%8E%E5%BE%8B%E5%B8%88%E4%BA%8B%E5%8A%A1%E6%89%80&da_src=shareurl&on_gel=1&l=10&gr=1&b=(12199283.751029601,4105899.201943372;12459458.824388674,4232870.058056627)&pn=0&device_ratio=1");
                 break;
             case "1172": //查路况
-                setToolBarTitle("查路况");
+                setToolBarTitle("药店查询");
                 webView.loadUrl(" https://map.baidu.com/search/%E8%8D%AF%E5%BA%97%E6%9F%A5%E8%AF%A2/@12360261.050985238,4149355.731437368,18.31z?querytype=s&c=328&wd=%E8%8D%AF%E5%BA%97%E6%9F%A5%E8%AF%A2&da_src=shareurl&on_gel=1&l=18&gr=1&b=(12359478.092497332,4149116.9513309198;12361024.677164799,4149871.7168691577)&pn=0&device_ratio=1");
                 break;
             case "1171": //医院查询
@@ -166,6 +169,14 @@ public class ModelNetWebActivity extends BaseActivity {
             case "1133": //停车位
                 setToolBarTitle("周围停车位");
                 webView.loadUrl("https://map.baidu.com/search/%E5%81%9C%E8%BD%A6%E5%9C%BA/@12362219,4146196,12z?querytype=s&da_src=shareurl&wd=%E5%81%9C%E8%BD%A6%E5%9C%BA&c=328&src=0&pn=0&sug=0&l=12&b=(12300779,4116212;12423659,4176180)&from=webmap&biz_forward=%7B%22scaler%22:1,%22styles%22:%22pl%22%7D&device_ratio=1");
+                break;
+            case "1131": //查公交
+                setToolBarTitle("查公交");
+                webView.loadUrl("http://yuncheng.gongjiao.com/");
+                break;
+            case "1140": //学校查询
+                setToolBarTitle("学校查询");
+                webView.loadUrl("http://www.xuexiaodaquan.com/");
                 break;
 
 

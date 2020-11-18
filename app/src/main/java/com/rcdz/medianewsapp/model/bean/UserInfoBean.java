@@ -135,7 +135,7 @@ public class UserInfoBean implements Serializable{
             this.remark = remark;
         }
 
-        public Object getGender() {
+        public int getGender() {
             return gender;
         }
 

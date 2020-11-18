@@ -32,6 +32,8 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
     public T convertResponse(okhttp3.Response response) throws Throwable {
         ResponseBody body= (ResponseBody) response.body();
         int code=response.code();
+        String message=response.message();
+        Log.i("qq",message);
         T data=null;
         if(code==401||code==202){
             Log.i("test","token 过时"+code);
@@ -45,7 +47,6 @@ public abstract class JsonCallback<T> extends AbsCallback<T> {
             }
 //            MAppaction.ActivityManager.getManager().getTopActivity().startActivity(new Intent(MAppaction.ActivityManager.getManager().getTopActivity(), LoginActivity.class));
             MAppaction.ActivityManager.getManager().getTopActivity().finish();
-                GlobalToast.show("未登录,请登录",Toast.LENGTH_LONG);
             return null;
         }else if(code==200){
             if(body==null) {

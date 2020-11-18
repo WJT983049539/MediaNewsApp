@@ -2,6 +2,7 @@ package com.rcdz.medianewsapp.view.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -91,7 +92,10 @@ public class CommentActivity extends BaseActivity implements GetComment {
 
 
     @OnClick(R.id.back)
-    public void onViewClicked() {
+    public void onViewClicked(View view) {
+        if(view.getId()==R.id.back){
+            this.finish();
+        }
     }
 
     @Override

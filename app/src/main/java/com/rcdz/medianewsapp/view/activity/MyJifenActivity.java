@@ -38,9 +38,7 @@ import butterknife.ButterKnife;
 public class MyJifenActivity extends BaseAppCompatActivity implements GetJifenList {
     @BindView(R.id.jifen_list)
     NRecyclerView jifenList;
-    @BindView(R.id.toolbar_title)
-    TextView title;
-    @BindView(R.id.img_back)
+    @BindView(R.id.back)
     ImageView back;
 
     private String AllJiFen;
@@ -57,7 +55,6 @@ public class MyJifenActivity extends BaseAppCompatActivity implements GetJifenLi
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        title.setText("我的积分");
         initView();
     }
 

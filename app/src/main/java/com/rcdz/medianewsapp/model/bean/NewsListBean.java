@@ -125,18 +125,9 @@ public class NewsListBean implements Serializable {
         private String Creator;
         private String PublishDate;
         private String PublishDateString;
-        private int SectionId;
-
-        public int getTargetId() {
-            return TargetId;
-        }
-
-        public void setTargetId(int targetId) {
-            TargetId = targetId;
-        }
-
         private int TargetId;
-        private String LocationSection;
+        private int SectionId;
+        private String SectionName;
 
         public int getActivityType() {
             return ActivityType;
@@ -147,11 +138,31 @@ public class NewsListBean implements Serializable {
         }
 
         private int ActivityType;
+        private String LocationSection;
         private int CommentCount;
         private int Type;
         private String ContentFontFize;
         private String TitleFontSize;
 
+
+
+
+
+
+        public String getSectionName() {
+            return SectionName;
+        }
+
+        public int getTargetId() {
+            return TargetId;
+        }
+
+        public void setTargetId(int targetId) {
+            TargetId = targetId;
+        }
+        public void setSectionName(String sectionName) {
+            SectionName = sectionName;
+        }
         public String getId() {
             return Id;
         }

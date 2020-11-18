@@ -115,7 +115,6 @@ public class LeavingMessageFragment extends Fragment implements GetPliveLeaveMsg
 
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
         newNetWorkPersenter.GetPLiveLeaveInfo(String.valueOf(mPage), "1", this);
-        RC_leavingMessage.refreshComplete();//刷新成功
     }
 
     @Override

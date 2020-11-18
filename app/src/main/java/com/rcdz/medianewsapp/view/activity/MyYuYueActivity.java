@@ -65,11 +65,36 @@ public class MyYuYueActivity extends BaseActivity implements GetYuyue {
         yuYueAdapter= new YuYueAdapter(MyYuYueActivity.this,list,R.layout.item_yuyue);
         yuyueList.setLayoutManager(new LinearLayoutManager(this));
         yuyueList.setAdapter(yuYueAdapter);
-        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
-        newNetWorkPersenter.GetYuyueList(this);
+
+        yuyueList.setLoadingListener(new LoadingListener() {
+            //下拉刷新
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable(){
+                    public void run() {
+                        mPage = 1;
+                        list.clear();
+                        initNewsList(mPage);
+                    }
+
+
+                }, 1000);
+            }
+
+            //上拉加载
+            @Override
+            public void onLoadMore() {
+                ++mPage;
+                initNewsList(mPage);
+            }
+        });
     }
 
 
+    private void initNewsList(int mPage) {
+        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
+        newNetWorkPersenter.GetYuyueList(this);
+    }
     @Override
     public void inintData() {
 
@@ -78,6 +103,7 @@ public class MyYuYueActivity extends BaseActivity implements GetYuyue {
 
     @Override
     public void getyuyue(YuYueInfoBean yuYueInfoBean) {
+        yuyueList.refreshComplete();//刷新成功
         if(yuYueInfoBean!=null&&yuYueInfoBean.getData()!=null){
             yuyuedate.setText(yuYueInfoBean.getData().getTitle());
             list.addAll(yuYueInfoBean.getData().getProgramList());

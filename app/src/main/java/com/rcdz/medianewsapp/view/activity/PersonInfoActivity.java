@@ -91,10 +91,10 @@ public class PersonInfoActivity extends BaseActivity implements GetUserInfo {
             if(userInfoBean.getData().getPhoneNo()!=null){
                 pPhone.setText(userInfoBean.getData().getPhoneNo());
             }
-            if(Integer.valueOf(userInfoBean.getData().getPhoneNo())==0){
+            if(Integer.valueOf(userInfoBean.getData().getGender())==0){
                 pPhone.setText("男");
             }
-            if(Integer.valueOf(userInfoBean.getData().getPhoneNo())==1){
+            if(Integer.valueOf(userInfoBean.getData().getGender())==1){
                 pPhone.setText("女");
             }
 

@@ -104,7 +104,7 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
                 String roomId= String.valueOf(livelists.get(position).getId());
                 int CreateID= livelists.get(position).getCreateID();
                 if(videourl==null||videourl.equals("")){
-                    GlobalToast.show("地址为空,请检查直播间！",5000);
+                    GlobalToast.show("地址为空,直播间状态有误！",5000);
                 }else{
                     String name=livelists.get(position).getName();
                     Intent intent=new Intent(getActivity(), LiveRoomActivity.class);

@@ -86,7 +86,8 @@ public class NewTimeWebViewActivity extends BaseActivity {
             }
         });
 
-        toolbar.setVisibility(View.GONE);
+//        toolbar.setVisibility(View.GONE);
+        toolbarTitle.setText("");
         initWebView();
     }
 

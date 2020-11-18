@@ -143,10 +143,12 @@ public class RetrievePsdActivity extends BaseActivity implements GetPhoneCode , 
                     case 0:
                         // 完成主界面更新,拿到数据
                         vc_time--;
+                        getSmsCode.setEnabled(false);
                         getSmsCode.setText("重新获取(" + vc_time + "s)");
                         if (vc_time <= 0) {
+                            getSmsCode.setEnabled(true);
                             // getSmsCode.setBackgroundColor(0xffff983d);//0xFF626262   0xFFfc3c17
-                            getSmsCode.setBackgroundResource(R.drawable.com_button_bg);
+                            getSmsCode.setBackgroundResource(R.drawable.yzm_button_bg);
                             getSmsCode.setText("获取验证码");
                             getSmsCode.setEnabled(true);
                         }

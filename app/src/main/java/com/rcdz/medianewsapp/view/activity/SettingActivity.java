@@ -73,7 +73,7 @@ public class SettingActivity extends BaseActivity {
                         ACache aCache=ACache.get(SettingActivity.this);
                         UserInfoBean userInfoBean=null;
                         aCache.put("userinfo",userInfoBean);
-                        SharedPreferenceTools.putValuetoSP(SettingActivity.this,"user","");//不是第一次登录了
+//                        SharedPreferenceTools.putValuetoSP(SettingActivity.this,"user","");//不是第一次登录了
                         SharedPreferenceTools.putValuetoSP(SettingActivity.this,"token","");//保存到共享参数
                         Constant.token="";
 //                        Intent intent=new Intent(SettingActivity.this,LoginActivity.class);

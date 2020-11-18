@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -36,6 +37,8 @@ public class MainTVFragment extends Fragment implements GetCannelSetion {
     TabLayout tablayout;
     @BindView(R.id.viewpager2)
     ViewPager viewpager;
+    @BindView(R.id.toolbar_title)
+    TextView title;
     private MyNewsPagerAdapter myPagerAdapter;
     public  MainTVFragment() {
     }
@@ -48,6 +51,7 @@ public class MainTVFragment extends Fragment implements GetCannelSetion {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_tv, container, false);
         ButterKnife.bind(this, view);
+        title.setText("频道");
         initData();
         return view;
     }

@@ -55,7 +55,7 @@ public class LiveAdapter extends RecyclerView.Adapter<LiveAdapter.ViewHolder> {
         holder.tv_descript.setText(list.get(position).getDescription());
         Object o=list.get(position).getImageUrl();
         if(o!=null){
-            Glide.with(context).load(AppConfig.BASE_URL+o).into(holder.tv_img);
+            Glide.with(context).load(AppConfig.BASE_PICTURE_URL+o).into(holder.tv_img);
         }else{
             Glide.with(context).load(R.mipmap.default_image).into(holder.tv_img);
         }
