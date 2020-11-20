@@ -469,7 +469,11 @@ public class PersonalInformationActivity extends BaseActivity implements GetUser
 
                                         Map<String, String> areaMap = new HashMap<String, String>();
                                         areaMap.put("NewHeadImageUrl",iamg);
-                                        areaMap.put("OldHeadImageUrl", userInfo.getData().getHeadImageUrl().toString());
+                                        if(userInfo==null||userInfo.getData()==null||userInfo.getData().getHeadImageUrl()==null){
+                                            areaMap.put("OldHeadImageUrl", "");
+                                        }else{
+                                            areaMap.put("OldHeadImageUrl", userInfo.getData().getHeadImageUrl().toString());
+                                        }
                                         CommApi.post("api/Sys_User/UpdateUserUserHeadImageUrl", areaMap).execute(new StringCallback() {
                                             @Override
                                             public void onSuccess(Response<String> response) {

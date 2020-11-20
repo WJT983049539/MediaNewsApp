@@ -43,7 +43,6 @@ import butterknife.OnClick;
  * time 2020/11/6 10:07
  */
 public class ZpowerActivity  extends BaseActivity {
-
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int PHOTO_REQUEST = 100;
@@ -51,6 +50,7 @@ public class ZpowerActivity  extends BaseActivity {
     private boolean videoFlag = false;
     @BindView(R.id.newstime_web)
     WebView webView;
+    String user;
 
     @Override
     public String setNowActivityName() {
@@ -65,6 +65,7 @@ public class ZpowerActivity  extends BaseActivity {
     @Override
     public void inintView() {
         ButterKnife.bind(this);
+        user= (String) SharedPreferenceTools.getValueofSP(ZpowerActivity.this,"user","");
         initWebView();
     }
 
@@ -74,6 +75,7 @@ public class ZpowerActivity  extends BaseActivity {
     }
 
     private void initWebView() {
+
         WebSettings webSetting = webView.getSettings();
         webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webSetting.setSupportZoom(true);
@@ -163,6 +165,25 @@ public class ZpowerActivity  extends BaseActivity {
                 }
             }
             return true;
+        }
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            // 加载页面
+        }
+
+
+        @Override
+        public void onPageFinished(WebView webView, String s) {
+            super.onPageFinished(webView, s);
+            //安卓调用js方法。注意需要在 onPageFinished 回调里调用
+            webView.post(new Runnable() {
+                @Override
+                public void run() {
+                    webView.evaluateJavascript("javascript:connect('"+ user +"','"+ "qwer1234.0123"+"')",null);
+                }
+            });
+
         }
     }
 

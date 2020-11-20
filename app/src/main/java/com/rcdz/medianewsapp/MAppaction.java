@@ -69,6 +69,7 @@ public class MAppaction extends Application implements Application.ActivityLifec
         }
         return mInstance;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -81,7 +82,7 @@ public class MAppaction extends Application implements Application.ActivityLifec
         GlobalToast.init(this);//全局Toast初始化
         FileDownloader.init(getApplicationContext());
         BlockCanary.install(this, new AppBlockCanaryContext());//崩溃日志
-
+        OkGo.getInstance().init(this);//初始化网络框架
         File cache = getExternalCacheDir();
         int cacheSize = 10 * 1024 * 1024;
         ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getBaseContext()));
@@ -101,8 +102,6 @@ public class MAppaction extends Application implements Application.ActivityLifec
                 })
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)//https配置
                 .build();
-        OkGo.getInstance().init(this).setOkHttpClient(okHttpClient);//初始化网络框架
-
         OkHttpUtils.initClient(okHttpClient);
         Glide.get(context).getRegistry().replace(GlideUrl.class, InputStream.class,new OkHttpUrlLoader.Factory(okHttpClient));
 

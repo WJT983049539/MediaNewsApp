@@ -25,7 +25,7 @@ import com.rcdz.medianewsapp.view.activity.ShowXieYiBookActivity;
  * 邮箱 983049539@qq.com
  */
 public class XieYiDialog extends Dialog {
-    Confirm confirm;
+    private Confirm confirm;
     private Context mContext;
 
     public void  setOnDialogListen(Confirm confirm){

@@ -35,13 +35,10 @@ public abstract class CustomStringCallback extends AbsCallback<String> {
 
     @Override
     public String convertResponse(Response response) throws Throwable {
-
         String s = convert.convertResponse(response);
-        String message=response.message();
-        Log.i("qq",message);
         int code=response.code();
         if(code==401||code==202){
-            Log.i("test","token 过时"+response.message());
+            Log.i("test","token 过时"+code);
             SharedPreferenceTools.putValuetoSP(MAppaction.ActivityManager.getManager().getTopActivity(),"loginStru",false);
             Constant.token="";
             // token过时了
