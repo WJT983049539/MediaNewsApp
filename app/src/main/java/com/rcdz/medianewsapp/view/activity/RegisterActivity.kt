@@ -2,13 +2,16 @@ package com.rcdz.medianewsapp.view.activity
 
 import android.os.Handler
 import android.os.Message
+import android.view.View.OnFocusChangeListener
 import android.widget.*
 import com.rcdz.medianewsapp.R
 import com.rcdz.medianewsapp.model.bean.BaseBean
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter
 import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode
 import com.rcdz.medianewsapp.persenter.interfaces.ShowRegister
+import com.rcdz.medianewsapp.tools.Comment
 import com.rcdz.medianewsapp.tools.GlobalToast
+import com.rcdz.medianewsapp.view.fragment.Login_PwdFragment
 
 /**
  * 作用:注册页面
@@ -39,7 +42,6 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
     override fun setNowActivityName(): String {
        return "注册页面"
     }
-
     override fun setLayout(): Int {
         return R.layout.activity_register
     }
@@ -57,11 +59,51 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
         edit_pwd_sure=findViewById(R.id.edit_pwd_sure)
         go_login=findViewById(R.id.go_login)
 
+        edit_user.setOnFocusChangeListener(OnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) { //有焦点
+            } else {
+                if (edit_user.getText() == null || edit_user.getText().toString() == "") {
+                } else {
+                    val user: String = edit_user.getText().toString()
+                    if (!Comment.checkName(user)) {
+                        GlobalToast.show4("用户名不合法,必须是6-10位字母、数字、下划线", Toast.LENGTH_LONG)
+                        return@OnFocusChangeListener
+                    }
+                }
+            }
+        })
+
+
+        edit_pwd.setOnFocusChangeListener { v, hasFocus ->
+            if(hasFocus){
+
+            }else{
+                if(edit_pwd.text==null||edit_pwd.text.equals("")){
+
+                }else{
+                    //判断密码
+                    val psd: String = edit_pwd.getText().toString()
+                    if (!Comment.checkPwd(psd)) {
+                        GlobalToast.show4("密码格式不正确，必须是6-20位的字母、数字、下划线", Toast.LENGTH_LONG)
+                        return@setOnFocusChangeListener
+                    }
+                }
+            }
+        }
+
+
         img_back.setOnClickListener {
             this.finish()
         }
         //获取验证码
         getcode.setOnClickListener {
+
+            //判断用户名
+            if (!Comment.isPhone(edit_bindphone.text.toString())) {
+                GlobalToast.show4("手机号码不正确,请输入正确的手机号", Toast.LENGTH_LONG)
+                return@setOnClickListener
+            }
+
             val net= NewNetWorkPersenter(this@RegisterActivity);
             phone= edit_bindphone.text.toString()
             if(phone.equals("")||phone==null){
@@ -74,25 +116,40 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
         }
         bt_register.setOnClickListener {
             //判断用户名
-            if(edit_user.text!=null&&edit_user.text.length>=4){
-                username= edit_user.text.toString()
-            }else{
-                GlobalToast.show("用户名格式不正确", 5000)
+            if (!Comment.checkName(edit_user.text.toString())) {
+                GlobalToast.show4("用户名不合法,必须是6-10位字母、数字、下划线", Toast.LENGTH_LONG)
                 return@setOnClickListener
             }
+            //判断用户名
+            if(edit_user.text!=null){
+                username= edit_user.text.toString()
+            }else{
+                GlobalToast.show("用户名不能为空", 5000)
+                return@setOnClickListener
+            }
+
+            //判断用户名
+            if (!Comment.isPhone(edit_bindphone.text.toString())) {
+                GlobalToast.show4("手机号码不正确,请输入正确的手机号", Toast.LENGTH_LONG)
+                return@setOnClickListener
+            }
+
             //判断手机号
             if(edit_bindphone.text!=null){
                 phone= edit_bindphone.text.trim().toString()
             }else{
-                GlobalToast.show("手机号码不正确", 5000)
+                GlobalToast.show("手机号码不能为空", 5000)
                 return@setOnClickListener
             }
             //判断验证码
             if(edit_esecode.text!=null){
                 esecode= edit_esecode.text.toString()
             }else{
-                GlobalToast.show("验证码有误！", 5000)
+                GlobalToast.show("请输入验证码！", 5000)
                 return@setOnClickListener
+            }
+            if (!Comment.checkPwd(edit_pwd.text.toString())) {
+                GlobalToast.show4("密码格式不正确，必须是6-20位的字母、数字、下划线", Toast.LENGTH_LONG)
             }
             //判断密码
             if(edit_pwd.text!=null){
@@ -101,16 +158,20 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
                 GlobalToast.show("请输入正确的密码！", 5000)
                 return@setOnClickListener
             }
+
+
             //判断二次密码
             if(edit_pwd_sure.text!=null){
                 passwordsure= edit_pwd_sure.text.toString()
                 if(!password.equals(passwordsure)){
                     GlobalToast.show("俩次密码输入不一致！", 5000)
+                    return@setOnClickListener
                 }
             }else{
                 GlobalToast.show("请输入确认密码！", 5000)
                 return@setOnClickListener
             }
+
 
             val net= NewNetWorkPersenter(this@RegisterActivity);
             net.AppRegister(username, phone, esecode, password, this@RegisterActivity)
@@ -188,4 +249,5 @@ public class RegisterActivity :BaseActivity(), GetPhoneCode , ShowRegister {
             GlobalToast.show4(baseBean.message, Toast.LENGTH_LONG);
         }
     }
+
 }

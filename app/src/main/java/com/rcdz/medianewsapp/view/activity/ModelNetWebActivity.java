@@ -81,6 +81,10 @@ public class ModelNetWebActivity extends BaseActivity {
 //                webView.loadUrl("http://www.365dhw.com/baozhi.html");
                 webView.loadUrl("http://www.pdfzj.com/");
                 break;
+            case "1197": //闻喜政务
+                setToolBarTitle("闻喜政务");
+                webView.loadUrl("http://yc.sxzwfw.gov.cn/");
+                break;
             case "1124": //上网站
                 setToolBarTitle("上网站");
 //                webView.loadUrl("http://www.365dhw.com/baozhi.html");
@@ -109,6 +113,10 @@ public class ModelNetWebActivity extends BaseActivity {
             case "1162": //法网平台
                 setToolBarTitle("法网平台");
                 webView.loadUrl("http://www.12348.gov.cn/#/homepage");
+                break;
+            case "1199": //学科资源
+                setToolBarTitle("学科资源");
+                webView.loadUrl("https://zy.yceduyun.com");
                 break;
             case "1161": //法务咨询
                 setToolBarTitle("法务咨询");
@@ -176,7 +184,11 @@ public class ModelNetWebActivity extends BaseActivity {
                 break;
             case "1140": //学校查询
                 setToolBarTitle("学校查询");
-                webView.loadUrl("http://www.xuexiaodaquan.com/");
+                webView.loadUrl("https://www.yceduyun.com/xykj/xykj");
+                break;
+            case "1198": //智慧党建
+                setToolBarTitle("智慧党建");
+                webView.loadUrl("http://www.sxwxdj.gov.cn");
                 break;
 
 

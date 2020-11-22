@@ -1,6 +1,7 @@
 package com.rcdz.medianewsapp.view.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.view.activity.MainActivity;
 import com.rcdz.medianewsapp.view.activity.ModelNetWebActivity;
+import com.rcdz.medianewsapp.view.customview.GzhDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,8 +108,6 @@ public class MainAllFragment extends Fragment {
     LinearLayout linearLayout30;
     @BindView(R.id.tv_zhyb)
     LinearLayout tvZhyb;
-    @BindView(R.id.tv_zkcx)
-    LinearLayout tvZkcx;
     @BindView(R.id.tv_ggcx)
     LinearLayout tvGgcx;
     @BindView(R.id.tv_xxcx)
@@ -137,7 +137,7 @@ public class MainAllFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.toolbar_title, R.id.toolbar, R.id.lin_ydcx,R.id.tv_yycx,R.id.tv_xzsp, R.id.tv_xswz, R.id.tv_jgdw, R.id.tv_gzh, R.id.tv_zhdj, R.id.lin_tv, R.id.tv_tgb, R.id.tv_dbz, R.id.tv_swz, R.id.tv_cgj, R.id.tv_ggzxc, R.id.tv_cstcw, R.id.tv_cwz, R.id.tv_cky, R.id.tv_hcp, R.id.tv_clk, R.id.tv_csb, R.id.tv_jdf, R.id.tv_jsf, R.id.tv_rqf, R.id.tv_jhf, R.id.tv_dsf, R.id.tv_tckd, R.id.tv_gcsc, R.id.tv_tcfc, R.id.tv_tczp, R.id.tv_jzfw, R.id.tv_fwzx, R.id.tv_fwpt, R.id.tv_lssws,  R.id.tv_yygh, R.id.yygh, R.id.tv_zhyb, R.id.tv_zkcx, R.id.tv_ggcx, R.id.tv_xxcx, R.id.tv_pcscx, R.id.tv_bszn, R.id.tv_sfyz})
+    @OnClick({R.id.toolbar_title, R.id.toolbar, R.id.lin_ydcx,R.id.tv_yycx,R.id.tv_xzsp, R.id.tv_xswz, R.id.tv_jgdw, R.id.tv_gzh, R.id.tv_zhdj, R.id.lin_tv, R.id.tv_tgb, R.id.tv_dbz, R.id.tv_swz, R.id.tv_cgj, R.id.tv_ggzxc, R.id.tv_cstcw, R.id.tv_cwz, R.id.tv_cky, R.id.tv_hcp, R.id.tv_clk, R.id.tv_csb, R.id.tv_jdf, R.id.tv_jsf, R.id.tv_rqf, R.id.tv_jhf, R.id.tv_dsf, R.id.tv_tckd, R.id.tv_gcsc, R.id.tv_tcfc, R.id.tv_tczp, R.id.tv_jzfw, R.id.tv_fwzx, R.id.tv_fwpt, R.id.tv_lssws,  R.id.tv_yygh, R.id.yygh, R.id.tv_zhyb,  R.id.tv_ggcx, R.id.tv_xxcx, R.id.tv_pcscx, R.id.tv_bszn, R.id.tv_sfyz})
     public void onViewClicked(View view) {
         Intent intent = new Intent(getActivity(), ModelNetWebActivity.class);
         switch (view.getId()) {
@@ -145,21 +145,52 @@ public class MainAllFragment extends Fragment {
                 break;
             case R.id.toolbar:
                 break;
-            case R.id.tv_xzsp://行政审批
-                MainActivity mainActivity2 = (MainActivity) getActivity();
-                mainActivity2.setPositon(3);
+            case R.id.tv_xzsp://闻喜政务
+                intent.putExtra("type", "1197");
+                getActivity().startActivity(intent);
                 break;
             case R.id.tv_xswz://线上问政
                 MainActivity mainActivity3 = (MainActivity) getActivity();
-                mainActivity3.setPositon(3);
+                mainActivity3.setPositon2(0);
                 break;
             case R.id.tv_jgdw://机构单位
                 MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.setPositon(3);
+                mainActivity.setPositon2(1);
                 break;
             case R.id.tv_gzh://公众号
+//                GlobalToast.show4("暂未开放",Toast.LENGTH_LONG);
+                GzhDialog gzhDialog=new GzhDialog(getActivity());
+                gzhDialog.setOnDialogListen(new GzhDialog.Confirm() {
+                    @Override
+                    public void cannal() {
+                        gzhDialog.cancel();
+                    }
+                });
+                gzhDialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                gzhDialog.getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+                                //布局位于状态栏下方
+                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+                                //全屏
+                                View.SYSTEM_UI_FLAG_FULLSCREEN |
+                                //隐藏导航栏
+                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+                        if (Build.VERSION.SDK_INT >= 19) {
+                            uiOptions |= 0x00001000;
+                        } else {
+                            uiOptions |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+                        }
+                        gzhDialog.getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+                    }
+                });
+                gzhDialog.show();
                 break;
             case R.id.tv_zhdj://智慧党建
+                intent.putExtra("type", "1198");
+                getActivity().startActivity(intent);
                 break;
             case R.id.lin_tv://看电视
                 intent.putExtra("type", "1156");
@@ -277,17 +308,17 @@ public class MainAllFragment extends Fragment {
             case R.id.tv_zhyb://智慧医保
                 GlobalToast.show4("暂不开放", Toast.LENGTH_LONG);
                 break;
-            case R.id.tv_zkcx://中考查询
-                GlobalToast.show4("暂不开放", Toast.LENGTH_LONG);
-                break;
-            case R.id.tv_ggcx://高考查询
-                GlobalToast.show4("暂不开放", Toast.LENGTH_LONG);
+//            case R.id.tv_zkcx://中考查询
+//                GlobalToast.show4("暂不开放", Toast.LENGTH_LONG);
+//                break;
+            case R.id.tv_ggcx://高考查询改成学科资源
+                intent.putExtra("type", "1199");
+                getActivity().startActivity(intent);
                 break;
             case R.id.tv_xxcx://学校查询
 
                 intent.putExtra("type", "1140");
                 getActivity().startActivity(intent);
-                GlobalToast.show4("暂不开放", Toast.LENGTH_LONG);
                 break;
             case R.id.tv_pcscx://派出所查询
                 intent.putExtra("type", "1178");

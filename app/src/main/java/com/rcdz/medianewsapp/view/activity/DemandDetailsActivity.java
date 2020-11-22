@@ -39,6 +39,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetDemandJiNumDetails;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GlobalToast;
+import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.tools.Strings;
 import com.rcdz.medianewsapp.tools.SystemAppUtils;
 import com.rcdz.medianewsapp.view.customview.BottomDialog;
@@ -110,7 +111,7 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     @BindView(R.id.writecomment)
     TextView edit_comment; //评论按钮
 
-    private String userName;
+    private String userName="";
     boolean is_play = true;//是否播放/暂停
     private int mVideoWidth = 0;
     private int mVideoHeight = 0;
@@ -170,7 +171,10 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
 
         ACache aCache=ACache.get(this);
         UserInfoBean userInfoBean= (UserInfoBean) aCache.getAsObject("userinfo");
-        userName=userInfoBean.getData().getUserName();
+        if(userInfoBean!=null&&userInfoBean.getData()!=null&&userInfoBean.getData().getUserName()!=null){
+            userName=userInfoBean.getData().getUserName();
+        }
+
         speed=0f;
         initVideoView();//初始化播放器
 
@@ -376,7 +380,6 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     public int setVideoProgress(int currentProgress) {
         if (mVideoView == null)
             return -1;
-
         long time = currentProgress > 0 ? currentProgress : mVideoView.getCurrentPosition();
         long length = mVideoView.getDuration();
 
@@ -572,23 +575,29 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             case R.id.rc_xuanji:
                 break;
             case R.id.writecomment: //提交评论
-                if(edit_comment.getText()!=null){
-                BottomDialog showDialog = new BottomDialog();
-                    showDialog.BottomDialog(this);
-                    showDialog.setFirm(new BottomDialog.Firm() {
-                        @Override
-                        public void commit(String info) {
-                            NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(DemandDetailsActivity.this);
-                            newNetWorkPersenter.AddComment(userName,litletitle,title,info,videoDemandId,channelSectionId,"5");
-                        }
+                boolean loginstatu= (boolean) SharedPreferenceTools.getValueofSP(DemandDetailsActivity.this,"loginStru",false);
+                if(loginstatu){
+                    if(edit_comment.getText()!=null){
+                        BottomDialog showDialog = new BottomDialog();
+                        showDialog.BottomDialog(this);
+                        showDialog.setFirm(new BottomDialog.Firm() {
+                            @Override
+                            public void commit(String info) {
+                                NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(DemandDetailsActivity.this);
+                                newNetWorkPersenter.AddComment(userName,litletitle,title,info,videoDemandId,channelSectionId,"5");
+                            }
+                            @Override
+                            public void cannel() {
 
-                        @Override
-                        public void cannel() {
+                            }
+                        });
 
-                        }
-                    });
-
+                    }
+                }else{
+                    GlobalToast.show4("未登录",Toast.LENGTH_LONG);
                 }
+
+
 
 
                 break;

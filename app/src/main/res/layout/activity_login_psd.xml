@@ -50,15 +50,15 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/login_psd_pwd" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="#000"
-            app:layout_constraintBottom_toBottomOf="@+id/login_phone_user"
-            app:layout_constraintStart_toStartOf="parent"></View>
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="20dp"
+        android:background="#000"
+        android:layout_marginTop="@dimen/dp_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_phone_user"></View>
 
         <View
             android:id="@+id/view2"

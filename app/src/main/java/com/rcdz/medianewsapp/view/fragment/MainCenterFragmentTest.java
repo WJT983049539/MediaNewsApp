@@ -283,21 +283,36 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
             case R.id.lin_yuyue:
                 Intent intent6 = new Intent(getActivity(), MyYuYueActivity.class);
                 startActivity(intent6);
+
                 break;
             case R.id.lin_version:
                 NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
                 newNetWorkPersenter.CheckAppVersion(this);
                 break;
             case R.id.lin_set:
-                startActivity(new Intent(getActivity(), SettingActivity.class));
+                if(loginstatu){
+                    startActivity(new Intent(getActivity(), SettingActivity.class));
+                }else{
+                    Intent intent1=new Intent(getActivity(),LoginActivity.class);
+                    startActivity(intent1);
+                    getActivity().finish();
+                }
+
                 break;
             case R.id.lin_clearcache:
                 DataCleanManager.clearAllCache(getActivity());
                 GlobalToast.show("清除成功",Toast.LENGTH_LONG);
                 break;
             case R.id.lin_faimlily:
-                Intent intent4 = new Intent(getActivity(), MyFaililyActivity.class);
-                startActivity(intent4);
+
+                if(loginstatu){
+                    Intent intent4 = new Intent(getActivity(), MyFaililyActivity.class);
+                    startActivity(intent4);
+                }else{
+                    Intent intent1=new Intent(getActivity(),LoginActivity.class);
+                    startActivity(intent1);
+                    getActivity().finish();
+                }
                 break;
             case R.id.lin_share:
                 Intent intent1=new Intent(getActivity(), ShareActivity.class);

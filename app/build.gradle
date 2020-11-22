@@ -20,7 +20,6 @@ android {
                 JPUSH_CHANNEL: "default_developer",
                 qqappid: "你的qq appid",
         ]
-
     }
     buildTypes {
         release {
@@ -43,21 +42,21 @@ android {
         }
 
     }
-    splits {
-        abi {
-            enable true
-            reset()
-            include 'x86', 'armeabi-v7a','x86_64'
-            universalApk true
-        }
-    }
+//    splits {
+//        abi {
+//            enable true
+//            reset()
+//            include 'x86', 'armeabi-v7a','x86_64'
+//            universalApk true
+//        }
+//    }
 
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to checkforerrorsinrelease builds,
-        // but continue the build even whenerrorsarefound:
-        abortOnError false
-    }
+//    lintOptions {
+//        checkReleaseBuilds false
+//        // Or, if you prefer, you can continue to checkforerrorsinrelease builds,
+//        // but continue the build even whenerrorsarefound:
+//        abortOnError false
+//    }
 }
 
 dependencies {

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -68,6 +69,8 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
         View view = inflater.inflate(R.layout.activity_login_psd, container, false);
         ButterKnife.bind(this, view);
         initView();
+
+
         return view;
     }
 
@@ -94,14 +97,21 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
                 break;
             case R.id.button_login:
 
-                if(loginPsdUser.getText()!=null){
+                if(loginPsdUser.getText()==null||loginPsdUser.getText().equals("")){
+                  GlobalToast.show4("用户名不能为空",Toast.LENGTH_LONG);
+                  return;
+                }else{
                     user=loginPsdUser.getText().toString();
                 }
-                if(loginPsdPwd.getText()!=null){
+                if(loginPsdPwd.getText()==null||loginPsdPwd.getText().equals("")){
+                    GlobalToast.show4("密码不能为空",Toast.LENGTH_LONG);
+                    return;
+                }else{
                     psd=loginPsdPwd.getText().toString();
                 }
                 NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
                 newNetWorkPersenter.AppLogin(user,psd,Login_PwdFragment.this);
+
                 break;
         }
     }
@@ -165,7 +175,5 @@ public class Login_PwdFragment extends Fragment implements IshowLogin, GetUserIn
 
             }
         }).start();
-
-
     }
 }

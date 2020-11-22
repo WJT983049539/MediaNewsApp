@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -23,6 +24,7 @@ import com.rcdz.medianewsapp.persenter.CommApi;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetHistory;
 import com.rcdz.medianewsapp.tools.AppConfig;
+import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
 import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
 
@@ -114,6 +116,11 @@ public class MyHistoryActivity extends BaseActivity implements GetHistory {
                 this.finish();
                 break;
             case R.id.clear: //清除全部
+
+                if(list.size()==0){
+                    GlobalToast.show4("历史记录为空，不需要清除", Toast.LENGTH_LONG);
+                    return;
+                }
                 //{"status":true,"code":200,"message":"清除成功!","data":87}
                 CommApi.postNoParams("api/Sys_UserFootMark/DelAllFootMark").execute(new CustomStringCallback() {
                     @Override
@@ -125,6 +132,7 @@ public class MyHistoryActivity extends BaseActivity implements GetHistory {
                                 jsonObject = new JSONObject(response.body());
                                 int code=jsonObject.getInt("code");
                                 if(code==200){
+                                    GlobalToast.show4("清除成功！", Toast.LENGTH_LONG);
                                     mPage=1;
                                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(MyHistoryActivity.this);
                                     newNetWorkPersenter.GetHistoryList(MyHistoryActivity.this,String.valueOf(mPage));

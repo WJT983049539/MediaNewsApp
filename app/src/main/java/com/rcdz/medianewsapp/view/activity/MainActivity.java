@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.qw.soul.permission.SoulPermission;
 import com.qw.soul.permission.bean.Permission;
@@ -86,7 +87,14 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void inintData() {
 
     }
-
+    public void setPositon2(int positon){ //民生
+       Fragment f= fragments.get(3);
+        if(f instanceof MainPoliticsFragment){
+            MainPoliticsFragment ff= (MainPoliticsFragment) f;
+            ff.test(positon);
+        }
+        mainTabRg.check( R.id.main_tab_four);
+    }
     public void setPositon(int positon){
         switch (positon){
             case 0:

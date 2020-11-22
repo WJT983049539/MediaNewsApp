@@ -957,8 +957,6 @@ public class NewNetWorkPersenter {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             }
 

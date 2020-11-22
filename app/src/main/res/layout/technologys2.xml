@@ -1218,7 +1218,7 @@
             </TextView>
 
             <LinearLayout
-                android:id="@+id/tv_zkcx"
+                android:id="@+id/tv_xxcx"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
@@ -1237,7 +1237,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:gravity="center"
-                    android:text="中考查询"
+                    android:text="学校查询"
                     android:textColor="#3E3B3F"
                     android:textSize="13sp" />
 
@@ -1249,7 +1249,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/dp_60"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_zkcx"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_xxcx"
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <ImageView
@@ -1263,20 +1263,22 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:gravity="center"
-                    android:text="高考查询"
+                    android:text="学科资源"
                     android:textColor="#3E3B3F"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/tv_xxcx"
+                android:id="@+id/tv_xxcx1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_30"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="@+id/tv_zkcx"
-                app:layout_constraintTop_toBottomOf="@+id/tv_zkcx">
+                app:layout_constraintStart_toStartOf="@+id/tv_xxcx"
+                app:layout_constraintTop_toBottomOf="@+id/tv_xxcx"
+                android:visibility="gone"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -1289,7 +1291,7 @@
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:gravity="center"
-                    android:text="学校查询"
+                    android:text="学校查询2"
                     android:textColor="#3E3B3F"
                     android:textSize="13sp" />
 

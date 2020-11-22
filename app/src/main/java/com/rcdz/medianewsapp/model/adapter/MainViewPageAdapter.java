@@ -35,4 +35,5 @@ public class MainViewPageAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return fragments.size();
     }
+
 }

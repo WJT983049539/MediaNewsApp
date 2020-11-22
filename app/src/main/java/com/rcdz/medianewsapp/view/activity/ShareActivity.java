@@ -44,7 +44,7 @@ public class ShareActivity extends BaseActivity {
         toolbarTitle.setText("推荐好友");
         ImageView mImageView = (ImageView) findViewById(R.id.qrCodeView);
         try {
-            Bitmap mBitmap = EncodingHandler.createQRCode("https://www.pgyer.com/zasH", 400);
+            Bitmap mBitmap = EncodingHandler.createQRCode("https://www.pgyer.com/HRBQ", 400);
             mImageView.setImageBitmap(mBitmap);
         } catch (Exception e){
 

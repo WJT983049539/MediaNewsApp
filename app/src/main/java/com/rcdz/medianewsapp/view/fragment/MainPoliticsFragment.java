@@ -1,6 +1,7 @@
 package com.rcdz.medianewsapp.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,10 +34,8 @@ public class MainPoliticsFragment extends Fragment {
     TabLayout tablayout;
     @BindView(R.id.viewpager3)
     ViewPager viewPager;
-
     public MainPoliticsFragment() {
     }
-
     public static Fragment getInstance() {
         return new MainPoliticsFragment();
     }
@@ -50,12 +49,27 @@ public class MainPoliticsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStop() {
+            super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    public void test(int positon){
+        tablayout.getTabAt(positon).select();
+    }
+
     private void initView(View view) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getFragmentManager());
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
         viewPager.setAdapter(myPagerAdapter);
         tablayout.setupWithViewPager(viewPager);
     }
+
 
 
     class MyPagerAdapter extends FragmentPagerAdapter {

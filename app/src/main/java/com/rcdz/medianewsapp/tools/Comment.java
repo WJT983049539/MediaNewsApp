@@ -45,4 +45,31 @@ public class Comment {
             return isMatch;
         }
     }
+
+    /**
+     * 用户名验证
+     *  @param name
+     *  @return
+     */
+    public static boolean checkName(String name) {
+        String regExp = "^[^0-9][\\w_]{5,9}$";
+        if(name.matches(regExp)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * 密码验证
+     *  @param pwd
+     *  @return
+     */
+    public static boolean checkPwd(String pwd) {
+        String regExp = "^[\\w_]{6,20}$";
+        if(pwd.matches(regExp)) {
+            return true;
+        }
+        return false;
+    }
 }
