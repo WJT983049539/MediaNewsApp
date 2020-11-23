@@ -43,6 +43,7 @@ import com.rcdz.medianewsapp.model.bean.YuYueProgresListInfoBean;
 import com.rcdz.medianewsapp.model.bean.wherebean;
 import com.rcdz.medianewsapp.model.bean.wherebean2;
 import com.rcdz.medianewsapp.persenter.interfaces.AddCollect;
+import com.rcdz.medianewsapp.persenter.interfaces.AddCommentok;
 import com.rcdz.medianewsapp.persenter.interfaces.AddReserve;
 import com.rcdz.medianewsapp.persenter.interfaces.CheckAppVersion;
 import com.rcdz.medianewsapp.persenter.interfaces.Commentimpl;
@@ -916,7 +917,7 @@ public class NewNetWorkPersenter {
      * @param GlobalSectionId
      * @param type 1文章 2 视频 3图集 4直播间 5点播 6频道
      */
-    public void AddComment(String Creator,String Title,String LongTitle,String Contents,String TargetId,String GlobalSectionId,String type){
+    public void AddComment(String Creator, String Title, String LongTitle, String Contents, String TargetId, String GlobalSectionId, String type, AddCommentok addCommentok){
         String parmes="";
         try {
             JSONObject jsonObject=new JSONObject();
@@ -945,7 +946,9 @@ public class NewNetWorkPersenter {
                         JSONObject jsonObject=new JSONObject(response.body());
                         int code=jsonObject.getInt("code");
                         String message=jsonObject.getString("message");
+                        addCommentok.addcommentok();
                         if(code==311){
+
                             Log.i("test","添加评论成功！");
                             GlobalToast.show(message,Toast.LENGTH_LONG);
 
@@ -962,6 +965,7 @@ public class NewNetWorkPersenter {
 
             @Override
             public void onError(Response response) {
+                addCommentok.addcommentok();
                 super.onError(response);
                 Log.i(TAG,"添加评论失败-->"+response.message());
             }

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/num_lin"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="50dp"
     android:layout_height="50dp"
-    android:layout_marginStart="@dimen/dp_10">
+    android:layout_marginStart="@dimen/dp_10"
+    android:background="#33000000"
+    >
     <TextView
         android:id="@+id/tv_num"
         android:layout_width="match_parent"

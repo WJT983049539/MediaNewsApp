@@ -89,6 +89,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
     ImageView topvideonew_status;
     @BindView(R.id.topvideonew_title)
     TextView topvideonew_title;
+
     @BindView(R.id.linearLayout_home_main)
     LinearLayout linearLayoutHomeMain;
     @BindView(R.id.android_news_list)
@@ -129,7 +130,6 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
     //onCreateView()：每次创建、绘制该Fragment的View组件时回调该方法，Fragment将会显示该方法返回的View组件。
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View mRootView = inflater.inflate(R.layout.fragment_news_recommend, container, false);
         ButterKnife.bind(this, mRootView);  //fragment 绑定 带两个参数
         PlateID = getArguments().getString("PlateID");

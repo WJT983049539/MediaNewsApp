@@ -1,8 +1,10 @@
 package com.rcdz.medianewsapp.model.adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.bean.DemandEpisodeBean;
+import com.rcdz.medianewsapp.view.activity.DemandDetailsActivity;
 
 import java.util.List;
 
@@ -43,6 +46,11 @@ public class JishuAdapter extends RecyclerView.Adapter<JishuAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        if(position== DemandDetailsActivity.positonn){
+            holder.num_lin.setBackgroundColor(Color.parseColor("#A103A9F4"));
+        }else{
+            holder.num_lin.setBackgroundColor(Color.parseColor("#33000000"));
+        }
         holder.tv_num.setText(String.valueOf(position+1));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +69,11 @@ public class JishuAdapter extends RecyclerView.Adapter<JishuAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tv_num;
+        private LinearLayout num_lin;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_num= itemView.findViewById(R.id.tv_num);
+            num_lin= itemView.findViewById(R.id.num_lin);
         }
     }
 }

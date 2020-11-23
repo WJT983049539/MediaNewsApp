@@ -33,7 +33,6 @@ public class GzhDialog extends Dialog {
         this.mContext = context;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

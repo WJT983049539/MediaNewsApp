@@ -1,5 +1,7 @@
 package com.rcdz.medianewsapp.tools;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,5 +73,17 @@ public class Comment {
             return true;
         }
         return false;
+    }
+    //url中文转英文
+    public static String encode(String str, String charset)
+            throws UnsupportedEncodingException {
+        Pattern p = Pattern.compile("[\u4e00-\u9fa5]+");
+        Matcher m = p.matcher(str);
+        StringBuffer b = new StringBuffer();
+        while (m.find()) {
+            m.appendReplacement(b, URLEncoder.encode(m.group(0), charset));
+        }
+        m.appendTail(b);
+        return b.toString();
     }
 }

@@ -34,10 +34,12 @@ import com.rcdz.medianewsapp.model.bean.CommentInfoBean;
 import com.rcdz.medianewsapp.model.bean.DemandEpisodeBean;
 import com.rcdz.medianewsapp.model.bean.UserInfoBean;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
+import com.rcdz.medianewsapp.persenter.interfaces.AddCommentok;
 import com.rcdz.medianewsapp.persenter.interfaces.GetComment;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDemandJiNumDetails;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
+import com.rcdz.medianewsapp.tools.Comment;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.tools.Strings;
@@ -45,6 +47,7 @@ import com.rcdz.medianewsapp.tools.SystemAppUtils;
 import com.rcdz.medianewsapp.view.customview.BottomDialog;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +62,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/19 17:49
  */
-public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNumDetails, GetComment {
+public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNumDetails, GetComment , AddCommentok {
     private  float speed=0f;
     String videoDemandId;
     String demandId;
@@ -102,8 +105,6 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     LinearLayout mPlayerPanel;
     @BindView(R.id.outside)
     RelativeLayout outside;
-    @BindView(R.id.thum)
-    ImageView thum;
     @BindView(R.id.pause)
     ImageView pause; //暂停按钮
     @BindView(R.id.commentlist)
@@ -123,6 +124,7 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
     private float lastMoveY = -1;
     private float movedDeltaX;
     private float movedDeltaY;
+    public static int positonn=0; //选中状态
     private boolean mPlayerPanelShow = false;//是否展示外部的组件（停止、播放、全屏等）
 
     private Handler mHandler = new Handler() {
@@ -217,7 +219,9 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         jishuAdapter.setOnItemClick(new JishuAdapter.OnItemClick() {
             @Override
             public void onitemclik(int position) {
-                GlobalToast.show("第" + position + 1 + "集", Toast.LENGTH_LONG);
+                positonn=position;
+                int jishu=position+1;
+                GlobalToast.show("第" +jishu + "集", Toast.LENGTH_LONG);
                 DemandEpisodeBean.DemandEpisodeInfo demandEpisodeInfo=  list.get(position);
                 videoDemandId= String.valueOf(demandEpisodeInfo.getId());
                 NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(DemandDetailsActivity.this);
@@ -225,13 +229,19 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
                 int id=demandEpisodeInfo.getId();
                 liveUrl=AppConfig.BASE_VIDEO_URL+demandEpisodeInfo.getVideoUrl();
                 try {
+                    liveUrl=Comment.encode(liveUrl,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                try {
                     mVideoView.setDataSource(liveUrl);
                     mVideoView.prepareAsync();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-
+                jishuAdapter.notifyDataSetChanged();
             }
         });
         //获取集数
@@ -250,6 +260,11 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
             jishuAdapter.notifyDataSetChanged();
 
             liveUrl = AppConfig.BASE_VIDEO_URL+demandEpisodeBean.getData().get(0).getVideoUrl();
+            try {
+                liveUrl=Comment.encode(liveUrl,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
             videoDemandId= String.valueOf(demandEpisodeBean.getData().get(0).getId());
             demandDetailsTitle.setText(title);
             demandDetailsLitltTitle.setText(litletitle);
@@ -308,6 +323,9 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         @Override
         public void onCompletion(IMediaPlayer mp) {
             Log.i("play", "视频播放完毕-----------------------------------------------");
+            mPlayerPanel.setVisibility(View.VISIBLE);
+            mVideoView.reload(liveUrl, true);
+            mVideoView.prepareAsync();
         }
     };
 
@@ -584,7 +602,7 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
                             @Override
                             public void commit(String info) {
                                 NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(DemandDetailsActivity.this);
-                                newNetWorkPersenter.AddComment(userName,litletitle,title,info,videoDemandId,channelSectionId,"5");
+                                newNetWorkPersenter.AddComment(userName,litletitle,title,info,videoDemandId,channelSectionId,"5",DemandDetailsActivity.this);
                             }
                             @Override
                             public void cannel() {
@@ -662,5 +680,12 @@ public class DemandDetailsActivity extends BaseActivity implements GetDemandJiNu
         super.onConfigurationChanged(newConfig);
         Log.i("test","onConfigurationChanged()");
 
+    }
+
+    //添加评论成功去刷新
+    @Override
+    public void addcommentok() {
+        NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(this);
+        newNetWorkPersenter.GeCommentList(videoDemandId,this);//获取评论列表
     }
 }
