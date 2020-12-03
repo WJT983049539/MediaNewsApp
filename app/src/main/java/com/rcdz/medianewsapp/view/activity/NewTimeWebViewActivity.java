@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,6 +26,9 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.PhotoUtils;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.tencent.smtt.export.external.interfaces.ConsoleMessage;
+import com.tencent.smtt.export.external.interfaces.SslError;
+import com.tencent.smtt.export.external.interfaces.SslErrorHandler;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
@@ -110,6 +114,7 @@ public class NewTimeWebViewActivity extends BaseActivity {
         settings.setAllowUniversalAccessFromFileURLs(false);
         //开启JavaScript支持
         settings.setJavaScriptEnabled(true);
+
         // 支持缩放
         settings.setSupportZoom(true);
         String mylink = AppConfig.NEWTIMEURL+"static/oauth2-client.html";
@@ -160,7 +165,11 @@ public class NewTimeWebViewActivity extends BaseActivity {
             return true;
         }
 
+        @Override
+        public void onReceivedSslError(WebView webView, SslErrorHandler sslErrorHandler, SslError sslError) {
+            sslErrorHandler.proceed();
 
+        }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -185,6 +194,16 @@ public class NewTimeWebViewActivity extends BaseActivity {
 
     //自定义 WebChromeClient 辅助WebView处理图片上传操作【<input type=file> 文件上传标签】
     public class MyChromeWebClient extends WebChromeClient {
+
+
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            Log.d("weblog", consoleMessage.message() + " -- From line "
+                    + consoleMessage.lineNumber() + " of "
+                    + consoleMessage.sourceId() );
+            return true;
+        }
+
         protected void openFileChooser(ValueCallback uploadMsg, String acceptType) {
             mUploadMessage = uploadMsg;
             Intent i = new Intent(Intent.ACTION_GET_CONTENT);

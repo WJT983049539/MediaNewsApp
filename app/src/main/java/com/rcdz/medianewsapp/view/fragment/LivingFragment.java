@@ -98,6 +98,7 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
             @Override
             public void onitemclik(int position) {
                 //获取直播间详情
+                int liveState=livelists.get(position).getLiveState(); //2是直播其他都微直播
                 String HlsUrl= livelists.get(position).getHLSUrl();
                 int type=livelists.get(position).getType();
                 String videourl=livelists.get(position).getRtmpUrl().toString()+"?id="+livelists.get(position).getId()+"&token="+ Constant.token;//得到直播地址开始直播
@@ -109,6 +110,7 @@ public class LivingFragment extends Fragment implements GetLiveListInfo , GetCov
                     String name=livelists.get(position).getName();
                     Intent intent=new Intent(getActivity(), LiveRoomActivity.class);
                     intent.putExtra("videoUrl",videourl);
+                    intent.putExtra("liveState",liveState);
                     intent.putExtra("name",name);
                     intent.putExtra("roomId",roomId);
                     intent.putExtra("type",type);

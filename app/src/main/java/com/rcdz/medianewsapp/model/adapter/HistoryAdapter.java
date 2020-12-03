@@ -41,6 +41,8 @@ public class HistoryAdapter extends CommonRecyclerAdapter<HistoryListInfoBean.Hi
                 Intent intent =new Intent(mContext, NewsDetailActivity.class);
                 intent.putExtra("id",obj.getTargetId());
                 intent.putExtra("plateId",obj.getGlobalSectionId());
+                intent.putExtra("imageUrl",obj.getUrl());
+                intent.putExtra("title",obj.getTitle());
                 intent.putExtra("platName",obj.getSectionName());
                 intent.putExtra("ActivityType",obj.getActivityType());
                 intent.putExtra("Type",obj.getType());

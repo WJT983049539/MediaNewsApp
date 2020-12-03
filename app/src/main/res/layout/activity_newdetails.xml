@@ -3,7 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-   <include layout="@layout/commontlbar_layout"/>
+   <include layout="@layout/detaillbar_layout"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#51000000"
+        ></View>
     <com.tencent.smtt.sdk.WebView
         android:id="@+id/news_web"
         android:layout_width="match_parent"

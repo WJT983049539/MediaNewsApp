@@ -20,6 +20,25 @@ public class litlemessagebean implements Serializable {
     private String UserName;
     private String SendDate;
     private String Message;
+    private String UserId="";
+    private int  Type=0; //0直播中 2关闭直播间
+    public String getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(String userId) {
+        UserId = userId;
+    }
+
+    public int getType() {
+        return Type;
+    }
+
+    public void setType(int type) {
+        Type = type;
+    }
+
+
 
     public String getUserName() {
         return UserName;

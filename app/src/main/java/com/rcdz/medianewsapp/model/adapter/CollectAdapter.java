@@ -60,6 +60,8 @@ public class CollectAdapter extends CommonRecyclerAdapter<CollectListInfoBean.Co
                     if(item.getType()==1||item.getType()==2||item.getType()==3){
                         Intent intent =new Intent(mContext, NewsDetailActivity.class);
                         intent.putExtra("id",item.getTargetId());
+                        intent.putExtra("imageUrl",item.getUrl());
+                        intent.putExtra("title",item.getTitle());
                         intent.putExtra("plateId",item.getGlobalSectionId());
                         intent.putExtra("platName",item.getSectionName());
                         intent.putExtra("ActivityType",item.getActivityType());

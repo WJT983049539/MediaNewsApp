@@ -226,7 +226,7 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
                             }
 
                         }else{
-                            GlobalToast.show("获取签到状态失败！",Toast.LENGTH_LONG);
+                             GlobalToast.show("获取签到状态失败！",Toast.LENGTH_LONG);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -383,7 +383,7 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
 
         int appcode=SystemAppUtils.getAPPVersionCode(getActivity());
         String appVersionName=SystemAppUtils.getAPPVersionName(getActivity());
-        if(appVersionInfo.getCode()==200){
+        if(appVersionInfo.getCode()==200&&appVersionInfo.getData()!=null){
             String info=appVersionInfo.getData().getVersion();
             if(info.equals(appVersionName)){
                 GlobalToast.showPicture(R.mipmap.nodowlod,Toast.LENGTH_LONG);

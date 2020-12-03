@@ -35,6 +35,8 @@ public class ZhiDingAdapter extends CommonRecyclerAdapter<TopNewsInfo.TopNews>{
                     Intent intent =new Intent(mContext, NewsDetailActivity.class);
                     intent.putExtra("id",item.getTargetId());
                     intent.putExtra("plateId",item.getSectionId());
+                     intent.putExtra("imageUrl","");
+                    intent.putExtra("title",item.getTitle());
                     intent.putExtra("platName","推荐");
                     intent.putExtra("ActivityType",item.getActivityType());
                     intent.putExtra("Type",item.getType());

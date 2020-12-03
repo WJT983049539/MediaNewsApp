@@ -92,8 +92,8 @@ public class MainAllFragment extends Fragment {
     LinearLayout tvTcfc;
     @BindView(R.id.tv_tczp)
     LinearLayout tvTczp;
-    @BindView(R.id.tv_jzfw)
-    LinearLayout tvJzfw;
+//    @BindView(R.id.tv_jzfw2)
+//    LinearLayout tvJzfw;
     @BindView(R.id.tv_fwzx)
     LinearLayout tvFwzx;
     @BindView(R.id.tv_fwpt)
@@ -137,7 +137,7 @@ public class MainAllFragment extends Fragment {
     }
 
 
-    @OnClick({R.id.toolbar_title, R.id.toolbar, R.id.lin_ydcx,R.id.tv_yycx,R.id.tv_xzsp, R.id.tv_xswz, R.id.tv_jgdw, R.id.tv_gzh, R.id.tv_zhdj, R.id.lin_tv, R.id.tv_tgb, R.id.tv_dbz, R.id.tv_swz, R.id.tv_cgj, R.id.tv_ggzxc, R.id.tv_cstcw, R.id.tv_cwz, R.id.tv_cky, R.id.tv_hcp, R.id.tv_clk, R.id.tv_csb, R.id.tv_jdf, R.id.tv_jsf, R.id.tv_rqf, R.id.tv_jhf, R.id.tv_dsf, R.id.tv_tckd, R.id.tv_gcsc, R.id.tv_tcfc, R.id.tv_tczp, R.id.tv_jzfw, R.id.tv_fwzx, R.id.tv_fwpt, R.id.tv_lssws,  R.id.tv_yygh, R.id.yygh, R.id.tv_zhyb,  R.id.tv_ggcx, R.id.tv_xxcx, R.id.tv_pcscx, R.id.tv_bszn, R.id.tv_sfyz})
+    @OnClick({R.id.toolbar_title, R.id.toolbar, R.id.lin_ydcx,R.id.tv_yycx,R.id.tv_xzsp, R.id.tv_xswz, R.id.tv_jgdw, R.id.tv_gzh,  R.id.lin_tv, R.id.tv_tgb, R.id.tv_dbz, R.id.tv_swz, R.id.tv_cgj, R.id.tv_ggzxc, R.id.tv_cstcw, R.id.tv_cwz, R.id.tv_cky, R.id.tv_hcp, R.id.tv_clk, R.id.tv_csb, R.id.tv_jdf, R.id.tv_jsf, R.id.tv_rqf, R.id.tv_jhf, R.id.tv_dsf, R.id.tv_tckd, R.id.tv_gcsc, R.id.tv_tcfc, R.id.tv_tczp, R.id.tv_fwzx, R.id.tv_fwpt, R.id.tv_lssws,  R.id.tv_yygh, R.id.yygh, R.id.tv_zhyb,  R.id.tv_ggcx, R.id.tv_xxcx, R.id.tv_pcscx, R.id.tv_bszn, R.id.tv_sfyz})
     public void onViewClicked(View view) {
         Intent intent = new Intent(getActivity(), ModelNetWebActivity.class);
         switch (view.getId()) {
@@ -189,8 +189,8 @@ public class MainAllFragment extends Fragment {
                 gzhDialog.show();
                 break;
             case R.id.tv_zhdj://智慧党建
-                intent.putExtra("type", "1198");
-                getActivity().startActivity(intent);
+//                intent.putExtra("type", "1198");
+//                getActivity().startActivity(intent);
                 break;
             case R.id.lin_tv://看电视
                 intent.putExtra("type", "1156");
@@ -264,10 +264,10 @@ public class MainAllFragment extends Fragment {
                 intent.putExtra("type", "1151");
                 getActivity().startActivity(intent);
                 break;
-            case R.id.tv_gcsc://同城商超
-//                intent.putExtra("type","1152");
-//                 getActivity().startActivity(intent);
-                GlobalToast.show4("暂未开放",Toast.LENGTH_LONG);
+            case R.id.tv_gcsc://家政服务
+                intent.putExtra("type", "1155");
+                getActivity().startActivity(intent);
+//                GlobalToast.show4("暂未开放",Toast.LENGTH_LONG);
                 break;
             case R.id.tv_tcfc://同城房产
                 intent.putExtra("type", "1153");
@@ -277,10 +277,10 @@ public class MainAllFragment extends Fragment {
                 intent.putExtra("type", "1154");
                 getActivity().startActivity(intent);
                 break;
-            case R.id.tv_jzfw://家政服务
-                intent.putExtra("type", "1155");
-                getActivity().startActivity(intent);
-                break;
+//            case R.id.tv_jzfw2://家政服务
+//                intent.putExtra("type", "1155");
+//                getActivity().startActivity(intent);
+//                break;
             case R.id.tv_fwzx://法务咨询
                 intent.putExtra("type", "1161");
                 getActivity().startActivity(intent);

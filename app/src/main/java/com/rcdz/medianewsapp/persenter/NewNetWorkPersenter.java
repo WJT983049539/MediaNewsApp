@@ -1051,10 +1051,11 @@ public class NewNetWorkPersenter {
 
     //todo
     public void GetLivingMasterInfo( String id,GetLivingMInfo getLivingMInfo ) {
+        //{"status":true,"code":200,"message":null,"data":{"userTrueName":"测试姓名","headImageUrl":"Upload/Files/Sys_User/ac99fd0bf5d44c7099754da251a8ed4c/small/头像1.jpg"}}
         CommApi.postNoParams(MainApi.GetLivingMasterInfo()+"/"+id).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"当前主播信息-->"+response.message());
+                Log.i(TAG,"当前主播信息-->"+response.body());
                 if(response.body()!=null){
                     try {
                         JSONObject jsonObject=new JSONObject(response.body());

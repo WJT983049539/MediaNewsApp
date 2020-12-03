@@ -107,7 +107,7 @@ public class updatePsdActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Response<String> response) {
                         if(response.body()!=null){
-                            Log.i("test","签到状态-->"+response.body());
+                            Log.i("test","修改密码-->"+response.body());
                             try {
                                 JSONObject jsonObject=new JSONObject(response.body());
                                 int code=jsonObject.getInt("code");
@@ -128,7 +128,7 @@ public class updatePsdActivity extends BaseActivity {
                     @Override
                     public void onError(Response response) {
                         super.onError(response);
-                        Log.i("test","签到状态失败-->"+response.message());
+                        Log.i("test","修改密码失败-->"+response.message());
 //                        GlobalToast.show("获取签到状态失败！",Toast.LENGTH_LONG);
                     }
                 });

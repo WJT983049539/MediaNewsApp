@@ -40,6 +40,8 @@ import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.Https;
 import com.rcdz.medianewsapp.tools.OkHttpUtils;
 import com.rcdz.medianewsapp.tools.SetList;
+import com.umeng.commonsdk.UMConfigure;
+import com.umeng.socialize.PlatformConfig;
 
 import java.io.File;
 import java.io.InputStream;
@@ -73,6 +75,12 @@ public class MAppaction extends Application implements Application.ActivityLifec
     @Override
     public void onCreate() {
         super.onCreate();
+        //友盟分享
+        PlatformConfig.setWeixin("wxce63ae5dd1ad0089", "7cf20e12a0eda161174574d8904f58dc");
+        UMConfigure.init(this,"5e8d44addbc2ec080a34a1d9","umeng", UMConfigure.DEVICE_TYPE_PHONE,"");
+        PlatformConfig.setWeixin("wxce63ae5dd1ad0089", "7cf20e12a0eda161174574d8904f58dc");
+
+
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
         activityList.clear();
@@ -82,7 +90,7 @@ public class MAppaction extends Application implements Application.ActivityLifec
         GlobalToast.init(this);//全局Toast初始化
         FileDownloader.init(getApplicationContext());
         BlockCanary.install(this, new AppBlockCanaryContext());//崩溃日志
-        OkGo.getInstance().init(this);//初始化网络框架
+
         File cache = getExternalCacheDir();
         int cacheSize = 10 * 1024 * 1024;
         ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getBaseContext()));
@@ -103,8 +111,8 @@ public class MAppaction extends Application implements Application.ActivityLifec
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)//https配置
                 .build();
         OkHttpUtils.initClient(okHttpClient);
+        OkGo.getInstance().init(this).setOkHttpClient(okHttpClient);//初始化网络框架
         Glide.get(context).getRegistry().replace(GlideUrl.class, InputStream.class,new OkHttpUrlLoader.Factory(okHttpClient));
-
         initLog();
     }
     /**

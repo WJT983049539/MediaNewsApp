@@ -10,6 +10,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,6 +80,7 @@ import okhttp3.ResponseBody;
  * @author:create by wjt
  * 邮箱 983049539@qq.com
  * time 2020/10/20 17:08
+ *
  */
 public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, GetLivingMInfo {
     @BindView(R.id.ksy_textureview)
@@ -100,6 +103,16 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     ImageView head_3;
     @BindView(R.id.tv_num)
     TextView tv_num2;
+    @BindView(R.id.lin_over)
+    RelativeLayout lin_over; //覆盖副局
+    @BindView(R.id.rela_content)
+    RelativeLayout rela_content; //内容布局
+    @BindView(R.id.hh)
+    ImageView hh; //主播头像
+    @BindView(R.id.aaa)
+    TextView aaa; //主播名称
+    @BindView(R.id.backk)
+    TextView backk; //
     JfSocketSdk jfSockSDK; //直播间服务器
     private RequestOptions options = new RequestOptions().error(R.mipmap.peop).centerCrop();
     List<BarrageInfobean> list = new LinkedList<BarrageInfobean>();
@@ -108,6 +121,7 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     private String videoUrl;
     private String name;
     private int type;
+    private int liveState;//直播状态
     private String roomId;
     private int CreateID;
     String picture;
@@ -120,7 +134,7 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
             super.handleMessage(msg);
             try {
             Log.i("live",msg.obj.toString());
-            if(msg.what==0){
+            if(msg.what==0){ //普通消息
                 ReceiveMessage SS= (ReceiveMessage) msg.obj;
                     String UserCount= String.valueOf(SS.getUserCount());
 //                     tv_num2.setText(UserCount);//人数
@@ -129,6 +143,17 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
                         String UserName = jj.getString("UserName");
                         String SendDate = jj.getString("SendDate");
                         String Message = jj.getString("Message");
+                        int  Type = jj.getInt("Type");
+                        String UserId = jj.getString("UserId");
+                        Log.i("test","Type=="+Type+"UserId=="+UserId+"CreateID=="+CreateID);
+                        if(Type==2&& UserId.equals(String.valueOf(CreateID))){  //直播间关闭了（全部都停止） todo
+                            lin_over.setVisibility(View.VISIBLE);
+                            rela_content.setVisibility(View.GONE);
+                            mLoginSemphore.release();
+                            jfSockSDK.stop();
+                            myhandler.removeCallbacksAndMessages(null);
+                        }else{
+
                         BarrageInfobean barrageInfobean = new BarrageInfobean();
                         barrageInfobean.setInfo(UserName + ":" + Message);
                         barrageInfobean.setHeadimage("");//没有头像了 //弹幕消息
@@ -143,8 +168,8 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
                                 }
                             }, 50);
                         }
-
-                }else if(msg.what==1){//我收消息
+                        }
+                }else if(msg.what==1){ //头像消息
 
                 LiveWoShouReciviceBean liveWoShouReciviceBean= (LiveWoShouReciviceBean) msg.obj;
                 int count=liveWoShouReciviceBean.getUserCount();
@@ -213,32 +238,42 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
         name=getIntent().getStringExtra("name");
         roomId=getIntent().getStringExtra("roomId");
         type= getIntent().getIntExtra("type",0);
+        liveState= getIntent().getIntExtra("liveState",-1);
         CreateID=getIntent().getIntExtra("CreateID",0);
         livingName.setText(name);
-
         getPremission2();
-        initVideoView();
-
         NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
         newNetWorkPersenter.GetLivingMasterInfo(String.valueOf(CreateID),this);
-        liveBarrageAdapter = new LiveBarrageAdapter(list,this);
-        linearLayoutManager=new LinearLayoutManager(this);
-        rcBarrage.setLayoutManager(new LinearLayoutManager(this));
-        rcBarrage.setAdapter(liveBarrageAdapter);
+        if(liveState!=2){ //除了直以外的其他状态
+            lin_over.setVisibility(View.VISIBLE);
+            rela_content.setVisibility(View.GONE);
 
-        jfSockSDK = new JfSocketSdk(this); //初始化聊天服务器
-        if (jfSockSDK.start(AppConfig.LiveService, 9899, true)) {
-            Log.i("live", "开始连接聊天室服务器");
-            jfSockSDK.SetMaxMessageSize(50000);
-            jfSockSDK.SetDetectInterval(5000);
-            jfSockSDK.SetDetectAttempts(2);
-            jfSockSDK.SetNoDelay(true);
-            try {
-                mLoginSemphore.acquire();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        }else{
+            lin_over.setVisibility(View.GONE);
+            rela_content.setVisibility(View.VISIBLE);
+            initVideoView();
+
+            liveBarrageAdapter = new LiveBarrageAdapter(list,this);
+            linearLayoutManager=new LinearLayoutManager(this);
+            rcBarrage.setLayoutManager(new LinearLayoutManager(this));
+            rcBarrage.setAdapter(liveBarrageAdapter);
+
+            jfSockSDK = new JfSocketSdk(this); //初始化聊天服务器
+            if (jfSockSDK.start(AppConfig.LiveService, 9899, true)) {
+                Log.i("live", "开始连接聊天室服务器");
+                jfSockSDK.SetMaxMessageSize(50000);
+                jfSockSDK.SetDetectInterval(5000);
+                jfSockSDK.SetDetectAttempts(2);
+                jfSockSDK.SetNoDelay(true);
+                try {
+                    mLoginSemphore.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
+
     }
 
     private void initVideoView() {
@@ -265,7 +300,7 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     }
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    @OnClick({R.id.edit_livecomment, R.id.living_close})
+    @OnClick({R.id.edit_livecomment, R.id.living_close,R.id.backk})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.edit_livecomment: //填写评论
@@ -327,6 +362,9 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
                 commentDialog.show();
                 break;
             case R.id.living_close: //关闭
+                LiveRoomActivity.this.finish();
+                break;
+            case  R.id.backk:
                 LiveRoomActivity.this.finish();
                 break;
         }
@@ -426,7 +464,6 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     public void onDestroy() {
         super.onDestroy();
         //发送主播头像
-
         LiveWoshouBean liveWoshouBean=new LiveWoshouBean();
         LiveWoshouBean.AuthBean authBean=new    LiveWoshouBean.AuthBean();
         authBean.setPassword("qwer1234.0");
@@ -458,17 +495,22 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
         }
 
         Log.i("live", mm);
-        jfSockSDK.send(mm.getBytes());
-        mLoginSemphore.release();
-        jfSockSDK.stop();
+        if(jfSockSDK!=null){
+            jfSockSDK.send(mm.getBytes());
+            mLoginSemphore.release();
+            jfSockSDK.stop();
+
+        }
         myhandler.removeCallbacksAndMessages(null);
     }
 
 
     @Override
     public void getinfo(String userName, String headImg) {
-                RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_image).error(R.mipmap.default_image).centerCrop();
+                aaa.setText(userName);
+                RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_image).error(R.mipmap.peop).centerCrop();
                 Glide.with(this).load(AppConfig.BASE_PICTURE_URL+headImg.toString()).apply(options).into(userPic);
+                Glide.with(this).load(AppConfig.BASE_PICTURE_URL+headImg.toString()).apply(options).into(hh);
     }
 
 

@@ -85,7 +85,7 @@
             android:thumb="@drawable/thumb"/>
         <TextView
             android:id="@+id/openSunTime"
-            android:layout_width="120px"
+            android:layout_width="160px"
             android:layout_height="wrap_content"
             android:textColor="#fff"
             android:text="00:00"/>

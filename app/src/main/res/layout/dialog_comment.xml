@@ -24,6 +24,7 @@
         android:lines="1"
         android:inputType="text"
         android:layout_weight="9"
+        android:layout_marginStart="@dimen/dp_10"
         android:layout_width="0dp"
         android:background="@drawable/edit_bg2"
         android:layout_height="48dp"/>
