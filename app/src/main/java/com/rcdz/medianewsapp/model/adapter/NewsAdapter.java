@@ -72,15 +72,18 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             usrl=usrl.split(",")[0];
 //            String asda=usrl.replace("/small","");
             Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +usrl).apply(options).into(((ViewHolder)holder).news1_thumb);
-
+            ((ViewHolder)holder).imageView11.setVisibility(View.GONE);
+            ((ViewHolder)holder).imageView15.setVisibility(View.GONE);
            String arrtibutes= newsItemList.get(position).getArrtibutes();
            if(arrtibutes.length()>0){ //有数据才显示
                 String[] arrtibute=arrtibutes.split(",");
                 for(int i=0;i<arrtibute.length;i++){
                     if(arrtibute[i].equals("点赞数")){
+                        ((ViewHolder)holder).imageView15.setVisibility(View.VISIBLE);
                         ((ViewHolder)holder).news1_createedit.setText(""+newsItemList.get(position).getCountLikes());
                     }
                     if(arrtibute[i].equals("观看次数")){
+                        ((ViewHolder)holder).imageView11.setVisibility(View.VISIBLE);
                         ((ViewHolder)holder).news1_commentcount.setText(""+newsItemList.get(position).getCountPage());
                     }
                     if(arrtibute[i].equals("来源")){
@@ -100,14 +103,19 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         }else if(viewType==2){ //2图加图加图
             ((ViewHolder.ViewHolder2)holder).news2_title.setText(newsItemList.get(position).getLongTitle());
+            ((ViewHolder.ViewHolder2)holder).imageView6.setVisibility(View.GONE);
+            ((ViewHolder.ViewHolder2)holder).imageView18.setVisibility(View.GONE);
+
             String arrtibutes= newsItemList.get(position).getArrtibutes();
             if(arrtibutes.length()>0){ //有数据才显示
                 String[] arrtibute=arrtibutes.split(",");
                 for(int i=0;i<arrtibute.length;i++){
                     if(arrtibute[i].equals("点赞数")){
+                        ((ViewHolder.ViewHolder2)holder).imageView18.setVisibility(View.VISIBLE);
                         ((ViewHolder.ViewHolder2)holder).news2_createedit.setText(""+newsItemList.get(position).getCountLikes());
                     }
                     if(arrtibute[i].equals("观看次数")){
+                        ((ViewHolder.ViewHolder2)holder).imageView6.setVisibility(View.VISIBLE);
                         ((ViewHolder.ViewHolder2)holder).news2_commentcount.setText(""+newsItemList.get(position).getCountPage());
                     }
                     if(arrtibute[i].equals("来源")){
@@ -171,15 +179,19 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ViewHolder.ViewHolder3)holder).news3_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
             ((ViewHolder.ViewHolder3)holder).news3_item_time.setText(newsItemList.get(position).getPublishDateString());
 
+             ((ViewHolder.ViewHolder3)holder).imageView19.setVisibility(View.GONE);
+            ((ViewHolder.ViewHolder3)holder).imageView20.setVisibility(View.GONE);
 
             String arrtibutes= newsItemList.get(position).getArrtibutes();
             if(arrtibutes.length()>0){ //有数据才显示
                 String[] arrtibute=arrtibutes.split(",");
                 for(int i=0;i<arrtibute.length;i++){
                     if(arrtibute[i].equals("点赞数")){
+                        ((ViewHolder.ViewHolder3)holder).imageView20.setVisibility(View.VISIBLE);
                         ((ViewHolder.ViewHolder3)holder).news3_createedit.setText(" "+newsItemList.get(position).getCountLikes());
                     }
                     if(arrtibute[i].equals("观看次数")){
+                        ((ViewHolder.ViewHolder3)holder).imageView19.setVisibility(View.VISIBLE);
                         ((ViewHolder.ViewHolder3)holder).news3_commentcount.setText(""+newsItemList.get(position).getCountPage());
                     }
                     if(arrtibute[i].equals("来源")){
@@ -249,6 +261,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView news1_commentcount;
         private TextView news1_item_time;
         private TextView createtime;
+        private ImageView imageView11;// 观看次数
+        private ImageView imageView15;// 点赞数
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -258,6 +272,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             news1_commentcount=itemView.findViewById(R.id.news1_commentcount);
             news1_item_time=itemView.findViewById(R.id.news1_item_time);
             createtime=itemView.findViewById(R.id.createtime);
+            imageView11=itemView.findViewById(R.id.imageView11);
+            imageView15=itemView.findViewById(R.id.imageView15);
         }
         //图加图加图
     public static class ViewHolder2 extends RecyclerView.ViewHolder {
@@ -269,6 +285,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private TextView news2_commentcount;
             private TextView news2_item_time;
             private TextView createtime;
+            private ImageView imageView6; //观看数
+            private ImageView imageView18; //点赞数
 
         public ViewHolder2(@NonNull View itemView) {
             super(itemView);
@@ -280,6 +298,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             news2_createedit=itemView.findViewById(R.id.news2_createedit);
             news2_commentcount=itemView.findViewById(R.id.news2_commentcount);
             news2_item_time=itemView.findViewById(R.id.news2_item_time);
+            imageView6=itemView.findViewById(R.id.imageView6);
+            imageView18=itemView.findViewById(R.id.imageView18);
         }
     }
     //大图
@@ -290,6 +310,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView news3_commentcount;
         private TextView news3_item_time;
         private TextView createtime;
+        private ImageView imageView19;
+        private ImageView imageView20;
         public ViewHolder3(@NonNull View itemView) {
             super(itemView);
             news3_title=itemView.findViewById(R.id.news3_title);
@@ -298,6 +320,8 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             news3_commentcount=itemView.findViewById(R.id.news3_commentcount);
             news3_item_time=itemView.findViewById(R.id.news3_item_time);
             createtime=itemView.findViewById(R.id.createtime);
+            imageView19=itemView.findViewById(R.id.imageView19);
+            imageView20=itemView.findViewById(R.id.imageView20);
         }
     }
     }
