@@ -90,13 +90,11 @@ public class PhoneEditActivity extends BaseActivity {
                         public void onSuccess(Response<String> response) {
                             if (response.body() != null) {
                                 Log.i("test", "修改手机成功-->");
-
                                 try {
                                     JSONObject jsonObject=new JSONObject(response.body());
                                     int code=jsonObject.getInt("code");
                                     String message=jsonObject.getString("message");
                                     if(code==200){
-
                                         Intent intent = new Intent();
                                         intent.putExtra("phone",phone);
                                         PhoneEditActivity.this.setResult(56, intent);

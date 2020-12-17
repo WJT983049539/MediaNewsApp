@@ -20,7 +20,6 @@ import com.rcdz.medianewsapp.tools.mLog;
  * 邮箱 983049539@qq.com
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

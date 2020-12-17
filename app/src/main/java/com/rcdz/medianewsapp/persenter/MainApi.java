@@ -81,10 +81,24 @@ public class MainApi {
     }
     /**
      *
-     * 个人用户信息
+     * 个人用户信息 ，不能用了
      * */
     public static String GetInfo(){
         return String.format("api/User/getCurrentUserInfo");
+    }
+    /**
+     *
+     * 个人用户信息
+     * */
+    public static String GetInfo2(){
+        return String.format("api/Sys_User/GetUserInfo");
+    }
+    /**
+     *
+     * 删除家庭成员
+     * */
+    public static String DeleteFamilyPeople(){
+        return String.format("api/Sys_UserFamily_Users/DelFamilyUsers/");
     }
     /**
      *

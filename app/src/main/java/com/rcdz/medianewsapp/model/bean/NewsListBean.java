@@ -18,8 +18,8 @@ public class NewsListBean implements Serializable {
      * message : null
      * status : 0
      * msg : null
-     * total : 5
-     * rows : [{"Id":"766f51a4-b4fb-4885-b4e7-1badb2ce2246","Title":"1111","LongTitle":"11111","StyleType":null,"CoverUrl":"Upload/Files/Video/08a37dc9c3a84954a306da11c1553449/small/01200000169026136208529565374.jpg","ImageUrl":null,"Creator":"测试用户1","PublishDate":"2020-10-13 15:10:00","PublishDateString":"17小时前","SectionId":2,"LocationSection":"2","CommentCount":0,"Type":1,"ContentFontFize":"12","TitleFontSize":"15"},{"Id":"6110eff5-be94-4437-8df7-13c8c66ff005","Title":"撒旦法撒旦法","LongTitle":"sad发电房","StyleType":"06","CoverUrl":"Upload/Files/Article/51955165984149e9a7a4a70913ee88f6/small/05.jpg,Upload/Files/Article/8ca7feef04374f1989cb05c45fb66101/small/07.jpg","ImageUrl":null,"Creator":"超级管理员","PublishDate":"2020-10-13 10:00:00","PublishDateString":"22小时前","SectionId":1,"LocationSection":null,"CommentCount":0,"Type":1,"ContentFontFize":null,"TitleFontSize":null},{"Id":"a0ada17a-91d9-419d-b4f6-c62798d1b4db","Title":"第三方大厦","LongTitle":"手打阿萨德","StyleType":"02","CoverUrl":"Upload/Files/Article/5d32bc064c91408b9fad8549ad3bc61a/small/06.jpg","ImageUrl":null,"Creator":"测试用户1","PublishDate":"2020-03-02 20:10:00","PublishDateString":"7个月前","SectionId":1,"LocationSection":"1","CommentCount":1,"Type":1,"ContentFontFize":null,"TitleFontSize":null},{"Id":"21706422-1f5b-473d-85eb-6750995e2f2d","Title":"视频测试","LongTitle":"视频测试视频测试视频测试视频测试","StyleType":"04","CoverUrl":"Upload/Files/Video/fd6adf1943d248e4b5b0cde11a08dd19/small/06.jpg","ImageUrl":null,"Creator":"测试用户1","PublishDate":"2020-02-02 00:00:00","PublishDateString":"8个月前","SectionId":3,"LocationSection":null,"CommentCount":0,"Type":2,"ContentFontFize":"12","TitleFontSize":"14"},{"Id":"73855180-7a78-4613-a409-bbc0abd77500","Title":"第三方大厦","LongTitle":"手打阿萨德","StyleType":"02","CoverUrl":"Upload/Files/Article/5d32bc064c91408b9fad8549ad3bc61a/small/06.jpg","ImageUrl":null,"Creator":"测试用户1","PublishDate":"2020-01-01 09:10:00","PublishDateString":"9个月前","SectionId":2,"LocationSection":"1","CommentCount":1,"Type":1,"ContentFontFize":"12","TitleFontSize":"15"}]
+     * total : 3
+     * rows : [{"Id":"948bb66f-59e2-44ea-89eb-89416664ab4e","Title":"文章1","LongTitle":"文章1","StyleType":"06","CoverUrl":"Upload/Files/My_ImageRepository/041776dfcb2547a7b7e8b380f700517f/轮播图2_看图王.jpg","ImageUrl":"","Creator":"测试姓名","PublishDate":"2020-12-16 16:39:15","SectionId":2,"LocationSection":"1","CommentCount":0,"Type":1,"ContentFontFize":"14","TitleFontSize":"16","TargetId":2226,"PublishDateString":"18小时前","ActivityType":-1,"SectionName":"推荐","OpenComment":0,"OpenLikes":0,"OpenShard":1,"Source":"","CountPage":0,"CountLikes":0,"OrderNum":1608107568467,"Arrtibutes":"观看次数,来源"},{"Id":"0db943c5-16e2-4a07-892a-e46ac3702283","Title":"图集1","LongTitle":"图集1","StyleType":"06","CoverUrl":"Upload/Files/My_ImageRepository/041776dfcb2547a7b7e8b380f700517f/轮播图2_看图王.jpg","ImageUrl":null,"Creator":"测试姓名","PublishDate":"2020-12-16 16:38:33","SectionId":2,"LocationSection":"1","CommentCount":0,"Type":3,"ContentFontFize":null,"TitleFontSize":null,"TargetId":101,"PublishDateString":"18小时前","ActivityType":-1,"SectionName":"推荐","OpenComment":0,"OpenLikes":0,"OpenShard":1,"Source":"","CountPage":0,"CountLikes":0,"OrderNum":null,"Arrtibutes":"观看次数,来源"},{"Id":"b9d227c6-1e21-463b-917f-398bebaba844","Title":"文章3","LongTitle":"文章3","StyleType":"06","CoverUrl":"Upload/Files/My_ImageRepository/041776dfcb2547a7b7e8b380f700517f/轮播图2_看图王.jpg","ImageUrl":"","Creator":"测试姓名","PublishDate":"2020-12-16 16:39:30","SectionId":2,"LocationSection":"2","CommentCount":0,"Type":1,"ContentFontFize":"14","TitleFontSize":"16","TargetId":2228,"PublishDateString":"18小时前","ActivityType":-1,"SectionName":"推荐","OpenComment":0,"OpenLikes":0,"OpenShard":1,"Source":"","CountPage":0,"CountLikes":0,"OrderNum":1608107636261,"Arrtibutes":"观看次数,来源"}]
      * summary : null
      * extra : null
      */
@@ -97,23 +97,34 @@ public class NewsListBean implements Serializable {
         this.rows = rows;
     }
 
-    public static class NewsInfo implements Serializable {
+    public static class NewsInfo implements Serializable{
         /**
-         * Id : 766f51a4-b4fb-4885-b4e7-1badb2ce2246
-         * Title : 1111
-         * LongTitle : 11111
-         * StyleType : null
-         * CoverUrl : Upload/Files/Video/08a37dc9c3a84954a306da11c1553449/small/01200000169026136208529565374.jpg
-         * ImageUrl : null
-         * Creator : 测试用户1
-         * PublishDate : 2020-10-13 15:10:00
-         * PublishDateString : 17小时前
+         * Id : 948bb66f-59e2-44ea-89eb-89416664ab4e
+         * Title : 文章1
+         * LongTitle : 文章1
+         * StyleType : 06
+         * CoverUrl : Upload/Files/My_ImageRepository/041776dfcb2547a7b7e8b380f700517f/轮播图2_看图王.jpg
+         * ImageUrl :
+         * Creator : 测试姓名
+         * PublishDate : 2020-12-16 16:39:15
          * SectionId : 2
-         * LocationSection : 2
+         * LocationSection : 1
          * CommentCount : 0
          * Type : 1
-         * ContentFontFize : 12
-         * TitleFontSize : 15
+         * ContentFontFize : 14
+         * TitleFontSize : 16
+         * TargetId : 2226
+         * PublishDateString : 18小时前
+         * ActivityType : -1
+         * SectionName : 推荐
+         * OpenComment : 0
+         * OpenLikes : 0
+         * OpenShard : 1
+         * Source :
+         * CountPage : 0
+         * CountLikes : 0
+         * OrderNum : 1608107568467
+         * Arrtibutes : 观看次数,来源
          */
 
         private String Id;
@@ -121,46 +132,27 @@ public class NewsListBean implements Serializable {
         private String LongTitle;
         private String StyleType;
         private String CoverUrl;
-        private Object ImageUrl;
+        private String ImageUrl;
         private String Creator;
         private String PublishDate;
-        private String PublishDateString;
         private int SectionId;
-
-        public String getSectionName() {
-            return SectionName;
-        }
-
-        public void setSectionName(String sectionName) {
-            SectionName = sectionName;
-        }
-
-        private String SectionName;
-
-        public int getTargetId() {
-            return TargetId;
-        }
-
-        public void setTargetId(int targetId) {
-            TargetId = targetId;
-        }
-
-        private int TargetId;
         private String LocationSection;
-
-        public int getActivityType() {
-            return ActivityType;
-        }
-
-        public void setActivityType(int activityType) {
-            ActivityType = activityType;
-        }
-
-        private int ActivityType;
         private int CommentCount;
         private int Type;
         private String ContentFontFize;
         private String TitleFontSize;
+        private int TargetId;
+        private String PublishDateString;
+        private int ActivityType;
+        private String SectionName;
+        private int OpenComment;
+        private int OpenLikes;
+        private int OpenShard;
+        private String Source;
+        private int CountPage;
+        private int CountLikes;
+        private long OrderNum;
+        private String Arrtibutes;
 
         public String getId() {
             return Id;
@@ -202,11 +194,11 @@ public class NewsListBean implements Serializable {
             this.CoverUrl = CoverUrl;
         }
 
-        public Object getImageUrl() {
+        public String getImageUrl() {
             return ImageUrl;
         }
 
-        public void setImageUrl(Object ImageUrl) {
+        public void setImageUrl(String ImageUrl) {
             this.ImageUrl = ImageUrl;
         }
 
@@ -224,14 +216,6 @@ public class NewsListBean implements Serializable {
 
         public void setPublishDate(String PublishDate) {
             this.PublishDate = PublishDate;
-        }
-
-        public String getPublishDateString() {
-            return PublishDateString;
-        }
-
-        public void setPublishDateString(String PublishDateString) {
-            this.PublishDateString = PublishDateString;
         }
 
         public int getSectionId() {
@@ -280,6 +264,102 @@ public class NewsListBean implements Serializable {
 
         public void setTitleFontSize(String TitleFontSize) {
             this.TitleFontSize = TitleFontSize;
+        }
+
+        public int getTargetId() {
+            return TargetId;
+        }
+
+        public void setTargetId(int TargetId) {
+            this.TargetId = TargetId;
+        }
+
+        public String getPublishDateString() {
+            return PublishDateString;
+        }
+
+        public void setPublishDateString(String PublishDateString) {
+            this.PublishDateString = PublishDateString;
+        }
+
+        public int getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(int ActivityType) {
+            this.ActivityType = ActivityType;
+        }
+
+        public String getSectionName() {
+            return SectionName;
+        }
+
+        public void setSectionName(String SectionName) {
+            this.SectionName = SectionName;
+        }
+
+        public int getOpenComment() {
+            return OpenComment;
+        }
+
+        public void setOpenComment(int OpenComment) {
+            this.OpenComment = OpenComment;
+        }
+
+        public int getOpenLikes() {
+            return OpenLikes;
+        }
+
+        public void setOpenLikes(int OpenLikes) {
+            this.OpenLikes = OpenLikes;
+        }
+
+        public int getOpenShard() {
+            return OpenShard;
+        }
+
+        public void setOpenShard(int OpenShard) {
+            this.OpenShard = OpenShard;
+        }
+
+        public String getSource() {
+            return Source;
+        }
+
+        public void setSource(String Source) {
+            this.Source = Source;
+        }
+
+        public int getCountPage() {
+            return CountPage;
+        }
+
+        public void setCountPage(int CountPage) {
+            this.CountPage = CountPage;
+        }
+
+        public int getCountLikes() {
+            return CountLikes;
+        }
+
+        public void setCountLikes(int CountLikes) {
+            this.CountLikes = CountLikes;
+        }
+
+        public long getOrderNum() {
+            return OrderNum;
+        }
+
+        public void setOrderNum(long OrderNum) {
+            this.OrderNum = OrderNum;
+        }
+
+        public String getArrtibutes() {
+            return Arrtibutes;
+        }
+
+        public void setArrtibutes(String Arrtibutes) {
+            this.Arrtibutes = Arrtibutes;
         }
     }
 }

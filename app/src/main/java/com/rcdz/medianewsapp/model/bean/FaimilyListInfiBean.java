@@ -73,6 +73,23 @@ public class FaimilyListInfiBean implements Serializable {
         private int userId;
         private Object headImageUrl;
         private String userTrueName;
+        private int isFamilyCreator;
+
+
+        public int getIsFamilyCreator() {
+            return isFamilyCreator;
+        }
+
+        public void setIsFamilyCreator(int isFamilyCreator) {
+            this.isFamilyCreator = isFamilyCreator;
+        }
+
+
+
+        private int FuHao=0; //0是普通用户  1是加号 2是减号
+        private Boolean isRealse=true; //是否为真实数据
+
+
 
         public Boolean getRealse() {
             return isRealse;
@@ -82,7 +99,16 @@ public class FaimilyListInfiBean implements Serializable {
             isRealse = realse;
         }
 
-        private Boolean isRealse=true; //是否为真实数据
+
+        public int getFuHao() {
+            return FuHao;
+        }
+
+        public void setFuHao(int fuHao) {
+            FuHao = fuHao;
+        }
+
+
 
         public String getCreateDate() {
             return createDate;

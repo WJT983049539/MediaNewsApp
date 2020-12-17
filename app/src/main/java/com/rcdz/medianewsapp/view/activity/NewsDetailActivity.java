@@ -8,6 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.rcdz.medianewsapp.R;
+import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
+import com.rcdz.medianewsapp.persenter.interfaces.GetPermiss;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.Constant;
 import com.rcdz.medianewsapp.tools.GlobalToast;
@@ -30,7 +32,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/11/4 13:50
  */
-public class NewsDetailActivity extends BaseActivity {
+public class NewsDetailActivity extends BaseActivity implements GetPermiss {
     @BindView(R.id.img_back)
     ImageView imgBack;
     @BindView(R.id.toolbar_menu)
@@ -68,10 +70,13 @@ public class NewsDetailActivity extends BaseActivity {
         ActivityType = getIntent().getIntExtra("ActivityType",-1);
         id = String.valueOf(getIntent().getIntExtra("id",-1));
         Type=getIntent().getIntExtra("Type",-1);
+        NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(this);
+        newNetWorkPersenter.GetPermissBySationId(this,plateId);
         initWebView();
     }
 
     private void initWebView() {
+        toolbar_menu.setVisibility(View.GONE);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         //localStorage  允许存储
         webView.getSettings().setDomStorageEnabled(true);
@@ -183,7 +188,6 @@ public class NewsDetailActivity extends BaseActivity {
                                     webView.evaluateJavascript("javascript:getContent('"+ AppConfig.BASE_URL +"','"+ Constant.token+"','"+id+"','"+plateId+"','"+ platName+"')",null);
                                 }
                             });
-
                         }
                     });
                 }else{ //没有活动
@@ -195,7 +199,6 @@ public class NewsDetailActivity extends BaseActivity {
                             super.onPageStarted(view, url, favicon);
                             // 加载页面
                         }
-
                         @Override
                         public boolean shouldOverrideUrlLoading(WebView view, String url) {
                             view.loadUrl(url);
@@ -338,5 +341,18 @@ public class NewsDetailActivity extends BaseActivity {
                     }
                 }).open();
 
+    }
+
+    /**
+     * 判断是否有权限 //0  代表物分享权限，1 有分享权限
+     */
+    @Override
+    public void Permiss(int permiss ) {
+
+        if(permiss==1){ //有分享权限
+            toolbar_menu.setVisibility(View.VISIBLE);
+        }else{
+            toolbar_menu.setVisibility(View.GONE);
+        }
     }
 }

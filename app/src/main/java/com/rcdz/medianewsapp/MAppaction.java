@@ -89,7 +89,7 @@ public class MAppaction extends Application implements Application.ActivityLifec
         SoulPermission.init(this);//权限框架初始化
         GlobalToast.init(this);//全局Toast初始化
         FileDownloader.init(getApplicationContext());
-        BlockCanary.install(this, new AppBlockCanaryContext());//崩溃日志
+//        BlockCanary.install(this, new AppBlockCanaryContext());//崩溃日志
 
         File cache = getExternalCacheDir();
         int cacheSize = 10 * 1024 * 1024;

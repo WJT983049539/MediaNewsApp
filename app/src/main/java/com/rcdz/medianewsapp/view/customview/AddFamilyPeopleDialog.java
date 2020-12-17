@@ -34,8 +34,8 @@ public class AddFamilyPeopleDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_addpople);
-        familay_edit=findViewById(R.id.familay_edit);
-        TextView fa_sure=findViewById(R.id.fa_sure);
+        familay_edit=findViewById(R.id.message_deletepeop);
+        TextView fa_sure=findViewById(R.id.delete_sure);
         fa_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -27,7 +27,7 @@
         android:id="@+id/news2_hubm"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_75"
-        android:layout_marginTop="@dimen/dp_5"
+        android:layout_marginTop="8dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="@+id/news2_title"
         app:layout_constraintTop_toBottomOf="@+id/news2_title"
@@ -57,32 +57,62 @@
         android:id="@+id/news2_createedit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="作者"
+        android:layout_marginStart="4dp"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        android:text="0"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/imageView18" />
+
+    <TextView
+        android:id="@+id/news2_commentcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="0"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintStart_toEndOf="@+id/imageView6" />
+
+    <TextView
+        android:id="@+id/news2_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text=""
         android:textColor="#BEBEBE"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/news2_hubm" />
 
     <TextView
-        android:id="@+id/news2_commentcount"
+        android:id="@+id/createtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="评论"
+        android:layout_marginStart="10dp"
         android:textColor="#BEBEBE"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@+id/news2_createedit"
         app:layout_constraintStart_toEndOf="@+id/news2_createedit" />
 
-    <TextView
-        android:id="@+id/news2_item_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="日期"
-        android:textColor="#BEBEBE"
-        android:textSize="12sp"
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/news2_item_time"
+        app:layout_constraintStart_toEndOf="@+id/news2_item_time"
+        app:srcCompat="@mipmap/see" />
+
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="@dimen/dp_2"
         app:layout_constraintBottom_toBottomOf="@+id/news2_commentcount"
-        app:layout_constraintStart_toEndOf="@+id/news2_commentcount" />
+        app:layout_constraintStart_toEndOf="@+id/news2_commentcount"
+        app:srcCompat="@mipmap/prise" />
 </androidx.constraintlayout.widget.ConstraintLayout>

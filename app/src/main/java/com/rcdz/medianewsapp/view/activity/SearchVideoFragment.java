@@ -32,7 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 作用:
+ * 作用: 新闻列表适配器
  *
  * @author:create by wjt
  * 邮箱 983049539@qq.com

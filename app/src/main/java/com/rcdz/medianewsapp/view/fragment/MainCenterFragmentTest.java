@@ -114,7 +114,7 @@ public class MainCenterFragmentTest extends Fragment implements GetSignStatus, G
     private String str_Version;
     private Boolean SignStatus=false;
     private UserInfoBean userInfoBean;
-    private RequestOptions options = new RequestOptions().error(R.mipmap.peop).centerCrop();
+    private RequestOptions options = new RequestOptions().error(R.mipmap.peop).circleCrop();
     private Boolean loginstatu=false;
     public MainCenterFragmentTest() {
     }

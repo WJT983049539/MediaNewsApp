@@ -43,7 +43,7 @@ public class yaoqingmaDialog extends Dialog {
     private void initView() {
         tv_yaoqingma=findViewById(R.id.familay_code);
         tv_yaoqingma.setText(code);
-        findViewById(R.id.fa_sure).setOnClickListener(new View.OnClickListener() {//确定
+        findViewById(R.id.delete_sure).setOnClickListener(new View.OnClickListener() {//确定
             @Override
             public void onClick(View v) {
                 if(mLisetner!=null){

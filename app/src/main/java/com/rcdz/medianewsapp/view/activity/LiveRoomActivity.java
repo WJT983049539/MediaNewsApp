@@ -284,8 +284,9 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
         //设置播放地址并准备
         try {
             Log.i("live","直播地址为"+videoUrl);
-            //1.setDataSource(path)  path是一个网络地址
-            Player.setDataSource(videoUrl);
+            //1.setDataSource(path)  path是一个网络地址,去掉回车 空格
+            String playurl = videoUrl.replaceAll("(\\\r\\\n|\\\r|\\\n|\\\n\\\r)", "").trim();
+            Player.setDataSource(playurl);
             Player.setBufferTimeMax(10);
             Player.prepareAsync();
         } catch (IOException e) {

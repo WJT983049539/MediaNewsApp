@@ -2,6 +2,7 @@ package com.rcdz.medianewsapp.persenter.interfaces;
 
 import com.rcdz.medianewsapp.model.bean.NewsListBean;
 
+
 /**
  * 作用:得到所有的新闻列表
  *

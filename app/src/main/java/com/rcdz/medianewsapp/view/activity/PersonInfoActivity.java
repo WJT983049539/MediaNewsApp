@@ -69,13 +69,13 @@ public class PersonInfoActivity extends BaseActivity implements GetUserInfo {
     @Override
     public void inintData() {
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(this);
-        newNetWorkPersenter.GetUserInfo("",this);
+        newNetWorkPersenter.GetUserInfo2(userId,this);
     }
 
 
     @Override
     public void getUserInfo(UserInfoBean userInfoBean) {
-        RequestOptions options = new RequestOptions().error(R.mipmap.peop).centerCrop();
+        RequestOptions options = new RequestOptions().error(R.mipmap.peop).circleCrop();
         if(userInfoBean!=null&&userInfoBean.getData()!=null){
             Log.i("test",userInfoBean.getData().toString());
             Glide.with(this).load(AppConfig.BASE_PICTURE_URL+ userInfoBean.getData().getHeadImageUrl()).apply(options).into(pHead);//头像

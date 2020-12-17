@@ -10,7 +10,7 @@ package com.rcdz.medianewsapp.tools;
 public class AppConfig {
 
 
-    //本地服务器
+////    //本地服务器
     public final static String BASE_URL ="http://192.168.1.59:9992/";
 //    public final static String BASE_URL ="http://192.168.1.190:9992/";
     public final static String BASE_PICTURE_URL ="http://192.168.1.59:9992/";//图片服务器
@@ -22,10 +22,22 @@ public class AppConfig {
     public final static  String NEWSDETAIL = "http://192.168.1.59:8080/";//新闻详情
     public static final boolean CS =true ;//测试状态
 
-    //闻喜服务器
+////   佳辉服务器
+//    public final static String BASE_URL ="http://192.168.1.190:9992/";
+////    public final static String BASE_URL ="http://192.168.1.190:9992/";
+//    public final static String BASE_PICTURE_URL ="http://192.168.1.190:9992/";//图片服务器
+//    public final static String BASE_VIDEO_URL ="http://192.168.1.190:9992/";//视频服务器
+//    public final static String BASE_LIVE_URL ="http://192.168.1.190:9992/";//直播服务器
+//    public final static  String LiveService = "192.168.1.220";//直播评论服务器地址
+//    public final static  String NEWTIMEURL = "http://1.71.140.222:8088/";//新闻明时代
+//    public final static  String ZHENGLIANGLIANG = "http://111.53.75.199:8088/";//正能量
+//    public final static  String NEWSDETAIL = "http://192.168.1.190:8080/";//新闻详情
+//    public static final boolean CS =true ;//测试状态
+
+//    //闻喜服务器
 //    public final static String BASE_URL = "https://www.wxgbdst.cn:9992/";
-//    public final static String BASE_PICTURE_URL = "https://www.wxgbdst.cn:9996/";//图片服务器
-//    public final static String BASE_VIDEO_URL = "https://www.wxgbdst.cn:9996/";//视频服务器
+//    public final static String BASE_PICTURE_URL = "https://www.wxgbdst.cn:9990/";//图片服务器
+//    public final static String BASE_VIDEO_URL = "https://www.wxgbdst.cn:9990/";//视频服务器
 //    public final static String BASE_LIVE_URL = "https://www.wxgbdst.cn:9992/";//直播服务器
 //    public final static String LiveService = "111.53.75.199";//直播评论服务器地址
 //    public final static String NEWTIMEURL = "https://www.wxgbdst.cn:81/";//新闻明时代

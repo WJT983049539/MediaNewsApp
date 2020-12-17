@@ -35,35 +35,66 @@
         app:srcCompat="@mipmap/default_image" />
 
     <TextView
+        android:id="@+id/news1_commentcount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="0"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/news1_item_time"
+        app:layout_constraintStart_toEndOf="@+id/imageView11" />
+
+    <TextView
         android:id="@+id/news1_createedit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="0"
+        android:textColor="#BEBEBE"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/news1_commentcount"
+        app:layout_constraintStart_toEndOf="@+id/imageView15" />
+
+    <TextView
+        android:id="@+id/news1_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginBottom="4dp"
-        android:text="作者"
+        android:text=""
         android:textColor="#BEBEBE"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/news1_title" />
 
     <TextView
-        android:id="@+id/news1_commentcount"
+        android:id="@+id/createtime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="评论"
+        android:layout_marginStart="10dp"
+        android:text=""
         android:textColor="#BEBEBE"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/news1_createedit"
+        app:layout_constraintBottom_toBottomOf="@+id/news1_item_time"
         app:layout_constraintStart_toEndOf="@+id/news1_createedit" />
 
-    <TextView
-        android:id="@+id/news1_item_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:text="3周前"
-        android:textColor="#BEBEBE"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/news1_commentcount"
-        app:layout_constraintStart_toEndOf="@+id/news1_commentcount" />
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@+id/news1_item_time"
+        app:layout_constraintStart_toEndOf="@+id/news1_item_time"
+        app:srcCompat="@mipmap/see" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="@dimen/dp_2"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView11"
+        app:layout_constraintStart_toEndOf="@+id/news1_commentcount"
+        app:srcCompat="@mipmap/prise" />
 </androidx.constraintlayout.widget.ConstraintLayout>

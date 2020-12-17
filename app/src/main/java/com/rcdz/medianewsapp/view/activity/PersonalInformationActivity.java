@@ -137,7 +137,7 @@ public class PersonalInformationActivity extends BaseActivity implements GetUser
     LinearLayout linAddress;
     private UserInfoBean userInfo;
     boolean loginStru = false;
-    private RequestOptions options = new RequestOptions().error(R.mipmap.peop).centerCrop();
+    private RequestOptions options = new RequestOptions().error(R.mipmap.peop).circleCrop();
     ACache aCache;
 
     @Override
@@ -576,7 +576,7 @@ public class PersonalInformationActivity extends BaseActivity implements GetUser
             userInfo.setData(uu);
             aCache.put("userinfo", userInfo);
             pPhone.setText(phone);
-        } else if (requestCode == 86) {
+        } else if (resultCode == 86) {
             String phone = data.getStringExtra("phone");
             UserInfoBean.UserInfo uu = userInfo.getData();
             uu.setPhoneNo(phone);

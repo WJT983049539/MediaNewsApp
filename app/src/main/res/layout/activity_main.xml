@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <com.rcdz.medianewsapp.view.customview.NoSlideViewPage
+        android:transitionName="welcome"
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

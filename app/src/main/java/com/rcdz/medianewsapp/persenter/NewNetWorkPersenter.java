@@ -68,6 +68,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetLiveListInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetLivingMInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetMoHuNewTitle;
 import com.rcdz.medianewsapp.persenter.interfaces.GetNoSationList;
+import com.rcdz.medianewsapp.persenter.interfaces.GetPermiss;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPliveLeaveMsgInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetProgerssListInfo;
@@ -344,6 +345,7 @@ public class NewNetWorkPersenter {
                 Log.i(TAG,"新闻列表-->"+response.message());
             }
         });
+
     }
     /**
      * 获取置顶新闻
@@ -906,6 +908,35 @@ public class NewNetWorkPersenter {
             }
         });
     }
+    /**
+     * 查新当前用户信息
+     */
+    public void GetUserInfo2(String userId, GetUserInfo getUserInfo) {
+        String uri=MainApi.GetInfo2();
+        if(!userId.equals("")){
+            uri=uri+"/"+userId;
+        }
+        //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
+        CommApi.postNoParams(uri).execute(new JsonCallback<UserInfoBean>() {
+            @Override
+            public void onSuccess(Response<UserInfoBean> response) {
+                if(response.body()!=null){
+                    Log.i(TAG,"当前用户信息-->"+response.message());
+                    ACache aCache=ACache.get(context);
+                    aCache.put("userinfo",response.body());
+                    if(getUserInfo!=null){
+                        getUserInfo.getUserInfo(response.body());
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG,"当前用户信息失败-->"+response.message());
+            }
+        });
+    }
 
     /**
      * 添加评论
@@ -1219,6 +1250,43 @@ public class NewNetWorkPersenter {
             public void onError(Response response) {
                 super.onError(response);
                 Log.i(TAG,"历史记录失败-->"+response.message());
+            }
+        });
+    }
+    /**
+     * 查看是否有权限
+     */
+    public void GetPermissBySationId(GetPermiss getPermiss, String SationId) {
+
+        CommApi.postNoParams("api/Global_Sections/GetAuthById/"+SationId).execute(new CustomStringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                //{"status":true,"code":200,"message":"查询成功","data":{"openShard":1,"openComment":0,"openLikes":0}}
+                Log.i(TAG,"查看是否有权限-->"+response.message());
+                if(response.body()!=null){
+                    try {
+                        JSONObject jsonObject=new JSONObject(response.body());
+                        int code=jsonObject.getInt("code");
+                       String message= jsonObject.getString("message");
+                       if(code==200){
+                           JSONObject data=jsonObject.getJSONObject("data");
+                          int openShard= data.getInt("openShard");
+                           getPermiss.Permiss(openShard);
+                       }else{
+                           GlobalToast.show4(message,Toast.LENGTH_LONG);
+                       }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                getPermiss.Permiss(0); //报错就没权限
+                Log.i(TAG,"查看是否有权限-->"+response.message());
             }
         });
     }

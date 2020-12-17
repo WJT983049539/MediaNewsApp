@@ -20,6 +20,7 @@ import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPliveLeaveMsgInfo;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.GsonUtil;
+import com.rcdz.medianewsapp.view.activity.MessageDetailActivity;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
 import com.rcdz.medianewsapp.view.pullscrllview.interfaces.LoadingListener;
 
@@ -75,6 +76,14 @@ public class AppealHotFragment  extends Fragment implements GetPliveLeaveMsgInfo
         NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(getActivity());
         newNetWorkPersenter.GetPLiveLeaveInfo(String.valueOf(mPage),"0",this);
         appealHotAdapter=new AppealHotAdapter(dataList,getActivity());
+        appealHotAdapter.setOnItemClick(new AppealHotAdapter.OnItemClick() {
+            @Override
+            public void onitemclik(int position) {
+                Intent intent = new Intent(mContext, MessageDetailActivity.class);
+                intent.putExtra("id",dataList.get(position).getId());
+                mContext.startActivity(intent);
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(appealHotAdapter);
         mRecyclerView.setLoadingListener(new LoadingListener() {

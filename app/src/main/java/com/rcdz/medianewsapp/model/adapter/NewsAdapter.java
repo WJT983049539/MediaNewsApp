@@ -72,14 +72,58 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             usrl=usrl.split(",")[0];
 //            String asda=usrl.replace("/small","");
             Glide.with(activity).load(AppConfig.BASE_PICTURE_URL +usrl).apply(options).into(((ViewHolder)holder).news1_thumb);
-            ((ViewHolder)holder).news1_createedit.setText(newsItemList.get(position).getCreator());
-            ((ViewHolder)holder).news1_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
-            ((ViewHolder)holder).news1_item_time.setText(newsItemList.get(position).getPublishDateString());
+
+           String arrtibutes= newsItemList.get(position).getArrtibutes();
+           if(arrtibutes.length()>0){ //有数据才显示
+                String[] arrtibute=arrtibutes.split(",");
+                for(int i=0;i<arrtibute.length;i++){
+                    if(arrtibute[i].equals("点赞数")){
+                        ((ViewHolder)holder).news1_createedit.setText(""+newsItemList.get(position).getCountLikes());
+                    }
+                    if(arrtibute[i].equals("观看次数")){
+                        ((ViewHolder)holder).news1_commentcount.setText(""+newsItemList.get(position).getCountPage());
+                    }
+                    if(arrtibute[i].equals("来源")){
+                        if(newsItemList.get(position).getSource()!=null){
+                            ((ViewHolder)holder).news1_item_time.setText(""+String.valueOf(newsItemList.get(position).getSource()));
+                        }
+
+                    }
+                    if(arrtibute[i].equals("创建时间")){
+                        if(newsItemList.get(position).getPublishDateString()!=null){
+                            ((ViewHolder)holder).createtime.setText(String.valueOf(newsItemList.get(position).getPublishDateString()));
+                        }
+
+                    }
+                }
+
+            }
         }else if(viewType==2){ //2图加图加图
             ((ViewHolder.ViewHolder2)holder).news2_title.setText(newsItemList.get(position).getLongTitle());
-            ((ViewHolder.ViewHolder2)holder).news2_createedit.setText(newsItemList.get(position).getCreator());
-            ((ViewHolder.ViewHolder2)holder).news2_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
-            ((ViewHolder.ViewHolder2)holder).news2_item_time.setText(newsItemList.get(position).getPublishDateString());
+            String arrtibutes= newsItemList.get(position).getArrtibutes();
+            if(arrtibutes.length()>0){ //有数据才显示
+                String[] arrtibute=arrtibutes.split(",");
+                for(int i=0;i<arrtibute.length;i++){
+                    if(arrtibute[i].equals("点赞数")){
+                        ((ViewHolder.ViewHolder2)holder).news2_createedit.setText(""+newsItemList.get(position).getCountLikes());
+                    }
+                    if(arrtibute[i].equals("观看次数")){
+                        ((ViewHolder.ViewHolder2)holder).news2_commentcount.setText(""+newsItemList.get(position).getCountPage());
+                    }
+                    if(arrtibute[i].equals("来源")){
+                        if(newsItemList.get(position).getSource()!=null){
+                            ((ViewHolder.ViewHolder2)holder).news2_item_time.setText(""+newsItemList.get(position).getSource());
+                        }
+                    }
+                    if(arrtibute[i].equals("创建时间")){
+                        if(newsItemList.get(position).getPublishDateString()!=null){
+                            ((ViewHolder.ViewHolder2)holder).createtime.setText(newsItemList.get(position).getPublishDateString());
+                        }
+                    }
+                }
+
+            }
+
             Object thumb=newsItemList.get(position).getCoverUrl();
             if(thumb!=null) {
                 String thumb1=thumb.toString();
@@ -126,6 +170,34 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((ViewHolder.ViewHolder3)holder).news3_createedit.setText(newsItemList.get(position).getCreator());
             ((ViewHolder.ViewHolder3)holder).news3_commentcount.setText(newsItemList.get(position).getCommentCount()+"评");
             ((ViewHolder.ViewHolder3)holder).news3_item_time.setText(newsItemList.get(position).getPublishDateString());
+
+
+            String arrtibutes= newsItemList.get(position).getArrtibutes();
+            if(arrtibutes.length()>0){ //有数据才显示
+                String[] arrtibute=arrtibutes.split(",");
+                for(int i=0;i<arrtibute.length;i++){
+                    if(arrtibute[i].equals("点赞数")){
+                        ((ViewHolder.ViewHolder3)holder).news3_createedit.setText(" "+newsItemList.get(position).getCountLikes());
+                    }
+                    if(arrtibute[i].equals("观看次数")){
+                        ((ViewHolder.ViewHolder3)holder).news3_commentcount.setText(""+newsItemList.get(position).getCountPage());
+                    }
+                    if(arrtibute[i].equals("来源")){
+                        if(newsItemList.get(position).getSource()!=null){
+                            ((ViewHolder.ViewHolder3)holder).news3_item_time.setText(""+newsItemList.get(position).getSource());
+                        }
+                    }
+                    if(arrtibute[i].equals("创建时间")){
+                        if(newsItemList.get(position).getPublishDateString()!=null){
+                            ((ViewHolder.ViewHolder3)holder).createtime.setText(newsItemList.get(position).getPublishDateString());
+                        }
+                    }
+                }
+
+            }
+
+
+
 
             String usrl=newsItemList.get(position).getCoverUrl();
             usrl=usrl.split(",")[0];
@@ -176,6 +248,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView news1_createedit;
         private TextView news1_commentcount;
         private TextView news1_item_time;
+        private TextView createtime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -184,6 +257,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             news1_createedit=itemView.findViewById(R.id.news1_createedit);
             news1_commentcount=itemView.findViewById(R.id.news1_commentcount);
             news1_item_time=itemView.findViewById(R.id.news1_item_time);
+            createtime=itemView.findViewById(R.id.createtime);
         }
         //图加图加图
     public static class ViewHolder2 extends RecyclerView.ViewHolder {
@@ -194,10 +268,12 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             private TextView news2_createedit;
             private TextView news2_commentcount;
             private TextView news2_item_time;
+            private TextView createtime;
 
         public ViewHolder2(@NonNull View itemView) {
             super(itemView);
             news2_title=itemView.findViewById(R.id.news2_title);
+            createtime=itemView.findViewById(R.id.createtime);
             news2_thumb=itemView.findViewById(R.id.news2_hubm);
             news2_hubm2=itemView.findViewById(R.id.news2_hubm2);
             news2_thumb3=itemView.findViewById(R.id.news2_hubm3);
@@ -213,6 +289,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private TextView news3_createedit;
         private TextView news3_commentcount;
         private TextView news3_item_time;
+        private TextView createtime;
         public ViewHolder3(@NonNull View itemView) {
             super(itemView);
             news3_title=itemView.findViewById(R.id.news3_title);
@@ -220,6 +297,7 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             news3_createedit=itemView.findViewById(R.id.news3_createedit);
             news3_commentcount=itemView.findViewById(R.id.news3_commentcount);
             news3_item_time=itemView.findViewById(R.id.news3_item_time);
+            createtime=itemView.findViewById(R.id.createtime);
         }
     }
     }

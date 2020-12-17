@@ -133,6 +133,7 @@ public class MyHistoryActivity extends BaseActivity implements GetHistory {
                                 int code=jsonObject.getInt("code");
                                 if(code==200){
                                     GlobalToast.show4("清除成功！", Toast.LENGTH_LONG);
+                                    list.clear();
                                     mPage=1;
                                     NewNetWorkPersenter newNetWorkPersenter=new NewNetWorkPersenter(MyHistoryActivity.this);
                                     newNetWorkPersenter.GetHistoryList(MyHistoryActivity.this,String.valueOf(mPage));

@@ -6,7 +6,7 @@
     android:layout_width="@dimen/dp_305"
     android:layout_height="@dimen/dp_153"
     android:layout_gravity="center"
-    android:background="#fff"
+    android:background="@drawable/edit_bg2"
     >
 
     <TextView
@@ -23,7 +23,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/familay_edit"
+        android:id="@+id/message_deletepeop"
         android:layout_width="@dimen/dp_240"
         android:layout_height="@dimen/dp_38"
         android:layout_marginTop="18dp"
@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15"></EditText>
 
     <TextView
-        android:id="@+id/fa_sure"
+        android:id="@+id/delete_sure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/familay_edit" />
+        app:layout_constraintTop_toBottomOf="@+id/message_deletepeop" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
