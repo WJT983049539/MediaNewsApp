@@ -44,6 +44,8 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetLivingMInfo;
 import com.rcdz.medianewsapp.tools.ACache;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GsonUtil;
+import com.rcdz.medianewsapp.tools.SensitiveWordUtils;
+import com.rcdz.medianewsapp.tools.SensitivewordFilter;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
 import com.rcdz.medianewsapp.view.customview.CommentDialog;
 import com.rckj.rcsocket.JfSocketEvent;
@@ -57,6 +59,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -127,7 +130,7 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     String picture;
     private UserInfoBean userInfoBean;
     private Boolean loginstatu=false;
-
+    List<String> worldlist=new ArrayList<>();
     Handler myhandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -277,6 +280,18 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
     }
 
     private void initVideoView() {
+        ACache aCache=ACache.get(LiveRoomActivity.this);
+        JSONArray jsonArray1=aCache.getAsJSONArray("word");
+        for(int i=0;i<jsonArray1.length();i++){
+            try {
+                String ww=jsonArray1.getString(i);
+                worldlist.add(ww);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Log.i("test",list.size()+"");
 
         Player.setOnErrorListener(mOnErrorListener);// 发生错误时回调
         Player.setOnPreparedListener(mOnPreparedListener);//当装载流媒体完毕的时候回调。
@@ -312,6 +327,17 @@ public class LiveRoomActivity extends BaseActivity implements JfSocketEvent, Get
                     public void ok(String six) {
                         if (six.equals("") || six.equals("")) {
                         } else {
+
+                            if(worldlist.contains(six)){
+                                List<String> list = new ArrayList<String>();
+                                list.add("");
+                                //从文件中读取词库中的内容，将内容添加到list集合中
+                                //初始化词库,读取敏感词库，将敏感词放入HashSet中，构建一个DFA算法模型：
+                                SensitiveWordUtils.init(worldlist);
+                                //输入的字符串
+                                //List<String> rep = SensitivewordFilter.getSensitiveWord(datas,str,1);
+                                six = SensitivewordFilter.replaceSensitiveWord(worldlist,six,1,"*");
+                            }
                             //发送信息
                             if (jfSockSDK != null) {
                                 LiveMessage.AuthBean authBean = new LiveMessage.AuthBean();

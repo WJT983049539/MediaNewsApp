@@ -97,6 +97,18 @@ public class HomeClumnInfo implements Serializable {
             private int createID;
             private String creator;
             private String createDate;
+            private String isSpecial;
+
+
+            public String getIsSpecial() {
+                return isSpecial;
+            }
+
+            public void setIsSpecial(String isSpecial) {
+                this.isSpecial = isSpecial;
+            }
+
+
 
             public int getId() {
                 return id;
@@ -183,6 +195,15 @@ public class HomeClumnInfo implements Serializable {
             private int createID;
             private String creator;
             private String createDate;
+            private String isSpecial;
+
+            public String getIsSpecial() {
+                return isSpecial;
+            }
+
+            public void setIsSpecial(String isSpecial) {
+                this.isSpecial = isSpecial;
+            }
 
             public int getId() {
                 return id;

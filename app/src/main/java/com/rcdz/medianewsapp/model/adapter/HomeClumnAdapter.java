@@ -24,7 +24,7 @@ import java.util.List;
 public class HomeClumnAdapter extends CommonRecyclerAdapter<HomeClumnInfo.DataBean.AppSectionsBean>{
 
     public interface ClumnOnClicklisten {
-        void onclick(int  pid,String name,String logo);
+        void onclick(int  pid,String name,String logo,String IsSpecial);
     }
     public ClumnOnClicklisten clumnOnClicklisten;
     public void setClumnClick(ClumnOnClicklisten clumnOnClicklisten){
@@ -41,7 +41,7 @@ public class HomeClumnAdapter extends CommonRecyclerAdapter<HomeClumnInfo.DataBe
             @Override
             public void onClick(View v) {
                 if(clumnOnClicklisten!=null){
-                    clumnOnClicklisten.onclick(item.getSectionId(),item.getSectionName(),item.getLogo());
+                    clumnOnClicklisten.onclick(item.getSectionId(),item.getSectionName(),item.getLogo(),item.getIsSpecial());
                 }
             }
         });

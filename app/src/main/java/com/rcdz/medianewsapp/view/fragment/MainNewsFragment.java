@@ -97,6 +97,7 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
         }else{
             newsNetWorkPersenter.GetUserSetionasNoLogin(this);
         }
+        newsNetWorkPersenter.GetSensitiveKeyword();
         return view;
     }
 

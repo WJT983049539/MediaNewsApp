@@ -76,7 +76,7 @@ public class SonLanMuFragment extends Fragment implements GetSonCluln {
             @Override
             public void onitemClickListen(int pid,String HasChilds,String name,String logo) {
                 //判断是否柚子栏目
-                if(HasChilds.equals("1")){ //柚子栏目
+                if(("1").equals(HasChilds)){ //柚子栏目
                     Intent intent=new Intent(getActivity(), LanmuActivity.class);
                     intent.putExtra("pid",pid);
                     intent.putExtra("name",name);

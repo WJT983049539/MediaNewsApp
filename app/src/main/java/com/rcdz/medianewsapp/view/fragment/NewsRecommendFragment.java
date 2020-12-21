@@ -141,6 +141,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
     private String PlateName;
     int mPage = 1;
     public ArrayList<NewsListBean.NewsInfo> newsItemList = new ArrayList<NewsListBean.NewsInfo>();
+    List<HomeClumnInfo.DataBean.AppSectionsSpecialBean> AppSectionslist=new ArrayList<>();
 
     //onCreateView()：每次创建、绘制该Fragment的View组件时回调该方法，Fragment将会显示该方法返回的View组件。
     @Override
@@ -440,26 +441,27 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
     @SuppressLint("ResourceType")
     @Override
     public void getHomeClumnInfoList(HomeClumnInfo homeClumnInfo) {
+        AppSectionslist.clear();
         if (homeClumnInfo.getCode() == 200 && homeClumnInfo.getData().getApp_Sections() != null && homeClumnInfo.getData().getApp_Sections().size() > 0) {
             rc_home_column.setLayoutManager(new GridLayoutManager(getActivity(), 4));
             HomeClumnAdapter homeClumnAdapter = new HomeClumnAdapter(getActivity(), homeClumnInfo.getData().getApp_Sections(), R.layout.itemclumn);
             rc_home_column.setAdapter(homeClumnAdapter);
             homeClumnAdapter.setClumnClick(new HomeClumnAdapter.ClumnOnClicklisten() {
                 @Override
-                public void onclick(int pid, String name, String logo) {
+                public void onclick(int pid, String name, String logo,String IsSpecial) {
                     //点击跳转
-//                    if(HasChilds.equals("1")){ //柚子栏目
-//                        Intent intent=new Intent(getActivity(), LanmuActivity.class);
-//                        intent.putExtra("pid",pid);
-//                        intent.putExtra("name",name);
-//                        intent.putExtra("logo",logo);
-//                        getActivity().startActivity(intent);
-//                    }else{ //无子栏目,直接显示新闻列表
-//                        Intent intent=new Intent(getActivity(), ShowNewsActivity.class);
-//                        intent.putExtra("PlateID",pid);
-//                        intent.putExtra("PlateName",name);
-//                        getActivity().startActivity(intent);
-//                    }
+                    if(("1").equals(IsSpecial)){ //柚子栏目
+                        Intent intent=new Intent(getActivity(), LanmuActivity.class);
+                        intent.putExtra("pid",pid);
+                        intent.putExtra("name",name);
+                        intent.putExtra("logo",logo);
+                        getActivity().startActivity(intent);
+                    }else{ //无子栏目,直接显示新闻列表
+                        Intent intent=new Intent(getActivity(), ShowNewsActivity.class);
+                        intent.putExtra("PlateID",pid);
+                        intent.putExtra("PlateName",name);
+                        getActivity().startActivity(intent);
+                    }
                 }
             });
         } else {
@@ -470,6 +472,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
 
         if (homeClumnInfo.getCode() == 200 && homeClumnInfo.getData().getApp_SectionsSpecial() != null && homeClumnInfo.getData().getApp_SectionsSpecial().size() > 0){
             List<HomeClumnInfo.DataBean.AppSectionsSpecialBean> list=homeClumnInfo.getData().getApp_SectionsSpecial();
+            AppSectionslist=list;
             if(list.size()==1){
                 HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean= list.get(0);
                 String url=AppConfig.BASE_PICTURE_URL+appSectionsSpecialBean.getLogo();
@@ -498,7 +501,6 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
                 zhuanlan.addView(textView);
                 zhuanlan.addView(item2);
                 zhuanlan.addView(item1);
-
                 item2.setId(3);
                 item2.setOnClickListener(NewsRecommendFragment.this);
             }else if(list.size()==2){
@@ -648,10 +650,52 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
     @Override
     public void onClick(View v) {
         if (v.getId() == 1) {
-            Log.i("test", "点击了图片！");
+            Log.i("test", "点击了第一张图片！");
+            HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean= AppSectionslist.get(0);
+            //点击跳转
+            if(("1").equals(appSectionsSpecialBean.getIsSpecial())){ //柚子栏目
+                Intent intent=new Intent(getActivity(), LanmuActivity.class);
+                intent.putExtra("pid",  appSectionsSpecialBean.getSectionId());
+                intent.putExtra("name", appSectionsSpecialBean.getSectionName());
+                intent.putExtra("logo",appSectionsSpecialBean.getLogo());
+                getActivity().startActivity(intent);
+            }else{ //无子栏目,直接显示新闻列表
+                Intent intent=new Intent(getActivity(), ShowNewsActivity.class);
+                intent.putExtra("PlateID",appSectionsSpecialBean.getSectionId());
+                intent.putExtra("PlateName",appSectionsSpecialBean.getSectionName());
+                getActivity().startActivity(intent);
+            }
+
         } else if (v.getId() == 2) {
+            //点击跳转
+            HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean= AppSectionslist.get(1);
+            if(("1").equals(appSectionsSpecialBean.getIsSpecial())){ //柚子栏目
+                Intent intent=new Intent(getActivity(), LanmuActivity.class);
+                intent.putExtra("pid",  appSectionsSpecialBean.getSectionId());
+                intent.putExtra("name", appSectionsSpecialBean.getSectionName());
+                intent.putExtra("logo",appSectionsSpecialBean.getLogo());
+                getActivity().startActivity(intent);
+            }else{ //无子栏目,直接显示新闻列表
+                Intent intent=new Intent(getActivity(), ShowNewsActivity.class);
+                intent.putExtra("PlateID",appSectionsSpecialBean.getSectionId());
+                intent.putExtra("PlateName",appSectionsSpecialBean.getSectionName());
+                getActivity().startActivity(intent);
+            }
             Log.i("test", "点击了第二张图片！");
         } else if (v.getId() == 3) {
+            HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean= AppSectionslist.get(0);
+            if(("1").equals(appSectionsSpecialBean.getIsSpecial())){ //柚子栏目
+                Intent intent=new Intent(getActivity(), LanmuActivity.class);
+                intent.putExtra("pid",  appSectionsSpecialBean.getSectionId());
+                intent.putExtra("name", appSectionsSpecialBean.getSectionName());
+                intent.putExtra("logo",appSectionsSpecialBean.getLogo());
+                getActivity().startActivity(intent);
+            }else{ //无子栏目,直接显示新闻列表
+                Intent intent=new Intent(getActivity(), ShowNewsActivity.class);
+                intent.putExtra("PlateID",appSectionsSpecialBean.getSectionId());
+                intent.putExtra("PlateName",appSectionsSpecialBean.getSectionName());
+                getActivity().startActivity(intent);
+            }
             Log.i("test", "点击了只有一张图片的时候的图片！");
         }
     }

@@ -240,4 +240,11 @@ public class MainApi {
     public static String GetHomeColumn(){
         return String.format("api/App_SectionsPlace/GetIndexModelInfo");
     }
+    /**
+     *
+     * 获取敏感子
+     * */
+    public static String GetSensitiveKeyword(){
+        return String.format("api/SensitiveKeyword/getPageData");
+    }
 }

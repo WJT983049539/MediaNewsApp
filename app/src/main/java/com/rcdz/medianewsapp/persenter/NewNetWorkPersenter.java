@@ -21,6 +21,7 @@ import com.rcdz.medianewsapp.model.bean.DemandEpisodeBean;
 import com.rcdz.medianewsapp.model.bean.DemandListBean;
 import com.rcdz.medianewsapp.model.bean.DepartmnetInfoBean;
 import com.rcdz.medianewsapp.model.bean.FeedbackBean;
+import com.rcdz.medianewsapp.model.bean.GetSensitiveKeyBean;
 import com.rcdz.medianewsapp.model.bean.HistoryListInfoBean;
 import com.rcdz.medianewsapp.model.bean.HomeClumnInfo;
 import com.rcdz.medianewsapp.model.bean.JiFenLogBean;
@@ -1370,6 +1371,43 @@ public class NewNetWorkPersenter {
             public void onError(Response response) {
                 super.onError(response);
                 Log.i(TAG, "历史记录失败-->" + response.message());
+            }
+        });
+    }
+    /**
+     * 获取敏感字
+     */
+    public void GetSensitiveKeyword() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "300");
+//        areaMap.put("sort", "Id");
+//        areaMap.put("order", "desc");
+        areaMap.put("where", "[]");
+        CommApi.post(MainApi.GetSensitiveKeyword(), areaMap).execute(new JsonCallback<GetSensitiveKeyBean>() {
+            @Override
+            public void onSuccess(Response<GetSensitiveKeyBean> response) {
+                Log.i(TAG, "获取敏感字-->" + response.message());
+                if (response.body() != null) {
+                    GetSensitiveKeyBean getSensitiveKeyBean = response.body();
+                    JSONArray jsonArray=new JSONArray();
+                    if(getSensitiveKeyBean.getCode()==200&&getSensitiveKeyBean.getRows()!=null&&getSensitiveKeyBean.getRows().size()>0){
+                        List<GetSensitiveKeyBean.Word> words = getSensitiveKeyBean.getRows();
+                        for( GetSensitiveKeyBean.Word w:words){
+                            jsonArray.put(w.getKeyword());
+                        }
+                    }
+                    ACache aCache= ACache.get(context);
+                    aCache.put("word",jsonArray);
+
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG, "获取敏感字失败-->" + response.message());
             }
         });
     }
