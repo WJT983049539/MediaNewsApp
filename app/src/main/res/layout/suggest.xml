@@ -45,7 +45,6 @@
             tools:layout_editor_absoluteX="0dp"></View>
 
         <TextView
-            android:id="@+id/sendsuggest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -53,7 +52,9 @@
             android:textColor="#1D8ED5"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView8"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -61,6 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/dp_20"
         android:layout_marginStart="@dimen/dp_20"
         android:layout_marginEnd="@dimen/dp_20"
         >
@@ -98,7 +100,10 @@
            android:layout_height="@dimen/dp_70">
 
        </androidx.recyclerview.widget.RecyclerView>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#008E8C8C"></View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,22 +117,40 @@
                 android:text="联系方式"
                 android:gravity="center"
                 android:textSize="13sp"
+                android:layout_gravity="center"
+                android:textColor="#000000"
                 ></TextView>
             <EditText
                 android:id="@+id/contact"
                 android:layout_marginStart="@dimen/dp_20"
-                android:layout_width="@dimen/dp_160"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="QQ、邮箱、手机"
+                android:hint="选填，便于我们回复您的问题"
                 android:textColor="#000000"
+                android:textColorHint="#81000000"
+                android:layout_gravity="center"
                 android:paddingStart="@dimen/dp_10"
+                android:background="@null"
                 android:textSize="14sp"
                 >
 
             </EditText>
 
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#008E8C8C"></View>
 
+        <Button
+            android:id="@+id/sendsuggest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:textColor="#fff"
+            android:background="#F44336"
+            android:layout_marginTop="@dimen/dp_40"
+            ></Button>
 
     </LinearLayout>
 

@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,7 +60,7 @@ public class SuggestActivity extends BaseActivity implements YJRequestSuccess, U
     @BindView(R.id.suggest_text)
     TextView suggest_text;
     @BindView(R.id.sendsuggest)
-    TextView sendsuggest;
+    Button sendsuggest;
     PictureAdapter pictureAdapter;
     String content="";
     String contactcontent="";
@@ -85,7 +86,7 @@ public class SuggestActivity extends BaseActivity implements YJRequestSuccess, U
         pictureAdapter.setOnItemClick(new PictureAdapter.OnItemClick() {
             @Override
             public void onitemclik(int position) {
-                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.jia, null);
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.insert, null);
                 SoulPermission.getInstance().checkAndRequestPermission(Manifest.permission.CAMERA, new CheckRequestPermissionListener() {
                     @Override
                     public void onPermissionOk(Permission permission) {

@@ -189,7 +189,7 @@ public class WelcomeActivity extends BaseActivity {
 //                            }
 
                             //不管登录不登录直接进入主页
-                            openActivity(MainActivity.class);
+//                            openActivity(MainActivity.class);
                             Intent intent=new Intent(WelcomeActivity.this,MainActivity.class);
                             WelcomeActivity.this.startActivity(intent,
                                     ActivityOptions.makeSceneTransitionAnimation

@@ -31,7 +31,7 @@ public class SystemAppUtils {
 
 
     /**
-     * 在Activity中获取屏幕的宽度
+     * 在Activity中获取屏幕的高度
      *
      * @param context
      * @return
@@ -47,7 +47,7 @@ public class SystemAppUtils {
 
     }
     /**
-     * 在Activity中获取屏幕的高度和宽度
+     * 在Activity中获取屏幕的宽度
      *
      * @param context
      * @return

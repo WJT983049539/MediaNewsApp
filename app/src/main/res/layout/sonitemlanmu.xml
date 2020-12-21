@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_200"
+    android:orientation="vertical"
+    android:layout_marginStart="@dimen/dp_18"
+    android:layout_marginEnd="@dimen/dp_18"
+    android:background="@drawable/edit_bg7"
+    android:layout_marginTop="@dimen/dp_18"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="8"
+    >
+    <ImageView
+        android:id="@+id/lanmuimage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        >
+
+    </ImageView>
+
+</LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="2"
+    >
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:text="深入学习贯彻党"
+        android:gravity="center|left"
+        android:paddingStart="@dimen/dp_10"
+        android:textColor="#000"
+        android:textSize="18sp"
+        android:ellipsize="end"
+        android:singleLine="true"
+
+        >
+
+    </TextView>
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:text="09-23"
+        android:gravity="center"
+        android:textColor="#90050505"
+        ></TextView>
+
+</LinearLayout>
+</LinearLayout>

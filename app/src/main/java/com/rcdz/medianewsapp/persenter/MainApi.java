@@ -233,4 +233,11 @@ public class MainApi {
     public static String AddHistoryforNews(){
         return String.format("api/Sys_UserFootMark/AddNewsFoot/");
     }
+    /**
+     *
+     * 获取首页栏目
+     * */
+    public static String GetHomeColumn(){
+        return String.format("api/App_SectionsPlace/GetIndexModelInfo");
+    }
 }

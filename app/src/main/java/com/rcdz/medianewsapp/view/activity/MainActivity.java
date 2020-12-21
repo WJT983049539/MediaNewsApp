@@ -25,6 +25,7 @@ import com.rcdz.medianewsapp.R;
 import com.rcdz.medianewsapp.model.adapter.MainViewPageAdapter;
 import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.view.customview.NoSlideViewPage;
+import com.rcdz.medianewsapp.view.customview.OutLoginDialog2;
 import com.rcdz.medianewsapp.view.fragment.MainAllFragment;
 import com.rcdz.medianewsapp.view.fragment.MainCenterFragmentTest;
 import com.rcdz.medianewsapp.view.fragment.MainNewsFragment;
@@ -148,13 +149,33 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private long mExitTime;
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        // //添加动画
+        ////                        TranslateAnimation animation=new TranslateAnimation(dialogview.getWidth(),0,0,0);
+        ////                        animation.setDuration(2000);
+        ////                        dialogview1.setAnimation(animation);
+        ////                        animation.start();
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                mExitTime = System.currentTimeMillis();
-            } else {
-                MAppaction.exit();
-            }
+
+//            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+//                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+//                mExitTime = System.currentTimeMillis();
+//            } else {
+//                MAppaction.exit();
+//            }
+
+            OutLoginDialog2 outLoginDialog2=new OutLoginDialog2(this, new OutLoginDialog2.DialogConfirmClick() {
+                @Override
+                public void ConfirmClick() {
+                    MainActivity.this.finish();
+                }
+
+                @Override
+                public void noClick() {
+
+                }
+            });
+            outLoginDialog2.show();
+
             return true;
         }
         return super.onKeyDown(keyCode, event);

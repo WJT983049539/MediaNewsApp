@@ -8,12 +8,12 @@
     android:layout_marginEnd="@dimen/dp_18"
     android:layout_marginTop="@dimen/dp_10"
     android:layout_height="@dimen/dp_75">
-
+    <!--#4A4A4A-->
     <TextView
         android:id="@+id/news1_title"
         android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_55"
-        android:textColor="#4A4A4A"
+        android:textColor="#090909"
         android:textSize="15sp"
         android:text="文字标啊啊啊啊啊啊啊标啊啊啊啊啊啊啊标啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊 啊啊啊啊啊啊啊啊啊 啊"
         android:gravity="left|center"

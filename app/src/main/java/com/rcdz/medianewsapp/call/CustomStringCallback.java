@@ -1,6 +1,7 @@
 package com.rcdz.medianewsapp.call;
 
 import android.content.Intent;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -47,7 +48,9 @@ public abstract class CustomStringCallback extends AbsCallback<String> {
             }else{
                 MAppaction.ActivityManager.getManager().getTopActivity().startActivity(new Intent(MAppaction.ActivityManager.getManager().getTopActivity(), LoginActivity.class));
             }
-            GlobalToast.show4("未登录,请登录",Toast.LENGTH_LONG);
+            Looper.prepare();
+            Toast.makeText( MAppaction.ActivityManager.getManager().getTopActivity(), "未登录,请登录!", Toast.LENGTH_SHORT).show();
+            Looper.loop();// 进入loop中的循环，查看消息队列
 
             return null;
         }

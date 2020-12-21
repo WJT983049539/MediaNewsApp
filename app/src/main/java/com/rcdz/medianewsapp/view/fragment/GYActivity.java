@@ -9,7 +9,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.rcdz.medianewsapp.R;
+import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.view.activity.BaseActivity;
 import com.rcdz.medianewsapp.view.activity.ShowXieYiBookActivity;
 
@@ -33,6 +36,8 @@ public class GYActivity extends BaseActivity {
     TextView xieyitext;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.imageView13)
+    ImageView imageView13;
 
     @Override
     public String setNowActivityName() {
@@ -48,6 +53,8 @@ public class GYActivity extends BaseActivity {
     public void inintView() {
         ButterKnife.bind(this);
         toolbarTitle.setText("关于");
+         RequestOptions options = new RequestOptions().error(R.mipmap.icon).circleCrop();
+        Glide.with(this).load(R.mipmap.icon).apply(options).into(imageView13);//头像
     }
 
     @Override

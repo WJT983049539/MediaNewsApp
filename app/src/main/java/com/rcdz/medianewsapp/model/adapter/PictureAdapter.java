@@ -58,7 +58,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.delete.setVisibility(View.VISIBLE);
        if(position<3&&position==picture.size()-1){ //说明只有一张图片
-           Glide.with(suggestActivity).load(R.mipmap.jiahao).into(holder.suggest_item_img);
+           Glide.with(suggestActivity).load(R.mipmap.insert).into(holder.suggest_item_img);
            holder.delete.setVisibility(View.GONE);
            holder.suggest_item_img.setOnClickListener(new View.OnClickListener() {
                @Override

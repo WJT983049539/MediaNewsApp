@@ -85,7 +85,6 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_main_news, container, false);
         ButterKnife.bind(this, view);
         newlist.clear();
@@ -94,7 +93,7 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
         // todo 请求新闻title
         newsNetWorkPersenter = new NewNetWorkPersenter(getActivity());
         if(loginstatu){
-            newsNetWorkPersenter.GetUserSetion(this);//得到全部plate
+            newsNetWorkPersenter.GetUserSetion(this);  //得到全部plate
         }else{
             newsNetWorkPersenter.GetUserSetionasNoLogin(this);
         }
@@ -189,12 +188,20 @@ public class MainNewsFragment extends Fragment implements GetAllNewsList, GetUse
                     bundle.putString("PlateName",newlist.get(position).getName());
                     fragment.setArguments(bundle);
                 }else {
-                    fragment = new NewsAdoptFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("PlateID", String.valueOf(newlist.get(position).getId()));
-                    bundle.putString("PlateName",newlist.get(position).getName());
-                    fragment.setArguments(bundle);
-
+                    //todo 子栏目
+                    if("1".equals(newlist.get(position).getHasChilds())){    //有子栏目
+                        fragment = new SonLanMuFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PlateID", String.valueOf(newlist.get(position).getId()));
+                        bundle.putString("PlateName",newlist.get(position).getName());
+                        fragment.setArguments(bundle);
+                    }else{
+                        fragment = new NewsAdoptFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("PlateID", String.valueOf(newlist.get(position).getId()));
+                        bundle.putString("PlateName",newlist.get(position).getName());
+                        fragment.setArguments(bundle);
+                    }
 
                 }
 

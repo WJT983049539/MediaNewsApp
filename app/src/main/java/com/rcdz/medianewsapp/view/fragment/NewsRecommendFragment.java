@@ -1,7 +1,9 @@
 package com.rcdz.medianewsapp.view.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,9 +31,11 @@ import com.qw.soul.permission.bean.Permission;
 import com.qw.soul.permission.bean.Permissions;
 import com.qw.soul.permission.callbcak.CheckRequestPermissionsListener;
 import com.rcdz.medianewsapp.R;
+import com.rcdz.medianewsapp.model.adapter.HomeClumnAdapter;
 import com.rcdz.medianewsapp.model.adapter.NewsAdapter;
 import com.rcdz.medianewsapp.model.adapter.ZhiDingAdapter;
 import com.rcdz.medianewsapp.model.bean.BannerInfoBean;
+import com.rcdz.medianewsapp.model.bean.HomeClumnInfo;
 import com.rcdz.medianewsapp.model.bean.NewsListBean;
 import com.rcdz.medianewsapp.model.bean.TopNewsInfo;
 import com.rcdz.medianewsapp.model.bean.TopVideoNewBean;
@@ -39,16 +44,20 @@ import com.rcdz.medianewsapp.persenter.NewNetWorkPersenter;
 import com.rcdz.medianewsapp.persenter.interfaces.GetAllNewsList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetBanner;
 import com.rcdz.medianewsapp.persenter.interfaces.GetCannelInfo;
+import com.rcdz.medianewsapp.persenter.interfaces.GetHomeClumnInfoList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetTopNews;
 import com.rcdz.medianewsapp.persenter.interfaces.GetTopVideoNews;
 import com.rcdz.medianewsapp.tools.AppConfig;
 import com.rcdz.medianewsapp.tools.GlideUtil;
 import com.rcdz.medianewsapp.tools.GlobalToast;
 import com.rcdz.medianewsapp.tools.SharedPreferenceTools;
+import com.rcdz.medianewsapp.tools.SystemAppUtils;
+import com.rcdz.medianewsapp.view.activity.LanmuActivity;
 import com.rcdz.medianewsapp.view.activity.MainActivity;
 import com.rcdz.medianewsapp.view.activity.ModelNetWebActivity;
 import com.rcdz.medianewsapp.view.activity.NewTimeWebViewActivity;
 import com.rcdz.medianewsapp.view.activity.NewsDetailActivity;
+import com.rcdz.medianewsapp.view.activity.ShowNewsActivity;
 import com.rcdz.medianewsapp.view.customview.GzhDialog;
 import com.rcdz.medianewsapp.view.pullscrllview.NPullScrollView;
 import com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView;
@@ -73,7 +82,7 @@ import butterknife.OnClick;
  * 邮箱 983049539@qq.com
  * time 2020/10/14 11:14
  */
-public class NewsRecommendFragment extends Fragment implements GetAllNewsList, GetCannelInfo, GetBanner, GetTopNews, GetTopVideoNews {
+public class NewsRecommendFragment extends Fragment implements GetAllNewsList, GetCannelInfo, GetBanner, GetTopNews, GetTopVideoNews, GetHomeClumnInfoList, View.OnClickListener {
     public final static String TAG = "NewsRecommendFragment";
     @BindView(R.id.banner)
     Banner banner;
@@ -102,18 +111,24 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
     LinearLayout lin_zhiding; //置顶新闻
     public NewsAdapter dataAdapter;
     public boolean isSee = false;
-    @BindView(R.id.lin_xswz)
-    LinearLayout linXswz;
-    @BindView(R.id.lin_gzh)
-    LinearLayout linGzh;
-    @BindView(R.id.lin_jgdw)
-    LinearLayout linJgdw;
-    @BindView(R.id.lin_xzsp)
-    LinearLayout linXzsp;
-    @BindView(R.id.lin_more)
+    @BindView(R.id.rc_home_column)
+    RecyclerView rc_home_column; //栏目列表
+
+
+//    @BindView(R.id.lin_xswz)
+//    LinearLayout linXswz;
+//    @BindView(R.id.lin_gzh)
+//    LinearLayout linGzh;
+//    @BindView(R.id.lin_jgdw)
+//    LinearLayout linJgdw;
+//    @BindView(R.id.lin_xzsp)
+//    LinearLayout linXzsp;
+//    @BindView(R.id.lin_more)
     LinearLayout linMore;
     @BindView(R.id.cannleview)
     LinearLayout cannleview;
+    @BindView(R.id.zhuanlan)
+    RelativeLayout zhuanlan;
     private List<TvCannelBean.TvCanneInfo> canneInfos = new ArrayList<>();
     private boolean loginStru = false;
 
@@ -191,6 +206,7 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
         });
 
         getbanner();//获取轮播图
+        getColumnInfo();//获取栏目列表
         canneInfos.clear();
         getCannelInfo();
         getZhiDingNews();
@@ -263,6 +279,11 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
             }
         });
     }
+    //todo ing
+    private void getColumnInfo() {
+        NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
+        newNetWorkPersenter.QueryHoneClumn(this);
+    }
 
     private void getZhiDingNews() {
         NewNetWorkPersenter newNetWorkPersenter = new NewNetWorkPersenter(getActivity());
@@ -311,14 +332,14 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             TuiJianShowCannelFragment tuiJianShowCannelFragment = new TuiJianShowCannelFragment(canneInfos);
             fragmentTransaction.replace(R.id.cannleview, tuiJianShowCannelFragment);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
 
         } else {
 
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             TuiJianShowCannelFragment2 tuiJianShowCannelFragment2 = new TuiJianShowCannelFragment2();
             fragmentTransaction.replace(R.id.cannleview, tuiJianShowCannelFragment2);
-            fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
             GlobalToast.show("获取频道列表失败", Toast.LENGTH_LONG);
         }
     }
@@ -415,58 +436,223 @@ public class NewsRecommendFragment extends Fragment implements GetAllNewsList, G
         }
     }
 
-    @OnClick({R.id.lin_xswz, R.id.lin_gzh, R.id.lin_jgdw, R.id.lin_xzsp, R.id.lin_more})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.lin_xswz:
-                MainActivity mainActivity= (MainActivity) getActivity();
-                mainActivity.setPositon(3);
-                break;
-            case R.id.lin_gzh: //公众号
-                GzhDialog gzhDialog=new GzhDialog(getActivity());
-                gzhDialog.setOnDialogListen(new GzhDialog.Confirm() {
-                    @Override
-                    public void cannal() {
-                        gzhDialog.cancel();
-                    }
-                });
-                gzhDialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-                gzhDialog.getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-                    @Override
-                    public void onSystemUiVisibilityChange(int visibility) {
-                        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
-                                //布局位于状态栏下方
-                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
-                                //全屏
-                                View.SYSTEM_UI_FLAG_FULLSCREEN |
-                                //隐藏导航栏
-                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
-                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-                        if (Build.VERSION.SDK_INT >= 19) {
-                            uiOptions |= 0x00001000;
-                        } else {
-                            uiOptions |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
-                        }
-                        gzhDialog.getWindow().getDecorView().setSystemUiVisibility(uiOptions);
-                    }
-                });
-                gzhDialog.show();
-                break;
-            case R.id.lin_jgdw://部门机构
-                MainActivity mainActivity2 = (MainActivity) getActivity();
-                mainActivity2.setPositon2(1);
-                break;
-            case R.id.lin_xzsp://闻喜政务
-                Intent intent = new Intent(getActivity(), ModelNetWebActivity.class);
-                intent.putExtra("type", "1197");
-                getActivity().startActivity(intent);
-//                MainActivity mainActivity3= (MainActivity) getActivity();
-//                mainActivity3.setPositon(3);
-                break;
-            case R.id.lin_more:
-                MainActivity mainActivity4= (MainActivity) getActivity();
-                mainActivity4.setPositon(2);
-                break;
+    //得到主页的栏目列表
+    @SuppressLint("ResourceType")
+    @Override
+    public void getHomeClumnInfoList(HomeClumnInfo homeClumnInfo) {
+        if (homeClumnInfo.getCode() == 200 && homeClumnInfo.getData().getApp_Sections() != null && homeClumnInfo.getData().getApp_Sections().size() > 0) {
+            rc_home_column.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+            HomeClumnAdapter homeClumnAdapter = new HomeClumnAdapter(getActivity(), homeClumnInfo.getData().getApp_Sections(), R.layout.itemclumn);
+            rc_home_column.setAdapter(homeClumnAdapter);
+            homeClumnAdapter.setClumnClick(new HomeClumnAdapter.ClumnOnClicklisten() {
+                @Override
+                public void onclick(int pid, String name, String logo) {
+                    //点击跳转
+//                    if(HasChilds.equals("1")){ //柚子栏目
+//                        Intent intent=new Intent(getActivity(), LanmuActivity.class);
+//                        intent.putExtra("pid",pid);
+//                        intent.putExtra("name",name);
+//                        intent.putExtra("logo",logo);
+//                        getActivity().startActivity(intent);
+//                    }else{ //无子栏目,直接显示新闻列表
+//                        Intent intent=new Intent(getActivity(), ShowNewsActivity.class);
+//                        intent.putExtra("PlateID",pid);
+//                        intent.putExtra("PlateName",name);
+//                        getActivity().startActivity(intent);
+//                    }
+                }
+            });
+        } else {
+            GlobalToast.show4("栏目为空！", Toast.LENGTH_LONG);
+            Log.i("test","没有app栏目");
+        }
+
+
+        if (homeClumnInfo.getCode() == 200 && homeClumnInfo.getData().getApp_SectionsSpecial() != null && homeClumnInfo.getData().getApp_SectionsSpecial().size() > 0){
+            List<HomeClumnInfo.DataBean.AppSectionsSpecialBean> list=homeClumnInfo.getData().getApp_SectionsSpecial();
+            if(list.size()==1){
+                HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean= list.get(0);
+                String url=AppConfig.BASE_PICTURE_URL+appSectionsSpecialBean.getLogo();
+               ImageView item1= new ImageView(getActivity());
+                item1.setImageResource(R.mipmap.zhuantida);
+                item1.setScaleType(ImageView.ScaleType.FIT_XY);
+                RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                lp.leftMargin=5;
+                lp.rightMargin=5;
+                item1.setLayoutParams(lp);//设置布局参数
+                ImageView item2= new ImageView(getActivity());
+                item2.setScaleType(ImageView.ScaleType.FIT_XY);
+                GlideUtil.load(getActivity(),url,item2,GlideUtil.getOption());//加载图片
+                RelativeLayout.LayoutParams lp2=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, SystemAppUtils.dip2px(getActivity(),200));
+                item2.setLayoutParams(lp2);//设置布局参数
+
+                TextView textView=new TextView(getActivity());
+                textView.setText(String.valueOf(appSectionsSpecialBean.getSectionName()));
+                RelativeLayout.LayoutParams lp3=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);//底部对齐
+                lp3.leftMargin=10;
+                lp3.bottomMargin=10;
+                textView.setLayoutParams(lp3);//设置布局参数
+                zhuanlan.addView(textView);
+                zhuanlan.addView(item2);
+                zhuanlan.addView(item1);
+
+                item2.setId(3);
+                item2.setOnClickListener(NewsRecommendFragment.this);
+            }else if(list.size()==2){
+                HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean= list.get(0);
+                String url=AppConfig.BASE_PICTURE_URL+appSectionsSpecialBean.getLogo();
+                String text=String.valueOf(appSectionsSpecialBean.getSectionName());
+
+                HomeClumnInfo.DataBean.AppSectionsSpecialBean appSectionsSpecialBean2= list.get(1);
+                String url2=AppConfig.BASE_PICTURE_URL+appSectionsSpecialBean2.getLogo();
+                String text2=String.valueOf(appSectionsSpecialBean2.getSectionName());
+                ImageView item1= new ImageView(getActivity());
+                item1.setImageResource(R.mipmap.zhuantida);
+                RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                lp.leftMargin=20;
+                lp.topMargin=5;
+                item1.setLayoutParams(lp);//设置布局参数
+
+                ImageView imag=new ImageView(getActivity());
+                imag.setScaleType(ImageView.ScaleType.FIT_XY);
+                GlideUtil.load(getActivity(),url,imag,GlideUtil.getOption());//加载图片
+                int width=SystemAppUtils.getScreenWidth(getActivity());
+                int height=SystemAppUtils.dip2px(getActivity(),150);
+                int dd=SystemAppUtils.dip2px(getActivity(),10);
+                RelativeLayout.LayoutParams lp2= new RelativeLayout.LayoutParams(width/2-dd,height);
+                lp2.leftMargin=20;
+                lp2.topMargin=10;
+                lp2.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lp2.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                imag.setLayoutParams(lp2);//设置布局参数
+                imag.setId(1);
+
+                ImageView imag2=new ImageView(getActivity());
+                imag2.setScaleType(ImageView.ScaleType.FIT_XY);
+                GlideUtil.load(getActivity(),url2,imag2,GlideUtil.getOption());//加载图片
+                RelativeLayout.LayoutParams lp3= new RelativeLayout.LayoutParams(width/2-dd,height);
+                lp3.leftMargin=20;
+                lp3.topMargin=10;
+                lp3.rightMargin=10;
+                lp3.addRule(RelativeLayout.RIGHT_OF, imag.getId());
+                imag2.setLayoutParams(lp3);//设置布局参数
+                imag2.setId(2);
+
+                imag.setOnClickListener(NewsRecommendFragment.this);
+                imag2.setOnClickListener(NewsRecommendFragment.this);
+
+                TextView textView=new TextView(getActivity());
+                textView.setTextColor(Color.parseColor("#ffffff"));
+                textView.setTextSize(16);
+                textView.setText(text);
+                textView.setPadding(0,0,0,20);
+
+                RelativeLayout.LayoutParams lp4=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp4.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);//底部对齐
+                lp4.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                lp4.leftMargin=50;
+                lp4.bottomMargin=65;
+                textView.setLayoutParams(lp4);//设置布局参数
+
+                TextView textView2=new TextView(getActivity());
+                textView2.setTextColor(Color.parseColor("#FFFFFF"));
+                textView2.setText(text2);
+                textView2.setTextSize(16);
+                textView2.setPadding(0,0,0,20);
+
+                RelativeLayout.LayoutParams lp5=new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                lp5.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);//底部对齐
+                lp5.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//                lp5.leftMargin=50+width/2;
+//                lp5.bottomMargin=65;
+                lp5.setMargins(50+width/2,0,0,65);
+                textView2.setLayoutParams(lp5);//设置布局参数
+
+                zhuanlan.addView(imag); //第一个布局
+                zhuanlan.addView(imag2); //第一个布局
+                zhuanlan.addView(item1);//标志
+                zhuanlan.addView(textView);
+                zhuanlan.addView(textView2);
+            }
+
+
+
+        }else{
+            Log.i("test","没有栏目");
+        }
+
+
+
+//    @OnClick({R.id.lin_xswz, R.id.lin_gzh, R.id.lin_jgdw, R.id.lin_xzsp, R.id.lin_more})
+//    public void onViewClicked(View view) {
+//        switch (view.getId()) {
+//            case R.id.lin_xswz:
+//                MainActivity mainActivity= (MainActivity) getActivity();
+//                mainActivity.setPositon(3);
+//                break;
+//            case R.id.lin_gzh: //公众号
+//                GzhDialog gzhDialog=new GzhDialog(getActivity());
+//                gzhDialog.setOnDialogListen(new GzhDialog.Confirm() {
+//                    @Override
+//                    public void cannal() {
+//                        gzhDialog.cancel();
+//                    }
+//                });
+//                gzhDialog.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+//                gzhDialog.getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+//                    @Override
+//                    public void onSystemUiVisibilityChange(int visibility) {
+//                        int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE |
+//                                //布局位于状态栏下方
+//                                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION |
+//                                //全屏
+//                                View.SYSTEM_UI_FLAG_FULLSCREEN |
+//                                //隐藏导航栏
+//                                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION |
+//                                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+//                        if (Build.VERSION.SDK_INT >= 19) {
+//                            uiOptions |= 0x00001000;
+//                        } else {
+//                            uiOptions |= View.SYSTEM_UI_FLAG_LOW_PROFILE;
+//                        }
+//                        gzhDialog.getWindow().getDecorView().setSystemUiVisibility(uiOptions);
+//                    }
+//                });
+//                gzhDialog.show();
+//                break;
+//            case R.id.lin_jgdw://部门机构
+//                MainActivity mainActivity2 = (MainActivity) getActivity();
+//                mainActivity2.setPositon2(1);
+//                break;
+//            case R.id.lin_xzsp://闻喜政务
+//                Intent intent = new Intent(getActivity(), ModelNetWebActivity.class);
+//                intent.putExtra("type", "1197");
+//                getActivity().startActivity(intent);
+////                MainActivity mainActivity3= (MainActivity) getActivity();
+////                mainActivity3.setPositon(3);
+//                break;
+//            case R.id.lin_more:
+//                MainActivity mainActivity4= (MainActivity) getActivity();
+//                mainActivity4.setPositon(2);
+//                break;
+//        }
+//    }
+    }
+
+    @SuppressLint("ResourceType")
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == 1) {
+            Log.i("test", "点击了图片！");
+        } else if (v.getId() == 2) {
+            Log.i("test", "点击了第二张图片！");
+        } else if (v.getId() == 3) {
+            Log.i("test", "点击了只有一张图片的时候的图片！");
         }
     }
 }

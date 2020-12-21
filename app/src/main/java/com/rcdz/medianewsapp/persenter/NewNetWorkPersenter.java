@@ -22,6 +22,7 @@ import com.rcdz.medianewsapp.model.bean.DemandListBean;
 import com.rcdz.medianewsapp.model.bean.DepartmnetInfoBean;
 import com.rcdz.medianewsapp.model.bean.FeedbackBean;
 import com.rcdz.medianewsapp.model.bean.HistoryListInfoBean;
+import com.rcdz.medianewsapp.model.bean.HomeClumnInfo;
 import com.rcdz.medianewsapp.model.bean.JiFenLogBean;
 import com.rcdz.medianewsapp.model.bean.JifenType;
 import com.rcdz.medianewsapp.model.bean.LeaveMegBean;
@@ -34,6 +35,7 @@ import com.rcdz.medianewsapp.model.bean.NewsListBean;
 import com.rcdz.medianewsapp.model.bean.NoSetionsBean;
 import com.rcdz.medianewsapp.model.bean.PliveLeaveInfo;
 import com.rcdz.medianewsapp.model.bean.SetionBean;
+import com.rcdz.medianewsapp.model.bean.SonLanmuBean;
 import com.rcdz.medianewsapp.model.bean.TopNewsInfo;
 import com.rcdz.medianewsapp.model.bean.TopVideoNewBean;
 import com.rcdz.medianewsapp.model.bean.TvCannelBean;
@@ -63,6 +65,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetDepartmentInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetDetailMessage;
 import com.rcdz.medianewsapp.persenter.interfaces.GetForGet;
 import com.rcdz.medianewsapp.persenter.interfaces.GetHistory;
+import com.rcdz.medianewsapp.persenter.interfaces.GetHomeClumnInfoList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetJifenList;
 import com.rcdz.medianewsapp.persenter.interfaces.GetLiveListInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetLivingMInfo;
@@ -73,6 +76,7 @@ import com.rcdz.medianewsapp.persenter.interfaces.GetPhoneCode;
 import com.rcdz.medianewsapp.persenter.interfaces.GetPliveLeaveMsgInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetProgerssListInfo;
 import com.rcdz.medianewsapp.persenter.interfaces.GetSignStatus;
+import com.rcdz.medianewsapp.persenter.interfaces.GetSonCluln;
 import com.rcdz.medianewsapp.persenter.interfaces.GetTopNews;
 import com.rcdz.medianewsapp.persenter.interfaces.GetTopVideoNews;
 import com.rcdz.medianewsapp.persenter.interfaces.GetUserInfo;
@@ -109,100 +113,108 @@ import java.util.TreeMap;
  * time 2020/10/12 17:04
  */
 public class NewNetWorkPersenter {
-    public final static String TAG="NewNetWorkPersenter";
+    public final static String TAG = "NewNetWorkPersenter";
+
     public NewNetWorkPersenter(Context context) {
         this.context = context;
     }
+
     private Context context;
+
     /**
      * 获取验证码
+     *
      * @param phone1
      */
     public void GetPhoneCode(String phone1, GetPhoneCode getPhoneCode) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("phoneNo",phone1);
-            CommApi.post(LoginApi.getCheckCodeUrl(),areaMap).execute(new JsonCallback<BaseBean>() {
-                @Override
-                public void onSuccess(Response<BaseBean> response) {
-                    BaseBean baseBean = response.body();
-                    Log.i(TAG,"获取验证码-->"+baseBean.toString());
-                    getPhoneCode.getPhoneCode(baseBean);
-                }
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("phoneNo", phone1);
+        CommApi.post(LoginApi.getCheckCodeUrl(), areaMap).execute(new JsonCallback<BaseBean>() {
+            @Override
+            public void onSuccess(Response<BaseBean> response) {
+                BaseBean baseBean = response.body();
+                Log.i(TAG, "获取验证码-->" + baseBean.toString());
+                getPhoneCode.getPhoneCode(baseBean);
+            }
 
-                @Override
-                public void onError(Response response) {
-                    super.onError(response);
-                    Log.i(TAG,"获取验证码失败-->");
-                }
-            });
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG, "获取验证码失败-->");
+            }
+        });
     }
+
     /**
      * 忘记密码
+     *
      * @param phone1
      */
-    public void RequestGorgetPsd(String phone1, String ValidateCode,String NewPwd,GetForGet getForGet) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("PhoneNo",phone1);
-        areaMap.put("ValidateCode",ValidateCode);
-        areaMap.put("NewPwd",NewPwd);
-            CommApi.postNoToken(LoginApi.ForgetPsd(),areaMap).execute(new JsonCallback<BaseBean>() {
-                //{"status":false,"code":403,"message":"修改密码失败!","data":null}
-                @Override
-                public void onSuccess(Response<BaseBean> response) {
-                    BaseBean baseBean = response.body();
-                    Log.i(TAG,"忘记密码-->"+baseBean.toString());
-                    getForGet.forget(response.body());
-                }
+    public void RequestGorgetPsd(String phone1, String ValidateCode, String NewPwd, GetForGet getForGet) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("PhoneNo", phone1);
+        areaMap.put("ValidateCode", ValidateCode);
+        areaMap.put("NewPwd", NewPwd);
+        CommApi.postNoToken(LoginApi.ForgetPsd(), areaMap).execute(new JsonCallback<BaseBean>() {
+            //{"status":false,"code":403,"message":"修改密码失败!","data":null}
+            @Override
+            public void onSuccess(Response<BaseBean> response) {
+                BaseBean baseBean = response.body();
+                Log.i(TAG, "忘记密码-->" + baseBean.toString());
+                getForGet.forget(response.body());
+            }
 
-                @Override
-                public void onError(Response response) {
-                    super.onError(response);
-                    Log.i(TAG,"忘记密码失败-->");
-                }
-            });
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG, "忘记密码失败-->");
+            }
+        });
     }
+
     /**
      * 密码登录
      */
-    public void AppLogin(String userName,String passWord, IshowLogin login) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("userName",userName);
-        areaMap.put("passWord",passWord);
-        areaMap.put("verificationCode","string");
-        areaMap.put("uuid","string");
-        CommApi.postNoToken(LoginApi.AppLogin(),areaMap).execute(new JsonCallback<LoginBean>() {
+    public void AppLogin(String userName, String passWord, IshowLogin login) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("userName", userName);
+        areaMap.put("passWord", passWord);
+        areaMap.put("verificationCode", "string");
+        areaMap.put("uuid", "string");
+        CommApi.postNoToken(LoginApi.AppLogin(), areaMap).execute(new JsonCallback<LoginBean>() {
             @Override
             public void onSuccess(Response<LoginBean> response) {
-                Log.i(TAG,"密码登录-->"+response.toString());
+                Log.i(TAG, "密码登录-->" + response.toString());
                 login.ishowLogin(response.body());
             }
 
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"密码登录-->"+response.message());
+                Log.i(TAG, "密码登录-->" + response.message());
             }
         });
     }
+
     /**
      * app验证码登录
      */
     public void AppLoginForMes(String phone, String validateCode, IshowLogin login) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("phone",phone);
-        areaMap.put("validateCode",validateCode);
-        areaMap.put("isApp","1");
-        CommApi.postNoToken(LoginApi.getLoginForMes(),areaMap).execute(new JsonCallback<LoginBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("phone", phone);
+        areaMap.put("validateCode", validateCode);
+        areaMap.put("isApp", "1");
+        CommApi.postNoToken(LoginApi.getLoginForMes(), areaMap).execute(new JsonCallback<LoginBean>() {
             @Override
             public void onSuccess(Response<LoginBean> response) {
-                Log.i(TAG,"验证码登录"+response.body().toString());
+                Log.i(TAG, "验证码登录" + response.body().toString());
                 login.ishowLogin(response.body());
 
             }
 
             @Override
             public void onError(Response<LoginBean> response) {
-                Log.i(TAG,"验证码登录失败");
+                Log.i(TAG, "验证码登录失败");
                 super.onError(response);
             }
         });
@@ -210,38 +222,40 @@ public class NewNetWorkPersenter {
 
     /**
      * app注册
+     *
      * @param userName
      * @param phoneNo
      * @param validateCode
      * @param userPwd
      */
     public void AppRegister(String userName, String phoneNo, String validateCode, String userPwd, ShowRegister showRegister) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("userName",userName);
-        areaMap.put("phoneNo",phoneNo);
-        areaMap.put("validateCode",validateCode);
-        areaMap.put("userPwd",userPwd);
-        areaMap.put("appType","1");
-        CommApi.postNoToken(LoginApi.AppRegister(),areaMap).execute(new JsonCallback<BaseBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("userName", userName);
+        areaMap.put("phoneNo", phoneNo);
+        areaMap.put("validateCode", validateCode);
+        areaMap.put("userPwd", userPwd);
+        areaMap.put("appType", "1");
+        CommApi.postNoToken(LoginApi.AppRegister(), areaMap).execute(new JsonCallback<BaseBean>() {
             @Override
             public void onSuccess(Response<BaseBean> response) {
-            //{"status":true,"code":200,"message":"注册成功！","data":null}
-                    Log.i("注册",response.body().toString());
+                //{"status":true,"code":200,"message":"注册成功！","data":null}
+                Log.i("注册", response.body().toString());
                 showRegister.showRegister(response.body());
             }
+
             @Override
-            public void onError(Response<BaseBean> response)
-            {
+            public void onError(Response<BaseBean> response) {
                 super.onError(response);
-                Log.i("注册","注册请求失败"+response.body());
+                Log.i("注册", "注册请求失败" + response.body());
             }
         });
     }
+
     /**
      * 更换token
      */
     public void ReplaceToken() {
-        Map<String,String> areaMap = new HashMap<String,String>();
+        Map<String, String> areaMap = new HashMap<String, String>();
         CommApi.postNoParams(LoginApi.ReplaceToken()).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
@@ -261,18 +275,18 @@ public class NewNetWorkPersenter {
     public void GetNewsList(GetAllNewsList getAllNewsList) {
 
 
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","30");
-        areaMap.put("sort","PublishDate");
-        areaMap.put("order","desc");
-        areaMap.put("wheres","[]");
-        wherebean wherebean=new wherebean();
-        CommApi.post(MainApi.getNewsListUrl(),areaMap).execute(new JsonCallback<NewsListBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "PublishDate");
+        areaMap.put("order", "desc");
+        areaMap.put("wheres", "[]");
+        wherebean wherebean = new wherebean();
+        CommApi.post(MainApi.getNewsListUrl(), areaMap).execute(new JsonCallback<NewsListBean>() {
             @Override
             public void onSuccess(Response<NewsListBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"新闻列表-->"+response.body().toString());
+                if (response.body() != null) {
+                    Log.i(TAG, "新闻列表-->" + response.body().toString());
                     getAllNewsList.getAllNewsList(response.body());
                 }
             }
@@ -280,26 +294,27 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"新闻列表-->"+response.message());
+                Log.i(TAG, "新闻列表-->" + response.message());
             }
         });
     }
+
     /**
      * 获取轮播图
      */
     public void GetNewsBanner(GetBanner getBanner) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","10");
-        areaMap.put("sort","Orders");
-        areaMap.put("order","desc");
-        areaMap.put("wheres","[]");
-        CommApi.post("api/RepeatImages/GetPageList",areaMap).execute(new JsonCallback<BannerInfoBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "10");
+        areaMap.put("sort", "Orders");
+        areaMap.put("order", "desc");
+        areaMap.put("wheres", "[]");
+        CommApi.post("api/RepeatImages/GetPageList", areaMap).execute(new JsonCallback<BannerInfoBean>() {
             @Override
             public void onSuccess(Response<BannerInfoBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"获取轮播图-->"+response.body().toString());
-                    if(getBanner!=null){
+                if (response.body() != null) {
+                    Log.i(TAG, "获取轮播图-->" + response.body().toString());
+                    if (getBanner != null) {
                         getBanner.getbanner(response.body());
                     }
                 }
@@ -308,32 +323,33 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取轮播图失败-->"+response.message());
+                Log.i(TAG, "获取轮播图失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取新闻列表
      * 条件 "[{\"name\":\"SectionId\",\"value\":2,\"displayType\":\"text\"}]"
      */
-    public void GetNewsList(GetAllNewsList getAllNewsList,String plate,String page) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("sort","PublishDate");
-        areaMap.put("order","desc");
-        List<wherebean2> list=new ArrayList<wherebean2>();
-        wherebean2 w=new wherebean2();
+    public void GetNewsList(GetAllNewsList getAllNewsList, String plate, String page) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "PublishDate");
+        areaMap.put("order", "desc");
+        List<wherebean2> list = new ArrayList<wherebean2>();
+        wherebean2 w = new wherebean2();
         w.setName("SectionId");
         w.setValue(plate);
         list.add(w);
-        String Where=GsonUtil.BeanToJson(list);
-        areaMap.put("wheres",Where);
-        CommApi.post(MainApi.getNewsListUrl(),areaMap).execute(new JsonCallback<NewsListBean>() {
+        String Where = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", Where);
+        CommApi.post(MainApi.getNewsListUrl(), areaMap).execute(new JsonCallback<NewsListBean>() {
             @Override
             public void onSuccess(Response<NewsListBean> response) {
-                Log.i(TAG,"新闻列表-->"+response.toString());
-                if(response.body()!=null){
+                Log.i(TAG, "新闻列表-->" + response.toString());
+                if (response.body() != null) {
                     getAllNewsList.getAllNewsList(response.body());
                 }
 
@@ -342,11 +358,12 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"新闻列表-->"+response.message());
+                Log.i(TAG, "新闻列表-->" + response.message());
             }
         });
 
     }
+
     /**
      * 获取置顶新闻
      */
@@ -355,8 +372,8 @@ public class NewNetWorkPersenter {
         CommApi.postNoParams("api/NewsView/GetTopNews/3").execute(new JsonCallback<TopNewsInfo>() {
             @Override
             public void onSuccess(Response<TopNewsInfo> response) {
-                Log.i(TAG,"获取置顶新闻-->"+response.toString());
-                if(response.body()!=null){
+                Log.i(TAG, "获取置顶新闻-->" + response.toString());
+                if (response.body() != null) {
                     getTopNews.getTopNews(response.body());
                 }
             }
@@ -364,42 +381,43 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取置顶新闻失败-->"+response.message());
+                Log.i(TAG, "获取置顶新闻失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取评论
      */
-    public void GeCommentList(String TargetId,GetComment getComment) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","100");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        List<wherebean>list=new ArrayList<>();
-        wherebean w=new wherebean();
+    public void GeCommentList(String TargetId, GetComment getComment) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "100");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        List<wherebean> list = new ArrayList<>();
+        wherebean w = new wherebean();
         w.setName("Type");
         w.setValue("5");
         w.setDisplayType("text");
-        wherebean w2=new wherebean();
+        wherebean w2 = new wherebean();
         w2.setName("Mode");
         w2.setValue("1");
         w2.setDisplayType("text");
-        wherebean w3=new wherebean();
+        wherebean w3 = new wherebean();
         w3.setName("TargetId");
         w3.setValue(TargetId);
         w3.setDisplayType("text");
         list.add(w);
         list.add(w2);
         list.add(w3);
-        String Where=GsonUtil.BeanToJson(list);
-        areaMap.put("wheres",Where);
-        CommApi.post("api/Sys_UserCommentsView/GetPageList",areaMap).execute(new JsonCallback<CommentInfoBean>() {
+        String Where = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", Where);
+        CommApi.post("api/Sys_UserCommentsView/GetPageList", areaMap).execute(new JsonCallback<CommentInfoBean>() {
             @Override
             public void onSuccess(Response<CommentInfoBean> response) {
-                Log.i(TAG,"获取获取评论-->"+response.body().getRows());
-                if(response.body()!=null){
+                Log.i(TAG, "获取获取评论-->" + response.body().getRows());
+                if (response.body() != null) {
                     getComment.getcomment(response.body());
                 }
             }
@@ -407,11 +425,10 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取评论失败-->"+response.message());
+                Log.i(TAG, "获取评论失败-->" + response.message());
             }
         });
     }
-
 
 
 //    /**
@@ -460,47 +477,47 @@ public class NewNetWorkPersenter {
 //            }
 //        });
 //    }
+
     /**
      * 添加收藏
      * 收藏表中的字段：SourceType:来源类别，如精品点播等(1 文章 2 视频 3 图集 4 频道 5剧集点播),是哪里的收藏就传几即可
      */
-    public void AddCollect(String Type,String TargetId,String Title,String Url,String SourceType,String ActivityType,String imageurl,AddCollect addCollect) {
-        String parmes="";
+    public void AddCollect(String Type, String TargetId, String Title, String Url, String SourceType, String ActivityType, String imageurl, AddCollect addCollect) {
+        String parmes = "";
         try {
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("Type",Type);
-            jsonObject.put("TargetId",TargetId);
-            jsonObject.put("Title",Title);
-            jsonObject.put("Url",Url);
-            jsonObject.put("SourceType",SourceType);
-            jsonObject.put("ActivityType",ActivityType);
-            jsonObject.put("ImageUrl",imageurl);
-            JSONObject jsonObject1=new JSONObject();
-            jsonObject1.put("mainData",jsonObject);
-            parmes=jsonObject1.toString();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Type", Type);
+            jsonObject.put("TargetId", TargetId);
+            jsonObject.put("Title", Title);
+            jsonObject.put("Url", Url);
+            jsonObject.put("SourceType", SourceType);
+            jsonObject.put("ActivityType", ActivityType);
+            jsonObject.put("ImageUrl", imageurl);
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("mainData", jsonObject);
+            parmes = jsonObject1.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //{"status":true,"code":311,"message":"保存成功","data":null}
-        CommApi.postAddJson("api/Sys_UserStores/Add",parmes).execute(new StringCallback() {
+        CommApi.postAddJson("api/Sys_UserStores/Add", parmes).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"添加收藏-->"+response.body());
-                if(response.body()!=null){
-                    JSONObject jsonObject= null;
+                Log.i(TAG, "添加收藏-->" + response.body());
+                if (response.body() != null) {
+                    JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        String message=jsonObject.getString("message");
-                        if(code==311){
+                        int code = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
+                        if (code == 311) {
                             addCollect.addcollect();
-                        }else{
-                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        } else {
+                            GlobalToast.show(message, Toast.LENGTH_LONG);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
 
 
                 }
@@ -509,28 +526,29 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"添加收藏失败-->"+response.message());
+                Log.i(TAG, "添加收藏失败-->" + response.message());
             }
         });
     }
+
     /**
      * 取消收藏收藏
      */
     public void DeleteCollect(String id, DisCollect disCollect) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        String json="";
-        JsonArray jsonElements=new JsonArray();
+        Map<String, String> areaMap = new HashMap<String, String>();
+        String json = "";
+        JsonArray jsonElements = new JsonArray();
         jsonElements.add(id);
-        json=jsonElements.toString();
+        json = jsonElements.toString();
 
-        CommApi.postAddJson("api/Sys_UserStores/Del",json).execute(new StringCallback() {
+        CommApi.postAddJson("api/Sys_UserStores/Del", json).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"取消收藏收藏-->"+response.toString());
-                if(response.body()!=null){
+                Log.i(TAG, "取消收藏收藏-->" + response.toString());
+                if (response.body() != null) {
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        if(jsonObject.getInt("code")==317)
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        if (jsonObject.getInt("code") == 317)
                             disCollect.disCollect();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -541,10 +559,11 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"取消收藏收藏失败-->"+response.message());
+                Log.i(TAG, "取消收藏收藏失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取置顶新闻
      */
@@ -552,15 +571,16 @@ public class NewNetWorkPersenter {
         CommApi.postNoParams("api/NewsView/GetTopVideo/1").execute(new JsonCallback<TopVideoNewBean>() {
             @Override
             public void onSuccess(Response<TopVideoNewBean> response) {
-                Log.i(TAG,"获取置顶新闻-->"+response.toString());
-                if(response.body()!=null){
+                Log.i(TAG, "获取置顶新闻-->" + response.toString());
+                if (response.body() != null) {
                     getTopVideoNews.getTopNews(response.body());
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取置顶新闻失败-->"+response.message());
+                Log.i(TAG, "获取置顶新闻失败-->" + response.message());
             }
         });
     }
@@ -569,78 +589,81 @@ public class NewNetWorkPersenter {
      * 搜索新闻列表
      * IsAll true 全部  false 视频
      */
-        public void NewSearch(String text,String page,Boolean IsAll,GetAllNewsList getAllNewsList) {
+    public void NewSearch(String text, String page, Boolean IsAll, GetAllNewsList getAllNewsList) {
 
-            Map<String,String> areaMap = new HashMap<String,String>();
-            areaMap.put("page",page);
-            areaMap.put("rows","30");
-            areaMap.put("sort","PublishDate");
-            areaMap.put("order","desc");
-            List<wherebean> list=new ArrayList<>();
-            wherebean w=new wherebean();
-            w.setName("Title");
-            w.setValue(text);
-            w.setDisplayType("like");
-            list.add(w);
-            if(!IsAll){
-                wherebean w2=new wherebean();
-                w2.setName("Type");
-                w2.setValue("2");
-                w2.setDisplayType("text");
-                list.add(w2);
-            }
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "PublishDate");
+        areaMap.put("order", "desc");
+        List<wherebean> list = new ArrayList<>();
+        wherebean w = new wherebean();
+        w.setName("Title");
+        w.setValue(text);
+        w.setDisplayType("like");
+        list.add(w);
+        if (!IsAll) {
+            wherebean w2 = new wherebean();
+            w2.setName("Type");
+            w2.setValue("2");
+            w2.setDisplayType("text");
+            list.add(w2);
+        }
 
-            String result=GsonUtil.BeanToJson(list);
-            areaMap.put("wheres",result);
-          CommApi.post(MainApi.getNewsListUrl(),areaMap).execute(new JsonCallback<NewsListBean>() {
+        String result = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", result);
+        CommApi.post(MainApi.getNewsListUrl(), areaMap).execute(new JsonCallback<NewsListBean>() {
             @Override
             public void onSuccess(Response<NewsListBean> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     getAllNewsList.getAllNewsList(response.body());
-                    Log.i(TAG,"搜索新闻->"+response.toString());
+                    Log.i(TAG, "搜索新闻->" + response.toString());
 
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"搜索新闻失败-->"+response.message());
+                Log.i(TAG, "搜索新闻失败-->" + response.message());
             }
         });
     }
+
     /**
      * 模糊搜索
      * 只显示标题
      */
-        public void MohuNewSearch(String text, GetMoHuNewTitle getMoHuNewTitle) {
+    public void MohuNewSearch(String text, GetMoHuNewTitle getMoHuNewTitle) {
 
-            Map<String,String> areaMap = new HashMap<String,String>();
-            areaMap.put("page","1");
-            areaMap.put("rows","30");
-            areaMap.put("sort","PublishDate");
-            areaMap.put("order","desc");
-            List<wherebean> list=new ArrayList<>();
-            wherebean w=new wherebean();
-            w.setName("Title");
-            w.setValue(text);
-            w.setDisplayType("like");
-            list.add(w);
-            String result=GsonUtil.BeanToJson(list);
-            areaMap.put("wheres",result);
-          CommApi.post(MainApi.newsSearch(),areaMap).execute(new JsonCallback<MuhuNewBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "PublishDate");
+        areaMap.put("order", "desc");
+        List<wherebean> list = new ArrayList<>();
+        wherebean w = new wherebean();
+        w.setName("Title");
+        w.setValue(text);
+        w.setDisplayType("like");
+        list.add(w);
+        String result = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", result);
+        CommApi.post(MainApi.newsSearch(), areaMap).execute(new JsonCallback<MuhuNewBean>() {
             @Override
             public void onSuccess(Response<MuhuNewBean> response) {
-                if(response.body()!=null){
-                    MuhuNewBean muhuNewBean= response.body();
+                if (response.body() != null) {
+                    MuhuNewBean muhuNewBean = response.body();
                     getMoHuNewTitle.getMohuNewTitle(muhuNewBean.getRows());
-                    Log.i(TAG,"模糊搜索新闻->"+response.toString());
+                    Log.i(TAG, "模糊搜索新闻->" + response.toString());
 
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"模糊搜索新闻失败-->"+response.message());
+                Log.i(TAG, "模糊搜索新闻失败-->" + response.message());
             }
         });
     }
@@ -650,37 +673,41 @@ public class NewNetWorkPersenter {
      */
     //{"status":true,"code":200,"message":"查询成功!","data":[{"id":1,"name":"今日闻喜"},{"id":2,"name":"推荐"},{"id":3,"name":"智慧党建"},{"id":4,"name":"桐乡文化"},{"id":8,"name":"大事记"},{"id":9,"name":"特色"},{"id":10,"name":"旅游"},{"id":13,"name":"新时代好青年"},{"id":14,"name":"人物"},{"id":15,"name":"读中国"},{"id":17,"name":"要闻资讯"},{"id":20,"name":"视频新闻"}]}
     public void GetUserSetion(GetUserSetion getUserSetion) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","100");
-        areaMap.put("sort","OrderNum");
-        areaMap.put("order","asc");
-        CommApi.post(MainApi.getUserSection(),areaMap).execute(new CustomStringCallback() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "100");
+        areaMap.put("sort", "OrderNum");
+        areaMap.put("order", "asc");
+        CommApi.post(MainApi.getUserSection(), areaMap).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"获取用户版块-->"+response.toString());
+                if (response.body() != null) {
+                    Log.i(TAG, "获取用户版块-->" + response.toString());
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        String message=jsonObject.getString("message");
-                        if(code==200){
-                            List<SetionBean.DataBean> list=new ArrayList<>();
-                            JSONArray jsonElements= jsonObject.getJSONArray("data");
-                            for(int i=0;i<jsonElements.length();i++){
-                                JSONObject jj=jsonElements.getJSONObject(i);
-                                String name=jj.getString("name");
-                                int id=jj.getInt("id");
-                                SetionBean.DataBean dataBean=new SetionBean.DataBean();
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
+                        if (code == 200) {
+                            List<SetionBean.DataBean> list = new ArrayList<>();
+                            JSONArray jsonElements = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < jsonElements.length(); i++) {
+                                JSONObject jj = jsonElements.getJSONObject(i);
+                                String name = jj.getString("name");
+                                String Logo = jj.getString("logo");
+                                int id = jj.getInt("id");
+                                String oo=jj.getString("hasChilds");
+                                SetionBean.DataBean dataBean = new SetionBean.DataBean();
                                 dataBean.setName(name);
+                                dataBean.setHasChilds(oo);
+                                dataBean.setLogo(Logo);
                                 dataBean.setId(id);
                                 list.add(dataBean);
                             }
                             getUserSetion.getUserSetion(list);
 
 
-                        }else{
-                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        } else {
+                            GlobalToast.show(message, Toast.LENGTH_LONG);
                         }
 
                     } catch (JSONException e) {
@@ -688,48 +715,61 @@ public class NewNetWorkPersenter {
                     }
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取用户版块失败-->"+response.message());
+                Log.i(TAG, "获取用户版块失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取用户版块未登录状态
      */
     public void GetUserSetionasNoLogin(GetUserSetion getUserSetion) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","100");
-        areaMap.put("sort","OrderNum");
-        areaMap.put("order","asc");
-        CommApi.post(MainApi.getNoLoginUserSection(),areaMap).execute(new CustomStringCallback() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "100");
+        areaMap.put("sort", "OrderNum");
+        areaMap.put("order", "asc");
+        wherebean2 wh=new wherebean2();
+        wh.setName("PId");
+        wh.setValue("0");
+        List<wherebean2>list=new ArrayList<>();
+        list.add(wh);
+        String as = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres",as);
+        CommApi.post(MainApi.getNoLoginUserSection(), areaMap).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"获取用户版块-->"+response.toString());
+                if (response.body() != null) {
+                    Log.i(TAG, "获取用户版块-->" + response.toString());
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        String message=jsonObject.getString("message");
-                        if(code==200){
-                            List<SetionBean.DataBean> list=new ArrayList<>();
-                            JSONArray jsonElements= jsonObject.getJSONArray("rows");
-                            for(int i=0;i<jsonElements.length();i++){
-                                JSONObject jj=jsonElements.getJSONObject(i);
-                                String name=jj.getString("Name");
-                                int id=jj.getInt("Id");
-                                SetionBean.DataBean dataBean=new SetionBean.DataBean();
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
+                        if (code == 200) {
+                            List<SetionBean.DataBean> list = new ArrayList<>();
+                            JSONArray jsonElements = jsonObject.getJSONArray("rows");
+                            for (int i = 0; i < jsonElements.length(); i++) {
+                                JSONObject jj = jsonElements.getJSONObject(i);
+                                String name = jj.getString("Name");
+                                int id = jj.getInt("Id");
+                                String Logo = jj.getString("Logo");
+                                String oo=jj.getString("HasChilds");
+                                SetionBean.DataBean dataBean = new SetionBean.DataBean();
                                 dataBean.setName(name);
                                 dataBean.setId(id);
+                                dataBean.setHasChilds(oo);
+                                dataBean.setLogo(Logo);
                                 list.add(dataBean);
                             }
                             getUserSetion.getUserSetion(list);
 
 
-                        }else{
-                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        } else {
+                            GlobalToast.show(message, Toast.LENGTH_LONG);
                         }
 
                     } catch (JSONException e) {
@@ -737,97 +777,102 @@ public class NewNetWorkPersenter {
                     }
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取用户版块失败-->"+response.message());
+                Log.i(TAG, "获取用户版块失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取用户自己取消的版块
      */
-        public void getNoUserSetions( String page, GetNoSationList getNoSationList) {
+    public void getNoUserSetions(String page, GetNoSationList getNoSationList) {
 
-            Map<String,String> areaMap = new HashMap<String,String>();
-            areaMap.put("page",page);
-            areaMap.put("rows","30");
-            areaMap.put("sort","Id");
-            areaMap.put("order","desc");
-            areaMap.put("wheres","[]");
-          CommApi.post(MainApi.getNoUserSection(),areaMap).execute(new JsonCallback<NoSetionsBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        areaMap.put("wheres", "[]");
+        CommApi.post(MainApi.getNoUserSection(), areaMap).execute(new JsonCallback<NoSetionsBean>() {
             //{"code":200,"message":null,"status":0,"msg":null,"total":1,"rows":[{"Id":204,"SectionId":8,"SectionName":"大事记","CreateID":16,"Creator":"测试7","CreateDate":"2020-10-16 16:19:12"}],"summary":null,"extra":null}
             @Override
             public void onSuccess(Response<NoSetionsBean> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     getNoSationList.getNoSationList(response.body());
-                    Log.i(TAG,"获取用户自己取消的版块->"+response.toString());
+                    Log.i(TAG, "获取用户自己取消的版块->" + response.toString());
 
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"获取用户自己取消的版块失败-->"+response.message());
+                Log.i(TAG, "获取用户自己取消的版块失败-->" + response.message());
             }
         });
     }
+
     /**
-     *
      * 用户修改个人版块
      */
     public void UpdateUserSections(String SectionName) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("SectionName",SectionName);
-        CommApi.post(MainApi.UpdateUserSections(),areaMap).execute(new CustomStringCallback() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("SectionName", SectionName);
+        CommApi.post(MainApi.UpdateUserSections(), areaMap).execute(new CustomStringCallback() {
             //{"status":true,"code":200,"message":"修改用户个人版块成功!","data":1}
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
 
-                    Log.i(TAG,"修改个人版块->"+response.toString());
+                    Log.i(TAG, "修改个人版块->" + response.toString());
 
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"修改个人版块失败-->"+response.message());
+                Log.i(TAG, "修改个人版块失败-->" + response.message());
             }
         });
     }
+
     /**
-     *
      * 民生投诉留言
      */
     public void GetPLiveLeaveInfo(String page, String Type, GetPliveLeaveMsgInfo getPliveLeaveMsgInfo) {
 
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        List<wherebean> list=new ArrayList<>();
-        wherebean w=new wherebean();
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        List<wherebean> list = new ArrayList<>();
+        wherebean w = new wherebean();
         w.setName("Type");
         w.setValue(Type); //Type=0：热点诉求、Type=1：我的留言
         w.setDisplayType("text");
         list.add(w);
-        String result=GsonUtil.BeanToJson(list);
-        areaMap.put("wheres",result);
-        CommApi.post(MainApi.PliveData(),areaMap).execute(new JsonCallback<PliveLeaveInfo>() {
+        String result = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", result);
+        CommApi.post(MainApi.PliveData(), areaMap).execute(new JsonCallback<PliveLeaveInfo>() {
             //{"status":true,"code":200,"message":"修改用户个人版块成功!","data":1}
             @Override
             public void onSuccess(Response<PliveLeaveInfo> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     getPliveLeaveMsgInfo.getPliveLeaveMsgInfo(response.body());
-                    Log.i(TAG,"民生投诉留言有->"+response.body().getRows().size()+"条");
+                    Log.i(TAG, "民生投诉留言有->" + response.body().getRows().size() + "条");
                 }
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"民生投诉留言失败-->"+response.message());
+                Log.i(TAG, "民生投诉留言失败-->" + response.message());
             }
         });
     }
@@ -836,14 +881,14 @@ public class NewNetWorkPersenter {
      * 民生机构
      * 1 模糊查询 0查全部
      */
-    public void GetDepartmentInfo(GetDepartmentInfo getDepartmentInfo,String type,String content) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("name",content);
-        CommApi.post(MainApi.Department()+type,areaMap).execute(new JsonCallback<DepartmnetInfoBean>() {
+    public void GetDepartmentInfo(GetDepartmentInfo getDepartmentInfo, String type, String content) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("name", content);
+        CommApi.post(MainApi.Department() + type, areaMap).execute(new JsonCallback<DepartmnetInfoBean>() {
             @Override
             public void onSuccess(Response<DepartmnetInfoBean> response) {
-                Log.i(TAG,"民生机构-->"+response.message());
-                if(getDepartmentInfo!=null&&response.body()!=null){
+                Log.i(TAG, "民生机构-->" + response.message());
+                if (getDepartmentInfo != null && response.body() != null) {
                     getDepartmentInfo.getDepartmentinfo(response.body());
                 }
             }
@@ -851,23 +896,24 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"民生机构失败-->"+response.message());
+                Log.i(TAG, "民生机构失败-->" + response.message());
             }
         });
     }
+
     /**
      * 根据id查询留言详情
      */
-    public void GetDepartmentInfoForid(String id , GetDetailMessage getDetailMessage) {
-        CommApi.postNoParams(MainApi.LeaveMegDetailedInfo()+"/"+id).execute(new JsonCallback<MessageDetalInfoBean>() {
+    public void GetDepartmentInfoForid(String id, GetDetailMessage getDetailMessage) {
+        CommApi.postNoParams(MainApi.LeaveMegDetailedInfo() + "/" + id).execute(new JsonCallback<MessageDetalInfoBean>() {
             //{"status":true,"code":200,"message":"查询成功!","data":{"id":37,"subject":"64646+","contents":"ceshi ","images":"Upload/Files/Livelihood_Feedback/2bf663251fdd42528b535fbc949a794d/small/0.41669806662035924.jpg","phoneNo":"6546","organizationId":45,"organizationName":"职能机构","type":"投诉","userTrueName":null,"auditUserId":null,"auditDate":null,"description":null,"isReply":0,"replyUserId":null,"replyContents":null,"replyDate":null,"time":null,"createID":16,"creator":"eer","createDate":"2020-11-03 19:59:26","isBlackList":0,"state":"0"}}
             @Override
             public void onSuccess(Response<MessageDetalInfoBean> response) {
-                if(response.body()!=null){
-                    if(getDetailMessage!=null){
+                if (response.body() != null) {
+                    if (getDetailMessage != null) {
                         getDetailMessage.getDetailMessage(response.body());
                     }
-                    Log.i(TAG,"留言详情-->"+response.message());
+                    Log.i(TAG, "留言详情-->" + response.message());
                 }
 
             }
@@ -875,27 +921,28 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"留言详情失败-->"+response.message());
+                Log.i(TAG, "留言详情失败-->" + response.message());
             }
         });
     }
+
     /**
      * 查新当前用户信息
      */
     public void GetUserInfo(String userId, GetUserInfo getUserInfo) {
-        String uri=MainApi.GetInfo();
-        if(!userId.equals("")){
-            uri=uri+"/"+userId;
+        String uri = MainApi.GetInfo();
+        if (!userId.equals("")) {
+            uri = uri + "/" + userId;
         }
         //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
         CommApi.postNoParams(uri).execute(new JsonCallback<UserInfoBean>() {
             @Override
             public void onSuccess(Response<UserInfoBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"当前用户信息-->"+response.message());
-                    ACache aCache=ACache.get(context);
-                    aCache.put("userinfo",response.body());
-                    if(getUserInfo!=null){
+                if (response.body() != null) {
+                    Log.i(TAG, "当前用户信息-->" + response.message());
+                    ACache aCache = ACache.get(context);
+                    aCache.put("userinfo", response.body());
+                    if (getUserInfo != null) {
                         getUserInfo.getUserInfo(response.body());
                     }
                 }
@@ -904,27 +951,28 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"当前用户信息失败-->"+response.message());
+                Log.i(TAG, "当前用户信息失败-->" + response.message());
             }
         });
     }
+
     /**
      * 查新当前用户信息
      */
     public void GetUserInfo2(String userId, GetUserInfo getUserInfo) {
-        String uri=MainApi.GetInfo2();
-        if(!userId.equals("")){
-            uri=uri+"/"+userId;
+        String uri = MainApi.GetInfo2();
+        if (!userId.equals("")) {
+            uri = uri + "/" + userId;
         }
         //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
         CommApi.postNoParams(uri).execute(new JsonCallback<UserInfoBean>() {
             @Override
             public void onSuccess(Response<UserInfoBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"当前用户信息-->"+response.message());
-                    ACache aCache=ACache.get(context);
-                    aCache.put("userinfo",response.body());
-                    if(getUserInfo!=null){
+                if (response.body() != null) {
+                    Log.i(TAG, "当前用户信息-->" + response.message());
+                    ACache aCache = ACache.get(context);
+                    aCache.put("userinfo", response.body());
+                    if (getUserInfo != null) {
                         getUserInfo.getUserInfo(response.body());
                     }
                 }
@@ -933,58 +981,59 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"当前用户信息失败-->"+response.message());
+                Log.i(TAG, "当前用户信息失败-->" + response.message());
             }
         });
     }
 
     /**
      * 添加评论
+     *
      * @param Creator
      * @param Title
      * @param LongTitle
      * @param Contents
      * @param TargetId
      * @param GlobalSectionId
-     * @param type 1文章 2 视频 3图集 4直播间 5点播 6频道
+     * @param type            1文章 2 视频 3图集 4直播间 5点播 6频道
      */
-    public void AddComment(String Creator, String Title, String LongTitle, String Contents, String TargetId, String GlobalSectionId, String type, AddCommentok addCommentok){
-        String parmes="";
+    public void AddComment(String Creator, String Title, String LongTitle, String Contents, String TargetId, String GlobalSectionId, String type, AddCommentok addCommentok) {
+        String parmes = "";
         try {
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("Creator",Creator);
-            jsonObject.put("Title",Title);
-            jsonObject.put("LongTitle",LongTitle);
-            jsonObject.put("Contents",Contents);
-            jsonObject.put("TargetId",TargetId);
-            jsonObject.put("GlobalSectionId",GlobalSectionId);
-            jsonObject.put("Type",type);
-            JSONObject jsonObject1=new JSONObject();
-            jsonObject1.put("mainData",jsonObject);
-            parmes=jsonObject1.toString();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Creator", Creator);
+            jsonObject.put("Title", Title);
+            jsonObject.put("LongTitle", LongTitle);
+            jsonObject.put("Contents", Contents);
+            jsonObject.put("TargetId", TargetId);
+            jsonObject.put("GlobalSectionId", GlobalSectionId);
+            jsonObject.put("Type", type);
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("mainData", jsonObject);
+            parmes = jsonObject1.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
-        CommApi.postAddJson(MainApi.AddComment(),parmes).execute(new CustomStringCallback() {
+        CommApi.postAddJson(MainApi.AddComment(), parmes).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 //{"status":true,"code":311,"message":"保存成功","data":null}
-                if(response.body()!=null){
-                    Log.i(TAG,"添加评论-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "添加评论-->" + response.message());
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        String message=jsonObject.getString("message");
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
                         addCommentok.addcommentok();
-                        if(code==311){
+                        if (code == 311) {
 
-                            Log.i("test","添加评论成功！");
-                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                            Log.i("test", "添加评论成功！");
+                            GlobalToast.show(message, Toast.LENGTH_LONG);
 
-                        }else{
-                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        } else {
+                            GlobalToast.show(message, Toast.LENGTH_LONG);
                         }
 
 
@@ -998,41 +1047,42 @@ public class NewNetWorkPersenter {
             public void onError(Response response) {
                 addCommentok.addcommentok();
                 super.onError(response);
-                Log.i(TAG,"添加评论失败-->"+response.message());
+                Log.i(TAG, "添加评论失败-->" + response.message());
             }
         });
     }
+
     /**
      * 意见反馈
      * ,品开
      */
     public void upYiJianBack(String Contents, String PhoneNo, String CoverUrl, YJRequestSuccess yjRequestSuccess) {
-            String parmes="";
+        String parmes = "";
         try {
-            JSONObject jsonObject=new JSONObject();
-            jsonObject.put("Contents",Contents);
-            jsonObject.put("PhoneNo",PhoneNo);
-            jsonObject.put("CoverUrl",CoverUrl);
-            JSONObject jsonObject1=new JSONObject();
-            jsonObject1.put("mainData",jsonObject);
-            parmes=jsonObject1.toString();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Contents", Contents);
+            jsonObject.put("PhoneNo", PhoneNo);
+            jsonObject.put("CoverUrl", CoverUrl);
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("mainData", jsonObject);
+            parmes = jsonObject1.toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
 
         //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
-        CommApi.postAddJson(MainApi.YiJianYiBack(),parmes).execute(new CustomStringCallback() {
+        CommApi.postAddJson(MainApi.YiJianYiBack(), parmes).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 //{"status":true,"code":311,"message":"保存成功","data":null}
-                if(response.body()!=null){
-                    Log.i(TAG,"意见反馈-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "意见反馈-->" + response.message());
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        if(code==311){
-                            if(yjRequestSuccess!=null){
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        if (code == 311) {
+                            if (yjRequestSuccess != null) {
                                 yjRequestSuccess.yjquest();
                             }
 
@@ -1050,52 +1100,54 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"意见反馈失败-->"+response.message());
+                Log.i(TAG, "意见反馈失败-->" + response.message());
             }
         });
     }
+
     /**
      * 历史足迹
      * ,品开
      */
-    public void AddHistoryforNews(String Type, String TargetId, String SectionId,String ActivityType) {
+    public void AddHistoryforNews(String Type, String TargetId, String SectionId, String ActivityType) {
         //{"status":true,"code":200,"message":null,"data":{"status":true,"code":200,"message":null,"data":{"user_Id":16,"userName":"ccaaa","userTrueName":"eer","address":"address","phoneNo":"15935938255","email":null,"remark":"remake","gender":0,"roleName":null,"headImageUrl":"Upload/Files/a.jpg","createDate":"2020-10-13 08:48:43","isBlackList":1}}}
-        CommApi.postNoParams(MainApi.AddHistoryforNews()+Type+"/"+TargetId+"/"+SectionId+"/"+ActivityType).execute(new CustomStringCallback() {
+        CommApi.postNoParams(MainApi.AddHistoryforNews() + Type + "/" + TargetId + "/" + SectionId + "/" + ActivityType).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
 //                {"status":true,"code":200,"message":"添加成功!","data":1}
-                if(response.body()!=null){
-                    Log.i(TAG,"添加历史成功-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "添加历史成功-->" + response.message());
                 }
             }
 
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"添加历史失败-->"+response.message());
+                Log.i(TAG, "添加历史失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取主播信息
      */
 
     //todo
-    public void GetLivingMasterInfo( String id,GetLivingMInfo getLivingMInfo ) {
+    public void GetLivingMasterInfo(String id, GetLivingMInfo getLivingMInfo) {
         //{"status":true,"code":200,"message":null,"data":{"userTrueName":"测试姓名","headImageUrl":"Upload/Files/Sys_User/ac99fd0bf5d44c7099754da251a8ed4c/small/头像1.jpg"}}
-        CommApi.postNoParams(MainApi.GetLivingMasterInfo()+"/"+id).execute(new CustomStringCallback() {
+        CommApi.postNoParams(MainApi.GetLivingMasterInfo() + "/" + id).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"当前主播信息-->"+response.body());
-                if(response.body()!=null){
+                Log.i(TAG, "当前主播信息-->" + response.body());
+                if (response.body() != null) {
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        if(code==200){
-                            JSONObject jsonObject1=jsonObject.getJSONObject("data");
-                            String userTrueName= jsonObject1.getString("userTrueName");
-                            String headImageUrl= jsonObject1.getString("headImageUrl");
-                            getLivingMInfo.getinfo(userTrueName,headImageUrl);
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        if (code == 200) {
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                            String userTrueName = jsonObject1.getString("userTrueName");
+                            String headImageUrl = jsonObject1.getString("headImageUrl");
+                            getLivingMInfo.getinfo(userTrueName, headImageUrl);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1109,71 +1161,74 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"主播信息失败-->"+response.message());
+                Log.i(TAG, "主播信息失败-->" + response.message());
             }
         });
     }
+
     /**
      * 得到直播间列表预览图
      */
-    public void GetLiveCoverInfo(String RoomIds , GetCoverInfo getCoverInfo) {
+    public void GetLiveCoverInfo(String RoomIds, GetCoverInfo getCoverInfo) {
         SortedMap<String, String> param = new TreeMap<String, String>();
         param.put("RoomIds", RoomIds);
-        CommApi.post(MainApi.GetLivingCover(),param).execute(new JsonCallback<LiveCoverInfo>() {
+        CommApi.post(MainApi.GetLivingCover(), param).execute(new JsonCallback<LiveCoverInfo>() {
             @Override
             public void onSuccess(Response<LiveCoverInfo> response) {
 
-                if(response.body()!=null){
+                if (response.body() != null) {
                     getCoverInfo.getCoverInfo(response.body());
                 }
 
-                Log.i(TAG,"直播间列表预览图-->"+response.message());
+                Log.i(TAG, "直播间列表预览图-->" + response.message());
 
             }
 
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"直播间列表预览图失败-->"+response.message());
+                Log.i(TAG, "直播间列表预览图失败-->" + response.message());
             }
         });
     }
+
     /**
      * 得到直播间人数
      */
-    public void GetLiveNum( String RoomIds ) {
+    public void GetLiveNum(String RoomIds) {
         SortedMap<String, String> param = new TreeMap<String, String>();
         param.put("roomId", RoomIds);
-        CommApi.post(MainApi.GetLivingPeople(),param).execute(new StringCallback() {
+        CommApi.post(MainApi.GetLivingPeople(), param).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"直播间人数-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "直播间人数-->" + response.message());
                 }
             }
 
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"直播间人数失败-->"+response.message());
+                Log.i(TAG, "直播间人数失败-->" + response.message());
             }
         });
     }
+
     /**
      * 留言弹框  查询反馈单位
      */
     public void Search_Organization(IshowSearchOrganization ishowSearchOrganization) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","30");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        areaMap.put("where","[]");
-        CommApi.post(MainApi.GetOrganization(),areaMap).execute(new JsonCallback<FeedbackBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        areaMap.put("where", "[]");
+        CommApi.post(MainApi.GetOrganization(), areaMap).execute(new JsonCallback<FeedbackBean>() {
             @Override
             public void onSuccess(Response<FeedbackBean> response) {
-                Log.i(TAG,"反馈单位-->"+response.message());
-                if(response.body()!=null){
+                Log.i(TAG, "反馈单位-->" + response.message());
+                if (response.body() != null) {
                     ishowSearchOrganization.ishowSearchOrganization(response.body());
                 }
 
@@ -1183,37 +1238,38 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"反馈单位失败-->"+response.message());
+                Log.i(TAG, "反馈单位失败-->" + response.message());
             }
         });
     }
+
     /**
      * 查看收藏列表
      * title 搜索关键字
      */
-    public void GetCollectList(GetCollectList getCollectList,String title,String page) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","50");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        if(title.equals("")){
-            areaMap.put("where","[]");
-        }else{
-            List<wherebean> list=new ArrayList<>();
-            wherebean w=new wherebean();
+    public void GetCollectList(GetCollectList getCollectList, String title, String page) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "50");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        if (title.equals("")) {
+            areaMap.put("where", "[]");
+        } else {
+            List<wherebean> list = new ArrayList<>();
+            wherebean w = new wherebean();
             w.setName("Title");
             w.setValue(title);
             w.setDisplayType("like");
             list.add(w);
-            String as=GsonUtil.BeanToJson(list);
-            areaMap.put("wheres",as);
+            String as = GsonUtil.BeanToJson(list);
+            areaMap.put("wheres", as);
         }
-        CommApi.post("api/Sys_UserStores/getPageData",areaMap).execute(new JsonCallback<CollectListInfoBean>() {
+        CommApi.post("api/Sys_UserStores/getPageData", areaMap).execute(new JsonCallback<CollectListInfoBean>() {
             @Override
             public void onSuccess(Response<CollectListInfoBean> response) {
-                Log.i(TAG,"收藏列表-->"+response.message());
-                if(response.body()!=null){
+                Log.i(TAG, "收藏列表-->" + response.message());
+                if (response.body() != null) {
                     getCollectList.getCollect(response.body());
                 }
 
@@ -1222,25 +1278,89 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"反馈单位失败-->"+response.message());
+                Log.i(TAG, "反馈单位失败-->" + response.message());
             }
         });
     }
+
+    /**
+     * 查询子栏目
+     */
+    public void GetSonClumn(GetSonCluln getSonCluln,String pid,int page,String rows) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", String.valueOf(page));
+        areaMap.put("rows", rows);
+        areaMap.put("sort", "OrderNum");
+        areaMap.put("order", "desc");
+        List<wherebean2> list = new ArrayList<>();
+        wherebean2 w = new wherebean2();
+        w.setName("PId");
+        w.setValue(pid);
+        list.add(w);
+        String as = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", as);
+        CommApi.post("api/Global_Sections/GetPageList", areaMap).execute(new JsonCallback<SonLanmuBean>() {
+            @Override
+            public void onSuccess(Response<SonLanmuBean> response) {
+                Log.i(TAG, "查询子栏目列表-->" + response.body().toString());
+                if (response.body() != null) {
+                    getSonCluln.getSonClumn(response.body());
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG, "查询子栏目列表失败-->" + response.message());
+            }
+        });
+    }
+
+    /**
+     * 查询主页栏目
+     */
+    public void QueryHoneClumn(GetHomeClumnInfoList getHomeClumnInfoList) {
+        Map<String, String> areaMap = new HashMap<>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "50");
+        areaMap.put("sort", "OrderNum");
+        areaMap.put("order", "desc");
+        areaMap.put("where", "[]");
+        //{"code":200,"message":null,"status":0,"msg":null,"total":2,"rows":[{"Id":2,"SectionId":1,"Type":1,"SectionName":"今日闻喜","Logo":"Upload/Files/My_ImageRepository/4eff8d1117f146398c146284968123b6/793bfb20-a733-4029-bcab-142ffb6b5895.jpg","CreateID":3,"Creator":"测试用户2","CreateDate":"2020-02-02 00:00:00"},{"Id":1,"SectionId":18,"Type":1,"SectionName":"闻喜周边","Logo":"Upload/Files/Global_Sections/4b7dd895c03b47199c2a3af5317d8483/small/头像2.jpg","CreateID":3,"Creator":"测试用户2","CreateDate":"2020-02-02 00:00:00"}],"summary":null,"extra":null}
+        CommApi.post(MainApi.GetHomeColumn(), areaMap).execute(new JsonCallback<HomeClumnInfo>() {
+            @Override
+            public void onSuccess(Response<HomeClumnInfo> response) {
+                Log.i(TAG, "首页栏目列表-->" + response.message());
+                if (response.body() != null) {
+                    getHomeClumnInfoList.getHomeClumnInfoList(response.body());
+                }
+
+            }
+
+            @Override
+            public void onError(Response response) {
+                super.onError(response);
+                Log.i(TAG, "首页栏目列表失败-->" + response.message());
+            }
+        });
+    }
+
     /**
      * 查看历史记录
      */
     public void GetHistoryList(GetHistory getHistory, String page) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        areaMap.put("where","[]");
-        CommApi.post("api/Sys_UserFootMark/GetPageData",areaMap).execute(new JsonCallback<HistoryListInfoBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        areaMap.put("where", "[]");
+        CommApi.post("api/Sys_UserFootMark/GetPageData", areaMap).execute(new JsonCallback<HistoryListInfoBean>() {
             @Override
             public void onSuccess(Response<HistoryListInfoBean> response) {
-                Log.i(TAG,"历史记录-->"+response.message());
-                if(response.body()!=null){
+                Log.i(TAG, "历史记录-->" + response.message());
+                if (response.body() != null) {
                     getHistory.getHistory(response.body());
                 }
 
@@ -1249,32 +1369,33 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"历史记录失败-->"+response.message());
+                Log.i(TAG, "历史记录失败-->" + response.message());
             }
         });
     }
+
     /**
      * 查看是否有权限
      */
     public void GetPermissBySationId(GetPermiss getPermiss, String SationId) {
 
-        CommApi.postNoParams("api/Global_Sections/GetAuthById/"+SationId).execute(new CustomStringCallback() {
+        CommApi.postNoParams("api/Global_Sections/GetAuthById/" + SationId).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
                 //{"status":true,"code":200,"message":"查询成功","data":{"openShard":1,"openComment":0,"openLikes":0}}
-                Log.i(TAG,"查看是否有权限-->"+response.message());
-                if(response.body()!=null){
+                Log.i(TAG, "查看是否有权限-->" + response.message());
+                if (response.body() != null) {
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                       String message= jsonObject.getString("message");
-                       if(code==200){
-                           JSONObject data=jsonObject.getJSONObject("data");
-                          int openShard= data.getInt("openShard");
-                           getPermiss.Permiss(openShard);
-                       }else{
-                           GlobalToast.show4(message,Toast.LENGTH_LONG);
-                       }
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
+                        if (code == 200) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            int openShard = data.getInt("openShard");
+                            getPermiss.Permiss(openShard);
+                        } else {
+                            GlobalToast.show4(message, Toast.LENGTH_LONG);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1286,26 +1407,27 @@ public class NewNetWorkPersenter {
             public void onError(Response response) {
                 super.onError(response);
                 getPermiss.Permiss(0); //报错就没权限
-                Log.i(TAG,"查看是否有权限-->"+response.message());
+                Log.i(TAG, "查看是否有权限-->" + response.message());
             }
         });
     }
+
     /**
      * 查看评论
      */
     public void GetCommentList(GetComment getComment, String page) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        areaMap.put("where","[]");
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        areaMap.put("where", "[]");
 
-        CommApi.post("api/Sys_UserCommentsView/GetPageData",areaMap).execute(new JsonCallback<CommentInfoBean>() {
+        CommApi.post("api/Sys_UserCommentsView/GetPageData", areaMap).execute(new JsonCallback<CommentInfoBean>() {
             @Override
             public void onSuccess(Response<CommentInfoBean> response) {
-                Log.i(TAG,"评论-->"+response.message());
-                if(response.body()!=null){
+                Log.i(TAG, "评论-->" + response.message());
+                if (response.body() != null) {
                     getComment.getcomment(response.body());
                 }
 
@@ -1314,26 +1436,27 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"评论失败-->"+response.message());
+                Log.i(TAG, "评论失败-->" + response.message());
             }
         });
     }
+
     /**
      * 查看预约记录
      */
     public void GetYuyueList(GetYuyue getYuyue) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","60");
-        areaMap.put("sort","Id");
-        areaMap.put("order","desc");
-        areaMap.put("where","[]");
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "60");
+        areaMap.put("sort", "Id");
+        areaMap.put("order", "desc");
+        areaMap.put("where", "[]");
 
-        CommApi.post("api/Sys_UserReserve/GetMyReserve",areaMap).execute(new JsonCallback<YuYueInfoBean>() {
+        CommApi.post("api/Sys_UserReserve/GetMyReserve", areaMap).execute(new JsonCallback<YuYueInfoBean>() {
             @Override
             public void onSuccess(Response<YuYueInfoBean> response) {
-                Log.i(TAG,"预约记录-->"+response.message());
-                if(response.body()!=null){
+                Log.i(TAG, "预约记录-->" + response.message());
+                if (response.body() != null) {
                     getYuyue.getyuyue(response.body());
                 }
 
@@ -1342,20 +1465,21 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"预约记录失败-->"+response.message());
+                Log.i(TAG, "预约记录失败-->" + response.message());
             }
         });
     }
+
     /**
-     *  添加留言
+     * 添加留言
      */
-    public void AddLeaveMessage(LeaveMegBean leaveMegBean , Commentimpl commentimpl) {
-        String gson=GsonUtil.BeanToJson(leaveMegBean);
-        OkGo.<String>post(AppConfig.BASE_URL+MainApi.AddLeaveMessag()).headers("Authorization", "Bearer " + Constant.token).upJson(gson).execute(new StringCallback() {
+    public void AddLeaveMessage(LeaveMegBean leaveMegBean, Commentimpl commentimpl) {
+        String gson = GsonUtil.BeanToJson(leaveMegBean);
+        OkGo.<String>post(AppConfig.BASE_URL + MainApi.AddLeaveMessag()).headers("Authorization", "Bearer " + Constant.token).upJson(gson).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"留言成功-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "留言成功-->" + response.message());
                     commentimpl.getInfo(response.body());
                 }
 
@@ -1364,62 +1488,65 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                Log.i(TAG,"留言失败-->"+response.message());
+                Log.i(TAG, "留言失败-->" + response.message());
             }
         });
 
     }
+
     /**
-     *  积分列表
+     * 积分列表
      */
-    public void jifenList(  String page,GetJifenList getJifenList ) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("sort","Id");
-        areaMap.put("rows","30");
-        areaMap.put("order","desc");
-        List<wherebean> list=new ArrayList<>();
-        wherebean w=new wherebean();
+    public void jifenList(String page, GetJifenList getJifenList) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("sort", "Id");
+        areaMap.put("rows", "30");
+        areaMap.put("order", "desc");
+        List<wherebean> list = new ArrayList<>();
+        wherebean w = new wherebean();
         w.setName("Mode");
         w.setValue("1");
         list.add(w);
-        String as=GsonUtil.BeanToJson(list);
-        areaMap.put("wheres",as);
-        CommApi.post("api/Sys_UserScore/getPageData",areaMap).execute(new JsonCallback<JiFenLogBean>() {
+        String as = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", as);
+        CommApi.post("api/Sys_UserScore/getPageData", areaMap).execute(new JsonCallback<JiFenLogBean>() {
             @Override
             public void onSuccess(Response<JiFenLogBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"积分列表-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "积分列表-->" + response.message());
                     getJifenList.getJifenNum(response.body());
                 }
 
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"积分列表失败-->"+response.message());
+                Log.i(TAG, "积分列表失败-->" + response.message());
             }
         });
     }
+
     /**
-     *  添加积分
+     * 添加积分
      */
-    public void AddJifen( String Type ) {
-        JifenType jifenType=new JifenType();
-        JifenType.MainDataBean mainDataBean=new   JifenType.MainDataBean();
+    public void AddJifen(String Type) {
+        JifenType jifenType = new JifenType();
+        JifenType.MainDataBean mainDataBean = new JifenType.MainDataBean();
         mainDataBean.setType(Type);
         jifenType.setMainData(mainDataBean);
-       String sshabiwanyi= GsonUtil.BeanToJson(jifenType);
-        CommApi.postAddJson("api/Sys_UserScore/Add",sshabiwanyi).execute(new CustomStringCallback() {
+        String sshabiwanyi = GsonUtil.BeanToJson(jifenType);
+        CommApi.postAddJson("api/Sys_UserScore/Add", sshabiwanyi).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"添加积分-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "添加积分-->" + response.message());
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        if(code==200){
-                            GlobalToast.show("添加积分成功",5000);
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        if (code == 200) {
+                            GlobalToast.show("添加积分成功", 5000);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1428,39 +1555,40 @@ public class NewNetWorkPersenter {
 
 
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"添加积分失败-->"+response.message());
+                Log.i(TAG, "添加积分失败-->" + response.message());
             }
         });
     }
 
 
     /**
-     *  添加积分
+     * 添加积分
      */
     public void AddSignJifen(String Type, GetSignStatus getSignStatus) {
 
-        JifenType jifenType=new JifenType();
-        JifenType.MainDataBean mainDataBean=new   JifenType.MainDataBean();
+        JifenType jifenType = new JifenType();
+        JifenType.MainDataBean mainDataBean = new JifenType.MainDataBean();
         mainDataBean.setType(Type);
         jifenType.setMainData(mainDataBean);
-        String sshabiwanyi= GsonUtil.BeanToJson(jifenType);
-        CommApi.postAddJson("api/Sys_UserScore/Add",sshabiwanyi).execute(new CustomStringCallback() {
+        String sshabiwanyi = GsonUtil.BeanToJson(jifenType);
+        CommApi.postAddJson("api/Sys_UserScore/Add", sshabiwanyi).execute(new CustomStringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
 
-                if(response.body()!=null){
-                    Log.i(TAG,"添加积分-->"+response.message());
+                if (response.body() != null) {
+                    Log.i(TAG, "添加积分-->" + response.message());
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        int code=jsonObject.getInt("code");
-                        String message=jsonObject.getString("message");
-                        if(code==200){
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        int code = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
+                        if (code == 200) {
                             getSignStatus.ShowSignStatus(true);
-                        }else{
-                            GlobalToast.show(message,Toast.LENGTH_LONG);
+                        } else {
+                            GlobalToast.show(message, Toast.LENGTH_LONG);
                             getSignStatus.ShowSignStatus(false);
                         }
                     } catch (JSONException e) {
@@ -1470,10 +1598,11 @@ public class NewNetWorkPersenter {
 
 
             }
+
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"添加积分失败-->"+response.message());
+                Log.i(TAG, "添加积分失败-->" + response.message());
                 getSignStatus.ShowSignStatus(false);
             }
         });
@@ -1483,16 +1612,16 @@ public class NewNetWorkPersenter {
      * 获取频道栏目列表
      */
     public void GetChannelSations(GetCannelSetion getCannelSetion) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1");
-        areaMap.put("rows","50");
-        areaMap.put("order","asc");
-        areaMap.put("sort","Id");
-        CommApi.post(MainApi.GetChannels_Setion(),areaMap).execute(new JsonCallback<CannalSationBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1");
+        areaMap.put("rows", "50");
+        areaMap.put("order", "asc");
+        areaMap.put("sort", "Id");
+        CommApi.post(MainApi.GetChannels_Setion(), areaMap).execute(new JsonCallback<CannalSationBean>() {
             @Override
             public void onSuccess(Response<CannalSationBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"频道栏目列表-->"+response.body().toString());
+                if (response.body() != null) {
+                    Log.i(TAG, "频道栏目列表-->" + response.body().toString());
                     getCannelSetion.getCannel(response.body());
                 }
             }
@@ -1500,23 +1629,25 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"频道栏目列表失败-->"+response.message());
+                Log.i(TAG, "频道栏目列表失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取Tv直播列表
      */
     public void GetTvLiveList(String page, GetCannelInfo getCannelInfo) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("order","desc");
-        CommApi.post(MainApi.GetTv_LIVE(),areaMap).execute(new JsonCallback<TvCannelBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("order", "desc");
+        CommApi.post(MainApi.GetTv_LIVE(), areaMap).execute(new JsonCallback<TvCannelBean>() {
+            //TvCannelBean{code=200, message=null, status=0, msg=null, total=7, summary=null, extra=null, rows=[TvCanneInfo{Id=15, Name='闻喜电视', StreamUrl='12', CreateID=1, Creator='测试姓名', CreateDate='2020-11-23 14:56:11', LogoNo=1, TagId=123.0, Description='闻喜县第一电视广播电台', Platform=1, Type=1, ChannelSectionId=1.0, Permission=1.0, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=null, State=2, AuditUserId=null, AuditDate=null}, TvCanneInfo{Id=9, Name='CCTV-4', StreamUrl='https://osscdn.sxmty.com/oss/95A47929485B46DA/QMTNRK_YUNSHI/E3E6C260462B4EA89EA1D1B2F95509B4/FF7DA0DC7F454201B9C37B10DB0BE064_MP4-264-0800-0064-0960.mp4', CreateID=1, Creator='超级管理员', CreateDate='2020-09-23 10:00:00', LogoNo=1, TagId=12.0, Description='国际频道', Platform=1, Type=1, ChannelSectionId=1.0, Permission=2.0, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=Upload/Files/VideoDemand/12f4e8daecbc4f969df9a95993a89f26/small/ELMTpczNhFfnjUTDVZHJBDwt160414_1460623280.png, State=3, AuditUserId=null, AuditDate=null}, TvCanneInfo{Id=6, Name='CCTV-10', StreamUrl='http://39.134.66.66/PLTV/88888888/224/3221225677/index.m3u8', CreateID=1, Creator='超级管理员', CreateDate='2020-09-23 10:00:00', LogoNo=null, TagId=null, Description='科学频道', Platform=null, Type=null, ChannelSectionId=null, Permission=null, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=Upload/Files/Channels/cctv10.jpg, State=3, AuditUserId=null, AuditDate=null}, TvCanneInfo{Id=5, Name='CCTV-6', StreamUrl='http://39.134.66.66/PLTV/88888888/224/3221225487/index.m3u8', CreateID=1, Creator='超级管理员', CreateDate='2020-09-23 10:00:00', LogoNo=null, TagId=null, Description='电影频道', Platform=null, Type=null, ChannelSectionId=null, Permission=null, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=Upload/Files/Channels/cctv6.jpg, State=3, AuditUserId=null, AuditDate=null}, TvCanneInfo{Id=4, Name='CCTV-2', StreamUrl='http://112.50.243.8/PLTV/88888888/224/3221225923/1.m3u8', CreateID=1, Creator='超级管理员', CreateDate='2020-09-23 10:00:00', LogoNo=null, TagId=null, Description='财经频道', Platform=null, Type=null, ChannelSectionId=null, Permission=null, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=Upload/Files/Channels/cctv2.jpg, State=3, AuditUserId=null, AuditDate=null}, TvCanneInfo{Id=3, Name='CCTV-1', StreamUrl='http://112.50.243.8/PLTV/88888888/224/3221225922/1.m3u8', CreateID=1, Creator='超级管理员', CreateDate='2020-09-23 10:00:00', LogoNo=null, TagId=null, Description='综合频道', Platform=null, Type=null, ChannelSectionId=null, Permission=null, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=Upload/Files/Channels/cctv1.jpg, State=3, AuditUserId=null, AuditDate=null}, TvCanneInfo{Id=2, Name='CCTV-9', StreamUrl='http://39.134.66.66/PLTV/88888888/224/3221225488/index.m3u8', CreateID=1, Creator='超级管理员', CreateDate='2020-09-23 10:00:00', LogoNo=null, TagId=null, Description='英语频道', Platform=null, Type=null, ChannelSectionId=null, Permission=null, IsTopic=null, IsLookingBack=0, IsMoveTime=null, ImageUrl=Upload/Files/Channels/cctv9.jpg, State=3, AuditUserId=null, AuditDate=null}]}
             @Override
             public void onSuccess(Response<TvCannelBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"频道栏目列表-->"+response.body().toString());
+                if (response.body() != null) {
+                    Log.i(TAG, "频道栏目列表-->" + response.body().toString());
                     getCannelInfo.getCannelInfo(response.body());
                 }
             }
@@ -1524,24 +1655,25 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"直播列表列表失败-->"+response.message());
+                Log.i(TAG, "直播列表列表失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取直播间列表
      */
     public void GetLivingList(String page, GetLiveListInfo getLiveListInfo) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("order","desc");
-        areaMap.put("sort","LiveState");
-        CommApi.post(MainApi.GetLiving(),areaMap).execute(new JsonCallback<LiveBean>() {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("order", "desc");
+        areaMap.put("sort", "LiveState");
+        CommApi.post(MainApi.GetLiving(), areaMap).execute(new JsonCallback<LiveBean>() {
             @Override
             public void onSuccess(Response<LiveBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"直播间列表-->"+response.body().getTotal());
+                if (response.body() != null) {
+                    Log.i(TAG, "直播间列表-->" + response.body().getTotal());
                     getLiveListInfo.getLiveInfo(response.body());
                 }
             }
@@ -1549,35 +1681,36 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"直播间列表失败-->"+response.message());
+                Log.i(TAG, "直播间列表失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取点播列表
      */
     public void GetDemandList(String page, String ChannelSectionId, GetDemandList getDemandList) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page",page);
-        areaMap.put("rows","30");
-        areaMap.put("order","desc");
-        areaMap.put("sort","PublishDate");
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", page);
+        areaMap.put("rows", "30");
+        areaMap.put("order", "desc");
+        areaMap.put("sort", "PublishDate");
 
-        List<wherebean> list=new ArrayList<>();
-        wherebean w=new wherebean();
+        List<wherebean> list = new ArrayList<>();
+        wherebean w = new wherebean();
         w.setName("ChannelSectionId");
 //        w.setValue(ChannelSectionId);
         w.setValue(ChannelSectionId);
         w.setDisplayType("text");
         list.add(w);
-        String as=GsonUtil.BeanToJson(list);
-        areaMap.put("wheres",as);
+        String as = GsonUtil.BeanToJson(list);
+        areaMap.put("wheres", as);
 
-        CommApi.post(MainApi.GetDemandList(),areaMap).execute(new JsonCallback<DemandListBean>() {
+        CommApi.post(MainApi.GetDemandList(), areaMap).execute(new JsonCallback<DemandListBean>() {
             @Override
             public void onSuccess(Response<DemandListBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"精品列表-->"+response.body().getTotal());
+                if (response.body() != null) {
+                    Log.i(TAG, "精品列表-->" + response.body().getTotal());
                     getDemandList.getDemandList(response.body());
                 }
             }
@@ -1585,24 +1718,25 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"直播间列表失败-->"+response.message());
+                Log.i(TAG, "直播间列表失败-->" + response.message());
             }
         });
     }
+
     /**
      * 获取点播列表集数
      */
     public void GetDemandDetails(String Id, GetDemandJiNumDetails getDemandJiNumDetails) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("page","1"); //集数
-        areaMap.put("rows","100");
-        areaMap.put("sort","number");
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("page", "1"); //集数
+        areaMap.put("rows", "100");
+        areaMap.put("sort", "number");
 
-        CommApi.post(MainApi.GetDemandDetailsList()+Id,areaMap).execute(new JsonCallback<DemandEpisodeBean>() {
+        CommApi.post(MainApi.GetDemandDetailsList() + Id, areaMap).execute(new JsonCallback<DemandEpisodeBean>() {
             @Override
             public void onSuccess(Response<DemandEpisodeBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"精品集数-->"+response.body().getData().size());
+                if (response.body() != null) {
+                    Log.i(TAG, "精品集数-->" + response.body().getData().size());
 //                    getDemandList.getDemandList(response.body());
                     getDemandJiNumDetails.getDemandJiNumDetails(response.body());
                 }
@@ -1611,20 +1745,21 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"直播间列表失败-->"+response.message());
+                Log.i(TAG, "直播间列表失败-->" + response.message());
             }
         });
     }
+
     /**
      * 根据频道编号查询节目日期
      */
     public void GetCannelDateInfo(String Id, GetCannelDataInfo getCannelDataInfo) {
 
-        CommApi.postNoParams(MainApi.GetCannelDate()+Id).execute(new JsonCallback<CannelProgeressDateListBean>() {
+        CommApi.postNoParams(MainApi.GetCannelDate() + Id).execute(new JsonCallback<CannelProgeressDateListBean>() {
             @Override
             public void onSuccess(Response<CannelProgeressDateListBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"请求频道日期成功-->");
+                if (response.body() != null) {
+                    Log.i(TAG, "请求频道日期成功-->");
                     getCannelDataInfo.getCannelData(response.body());
                 }
             }
@@ -1632,20 +1767,21 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"请求频道日期失败-->"+response.message());
+                Log.i(TAG, "请求频道日期失败-->" + response.message());
             }
         });
     }
+
     /**
      * 根据日期和频道查询节目列表和我的预约信息
      */
-    public void GetProgressListForDate(String Id, String date,GetProgerssListInfo GetProgerssListInfo) {
+    public void GetProgressListForDate(String Id, String date, GetProgerssListInfo GetProgerssListInfo) {
 
-        CommApi.postNoParams(MainApi.GetCannelYuyueProgerssList()+date+"/"+Id).execute(new JsonCallback<YuYueProgresListInfoBean>() {
+        CommApi.postNoParams(MainApi.GetCannelYuyueProgerssList() + date + "/" + Id).execute(new JsonCallback<YuYueProgresListInfoBean>() {
             @Override
             public void onSuccess(Response<YuYueProgresListInfoBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"请求频道节目列表成功-->");
+                if (response.body() != null) {
+                    Log.i(TAG, "请求频道节目列表成功-->");
                     GetProgerssListInfo.getProgressList(response.body());
                 }
             }
@@ -1653,29 +1789,30 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"请求频道节目列表成功失败-->"+response.message());
+                Log.i(TAG, "请求频道节目列表成功失败-->" + response.message());
             }
         });
     }
+
     /**
      * 预约
      */
-    public void AddYuYue(String ProgramId,String ChannelId, String ProgramTime,String StartTime,String Name,String  LiveUrl, String registration_id,AddReserve addReserve) {
-        Map<String,String> areaMap = new HashMap<String,String>();
-        areaMap.put("ProgramId",ProgramId);
-        areaMap.put("ChannelId",ChannelId);
-        areaMap.put("ProgramTime",ProgramTime);
-        areaMap.put("StartTime",StartTime);
-        areaMap.put("Name",Name);
-        areaMap.put("LiveUrl",LiveUrl);
-        areaMap.put("registration_id",registration_id);
-        areaMap.put("Platform","android");
+    public void AddYuYue(String ProgramId, String ChannelId, String ProgramTime, String StartTime, String Name, String LiveUrl, String registration_id, AddReserve addReserve) {
+        Map<String, String> areaMap = new HashMap<String, String>();
+        areaMap.put("ProgramId", ProgramId);
+        areaMap.put("ChannelId", ChannelId);
+        areaMap.put("ProgramTime", ProgramTime);
+        areaMap.put("StartTime", StartTime);
+        areaMap.put("Name", Name);
+        areaMap.put("LiveUrl", LiveUrl);
+        areaMap.put("registration_id", registration_id);
+        areaMap.put("Platform", "android");
 
-        CommApi.post(MainApi.ADDYuyue(),areaMap).execute(new StringCallback() {
+        CommApi.post(MainApi.ADDYuyue(), areaMap).execute(new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"添加预约成功-->");
+                if (response.body() != null) {
+                    Log.i(TAG, "添加预约成功-->");
                     addReserve.addrever();
                 }
             }
@@ -1683,24 +1820,25 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"添加预约失败-->"+response.message());
+                Log.i(TAG, "添加预约失败-->" + response.message());
             }
         });
     }
+
     /**
      * 删除预约
      */
-    public void DeleteYuYue(String ProgramId,String ScheduleId, DeleteYuyue deleteYuyue) {
+    public void DeleteYuYue(String ProgramId, String ScheduleId, DeleteYuyue deleteYuyue) {
 
-        CommApi.postNoParams(MainApi.DeleteYuyue()+"/"+ProgramId+"/"+ScheduleId).execute(new StringCallback() {
+        CommApi.postNoParams(MainApi.DeleteYuyue() + "/" + ProgramId + "/" + ScheduleId).execute(new StringCallback() {
             //"{\"status\":true,\"code\":317,\"message\":\"删除成功\",\"data\":null}"
             @Override
             public void onSuccess(Response<String> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"删除预约成功-->");
+                if (response.body() != null) {
+                    Log.i(TAG, "删除预约成功-->");
                     try {
-                        JSONObject jsonObject=new JSONObject(response.body());
-                        if(jsonObject.getInt("code")==317)
+                        JSONObject jsonObject = new JSONObject(response.body());
+                        if (jsonObject.getInt("code") == 317)
                             deleteYuyue.DeleteYuyue();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -1712,7 +1850,7 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"删除预约失败-->"+response.message());
+                Log.i(TAG, "删除预约失败-->" + response.message());
             }
         });
     }
@@ -1722,11 +1860,11 @@ public class NewNetWorkPersenter {
      */
     public void CheckAppVersion(CheckAppVersion CheckAppVersion) {
 
-        CommApi.postNoParams(MainApi.GetAppVersionInfo()+"/"+0).execute(new JsonCallback<AppVersionBean>() {
+        CommApi.postNoParams(MainApi.GetAppVersionInfo() + "/" + 0).execute(new JsonCallback<AppVersionBean>() {
             @Override
             public void onSuccess(Response<AppVersionBean> response) {
-                if(response.body()!=null){
-                    Log.i(TAG,"查询APP主版本成功-->");
+                if (response.body() != null) {
+                    Log.i(TAG, "查询APP主版本成功-->");
                     CheckAppVersion.GetAppVersion(response.body());
                 }
             }
@@ -1734,33 +1872,33 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response response) {
                 super.onError(response);
-                Log.i(TAG,"查询APP主版本失败-->"+response.message());
+                Log.i(TAG, "查询APP主版本失败-->" + response.message());
             }
         });
     }
 
     //上传留言图片
     public void UppictureMessage(List<File> files, UpFile upFile) {
-        for(File file:files){
+        for (File file : files) {
             if (!file.exists()) {
                 GlobalToast.show("文件不存在！", Toast.LENGTH_LONG);
                 return;
             }
         }
-        String web_path = AppConfig.BASE_URL+MainApi.UpLeavseMsg();
-        OkGo.<String>post(web_path).headers("Authorization", "Bearer " + Constant.token).addFileParams("fileInput",files)
+        String web_path = AppConfig.BASE_URL + MainApi.UpLeavseMsg();
+        OkGo.<String>post(web_path).headers("Authorization", "Bearer " + Constant.token).addFileParams("fileInput", files)
                 .isMultipart(true).execute(new StringCallback() {
-        //{"status":true,"code":200,"message":"文件上传成功","data":"Upload/Files/Livelihood_Feedback/3523cb85fcdc4d728b9194f4748fdb23/small"}
+            //{"status":true,"code":200,"message":"文件上传成功","data":"Upload/Files/Livelihood_Feedback/3523cb85fcdc4d728b9194f4748fdb23/small"}
             @Override
             public void onSuccess(Response<String> response) {
-                Log.i(TAG,"留言上传图片成功" + response.body());
+                Log.i(TAG, "留言上传图片成功" + response.body());
                 try {
-                    JSONObject jsonObject=new JSONObject(response.body());
-                    int code=jsonObject.getInt("code");
-                    String data=jsonObject.getString("data");
-                    if(code==200){
+                    JSONObject jsonObject = new JSONObject(response.body());
+                    int code = jsonObject.getInt("code");
+                    String data = jsonObject.getString("data");
+                    if (code == 200) {
                         upFile.upfileSuccess(data);
-                    }else{
+                    } else {
                         upFile.upfileFail();
                     }
 
@@ -1772,7 +1910,7 @@ public class NewNetWorkPersenter {
             @Override
             public void onError(Response<String> response) {
                 super.onError(response);
-                Log.i(TAG,"上传失败");
+                Log.i(TAG, "上传失败");
                 upFile.upfileFail();
             }
         });

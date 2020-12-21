@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.rcdz.medianewsapp.R;
@@ -18,7 +17,7 @@ import com.rcdz.medianewsapp.R;
  * 2018-06-21
  * 修改者，修改日期，修改内容
  */
-public class OutLoginDialog extends Dialog {
+public class OutLoginDialog2 extends Dialog {
     private DialogConfirmClick mLisetner;
     private Context mContext;
     private boolean cancelShow = true;//是否显示取消按钮
@@ -27,7 +26,7 @@ public class OutLoginDialog extends Dialog {
     private String code = "";
 
 
-    public OutLoginDialog(Context context,  DialogConfirmClick lisetner) {
+    public OutLoginDialog2(Context context, DialogConfirmClick lisetner) {
         super(context,R.style.DialogTheme2);
         this.mContext = context;
         this.mLisetner = lisetner;
@@ -38,7 +37,7 @@ public class OutLoginDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_outgin);
+        setContentView(R.layout.dialog_outgin2);
         initView();
     }
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/commontlbar_layout"></include>
+    <com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView
+        android:id="@+id/android_news_list2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFF">
+    </com.rcdz.medianewsapp.view.pullscrllview.NRecyclerView>
+</LinearLayout>

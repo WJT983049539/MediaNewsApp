@@ -40,164 +40,42 @@
             <LinearLayout
                 android:id="@+id/linearLayout_home_main"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:background="#fff"
                 android:orientation="horizontal">
+                <!--首页栏目-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rc_home_column"
+                android:layout_marginStart="@dimen/dp_12"
+                android:layout_marginEnd="@dimen/dp_12"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:id="@+id/lin_xswz"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2.5"
-                    android:orientation="vertical">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:src="@mipmap/xswz"
-                        android:layout_margin="12dp"
-                        >
-
-
-                    </ImageView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="民声问政"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="#4A4A4A"
-                        android:layout_marginBottom="7dp"
-                        >
-                    </TextView>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lin_gzh"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2.5"
-                    android:orientation="vertical"
-                    >
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:src="@mipmap/gzh"
-                        android:layout_margin="12dp"
-                        >
-
-
-                    </ImageView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="公众号"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="#4A4A4A"
-                        android:layout_marginBottom="7dp"
-                        >
-                    </TextView>
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/lin_jgdw"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2.5"
-                    android:orientation="vertical"
-                    >
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:src="@mipmap/jgdw"
-                        android:layout_margin="12dp"
-                        >
-
-
-                    </ImageView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="部门机构"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="#4A4A4A"
-                        android:layout_marginBottom="7dp"
-                        >
-                    </TextView>
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:id="@+id/lin_xzsp"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2.5"
-                    android:orientation="vertical"
-                    >
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:src="@mipmap/xzsp"
-                        android:layout_margin="12dp"
-                        >
-
-
-                    </ImageView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="闻喜政务"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="#4A4A4A"
-                        android:layout_marginBottom="7dp"
-                        >
-                    </TextView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lin_more"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2.5"
-                    android:orientation="vertical"
-                    >
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="7"
-                        android:src="@mipmap/more"
-                        android:layout_margin="12dp"
-                        >
-
-
-                    </ImageView>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="更多"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        android:textColor="#4A4A4A"
-                        android:layout_marginBottom="7dp"
-                        >
-                    </TextView>
-                </LinearLayout>
-
-
+            </androidx.recyclerview.widget.RecyclerView>
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="#1ECFCACA"
+                ></View>
 
+            <!--专栏-->
+            <RelativeLayout
+                android:id="@+id/zhuanlan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                ></RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#32191818"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_marginEnd="@dimen/dp_10"
+                ></View>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_121"

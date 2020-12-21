@@ -51,6 +51,8 @@
     <activity android:name=".view.activity.NewsDetailActivity"/>
     <activity android:name=".view.activity.MainActivity"/>
     <activity android:name=".view.activity.ShowWelcomeActivity"/>
+    <activity android:name=".view.activity.ShowNewsActivity"/>
+    <activity android:name=".view.activity.LanmuActivity"/>
     <activity android:name=".view.activity.ShareActivity"/>
     <activity android:name=".view.activity.PhoneEditActivity"/>
     <activity android:name=".view.activity.PhoneSendCodeActivity"/>
